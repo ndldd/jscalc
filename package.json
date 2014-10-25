@@ -13,7 +13,8 @@
     "jade": "^1.7.0",
     "errorhandler": "^1.2.2",
     "node-sass": "^0.9.5-rc1",
-    "morgan": "^1.4.0"
+    "morgan": "^1.4.0",
+    "request": "^2.46.0"
   },
   "scripts": {
     "start": "node server/app.js",

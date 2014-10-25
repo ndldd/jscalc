@@ -6,6 +6,7 @@ var compress = require('compression');
 var connectAssets = require('connect-assets');
 var errorHandler = require('errorhandler');
 var express = require('express');
+var request = require('request');
 var logger = require('morgan');
 var path = require('path');
 
@@ -46,6 +47,39 @@ app.use('/img', express.static(path.join(clientDir, 'img'), {maxAge: 3600000}));
 app.use('/bower_components',
     express.static(path.join(clientDir, 'bower_components'),
     {maxAge: 3600000}));
+app.use(function(req, res, next) {
+  // If there is no fragment in the query params
+  // then we're not serving a crawler
+  if (req.url.indexOf('?_escaped_fragment_=') == -1) {
+    return next();
+  }
+
+  /**
+   * Serve pre-rendered static page.
+   */
+
+  request({
+    url: 'http://api.phantomjscloud.com/single/browser/v1/'
+        + process.env.PHANTOMJSCLOUD_KEY + '/',
+    qs: {
+      'requestType': 'raw',
+      'targetUrl': 'http://' + process.env.PRERENDER_HOST + req.path
+    }
+  }, function(err, resPrerendered, body) {
+    if (err) {
+      console.log(err);
+      return res.sendStatus(500);
+    }
+
+    var scriptTagRegex = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
+
+    var stripScriptTags = function(html) {
+      return html.replace(scriptTagRegex, '');
+    };
+
+    res.send(stripScriptTags(body));
+  });
+});
 
 /**
  * Main routes.
