@@ -16,7 +16,7 @@
     "morgan": "^1.4.0"
   },
   "scripts": {
-    "start": "nodemon server/app.js",
+    "start": "node server/app.js",
     "postinstall": "bower install"
   }
 }
