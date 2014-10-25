@@ -35,6 +35,6 @@ var jscalcApp = angular.module('jscalcApp', [
     AngularyticsProvider.setEventHandlers(['Console', 'GoogleUniversal']);
   }])
 
-// .run(function(Angularytics) {
-//   Angularytics.init();
-// });
+.run(function(Angularytics) {
+  Angularytics.init();
+});
