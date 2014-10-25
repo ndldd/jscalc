@@ -93,7 +93,9 @@ app.get('/partials/:name', partialsController.partials);
  * 500 Error Handler.
  */
 
-app.use(errorHandler());
+if (process.env.NODE_ENV === 'development') {
+  app.use(errorhandler())
+}
 
 /**
  * Start Express server.
