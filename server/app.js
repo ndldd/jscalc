@@ -52,6 +52,7 @@ app.use('/bower_components',
  */
 
 app.get('/', homeController.index);
+app.get('/edit/:calcId', homeController.index);
 app.get('/partials/:name', partialsController.partials);
 
 /**

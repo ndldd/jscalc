@@ -13,16 +13,19 @@ var jscalcApp = angular.module('jscalcApp', [
 
 .config(['$routeProvider', '$locationProvider',
   function($routeProvider, $locationProvider) {
-    $locationProvider.hashPrefix('!');
+    $locationProvider.html5Mode({
+      enabled: true,
+      requireBase: false
+    });
     $routeProvider.
 
       when('/edit/:calcId', {
-        templateUrl: 'partials/edit',
+        templateUrl: '/partials/edit',
         controller: 'EditCtrl'
       }).
 
       when('/', {
-        templateUrl: 'partials/welcome'
+        templateUrl: '/partials/welcome'
       }).
 
       otherwise({

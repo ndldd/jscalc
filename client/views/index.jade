@@ -3,6 +3,7 @@ html(lang='en', ng-app='jscalcApp', ng-controller='JscalcCtrl')
   head
     meta(charset='utf-8')
     meta(name='viewport', content='initial-scale=1, maximum-scale=1, user-scalable=no')
+    meta(name='fragment', content='!')
     title JSCalc
     link(rel='stylesheet', href='/bower_components/angular-material/angular-material.css')
     // See https://github.com/ajaxorg/ace-builds/issues/45.
@@ -20,6 +21,6 @@ html(lang='en', ng-app='jscalcApp', ng-controller='JscalcCtrl')
   body(layout='horizontal')
     material-sidenav.material-sidenav-left.material-whiteframe-z3(component-id='left', layout='vertical')
       material-content#side-nav(flex='flex')
-        a#logo(href='#!', ng-class="{active: isCurrentLocation('/')}", ink-ripple='ink-ripple') JSCalc
-        a(href='#!/edit/{{newCalcId}}', ng-class="{active: isCurrentLocation('/edit/' + newCalcId)}", ink-ripple='ink-ripple') New calculator
+        a#logo(href='/', ng-class="{active: isCurrentLocation('/')}", ink-ripple='ink-ripple') JSCalc
+        a(href='/edit/{{newCalcId}}', ng-class="{active: isCurrentLocation('/edit/' + newCalcId)}", ink-ripple='ink-ripple') New calculator
     material-content(role='main', layout='vertical', layout-fill='layout-fill', scroll-y='scroll-y', ng-view='ng-view')
