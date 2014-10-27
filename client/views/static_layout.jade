@@ -8,7 +8,7 @@ html(lang='en', ng-app)
     link(rel='stylesheet', href='/bower_components/angular-material/angular-material.css')
     != css('static')
   body(layout='horizontal' layout-align='center')
-    .container(layout='vertical' layout-align='center')
-      div
+    div(layout='vertical' layout-align='center')
+      .container
         block content
         include partials_jade/flash
