@@ -1,0 +1,14 @@
+extends static_layout
+
+block content
+  form(method='POST')
+    legend Reset Password
+    input(type='hidden', name='_csrf', value=_csrf)
+    .form-group
+      label(for='password') New password
+      input.form-control(type='password', name='password', value='', autofocus=true)
+    .form-group
+      label(for='confirm') Confirm password (optional)
+      input.form-control(type='password', name='confirm', value='')
+    .form-group
+      button(type='submit') Change Password

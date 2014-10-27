@@ -2,13 +2,25 @@
  * Module dependencies.
  */
 
+var bodyParser = require('body-parser');
 var compress = require('compression');
 var connectAssets = require('connect-assets');
+var cookieParser = require('cookie-parser');
+// Configure header to be the one used by Angular.
+var csrf = require('lusca').csrf({header: 'x-xsrf-token'});
 var errorHandler = require('errorhandler');
 var express = require('express');
-var request = require('request');
+var expressValidator = require('express-validator');
+var flash = require('express-flash');
 var logger = require('morgan');
+var mongoose = require('mongoose');
+var request = require('request');
+var passport = require('passport');
 var path = require('path');
+var session = require('express-session');
+
+var MongoStore = require('connect-mongo')(session);
+
 
 /**
  * Controllers (route handlers).
@@ -16,12 +28,28 @@ var path = require('path');
 
 var homeController = require('./controllers/home');
 var partialsController = require('./controllers/partials');
+var userController = require('./controllers/user');
+
+/**
+ * Passport configuration.
+ */
+
+var passportConf = require('./passport');
 
 /**
  * Create Express server.
  */
 
 var app = express();
+
+/**
+ * Connect to MongoDB.
+ */
+
+mongoose.connect(process.env.MONGOLAB_URI);
+mongoose.connection.on('error', function() {
+  console.error('MongoDB Connection Error. Make sure MongoDB is running.');
+});
 
 /**
  * Express configuration.
@@ -43,6 +71,23 @@ app.use(connectAssets({
   helperContext: app.locals
 }));
 app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(expressValidator());
+app.use(cookieParser());
+app.use(session({
+  resave: true,
+  saveUninitialized: true,
+  secret: process.env.SESSION_SECRET,
+  store: new MongoStore({
+    url: process.env.MONGOLAB_URI,
+    auto_reconnect: true
+  })
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+// app.use(csrf);
 app.use('/img', express.static(path.join(clientDir, 'img'), {maxAge: 3600000}));
 app.use('/bower_components',
     express.static(path.join(clientDir, 'bower_components'),
@@ -67,7 +112,7 @@ app.use(function(req, res, next) {
     }
   }, function(err, resPrerendered, body) {
     if (err) {
-      console.log(err);
+      console.error(err);
       return res.sendStatus(500);
     }
 
@@ -88,13 +133,25 @@ app.use(function(req, res, next) {
 app.get('/', homeController.index);
 app.get('/edit/:calcId', homeController.index);
 app.get('/partials/:name', partialsController.partials);
+app.post('/login', userController.postLogin);
+app.get('/logout', userController.logout);
+app.get('/messages', userController.getMessages);
+app.get('/forgot', userController.getForgot);
+app.post('/forgot', userController.postForgot);
+app.get('/reset/:token', userController.getReset);
+app.post('/reset/:token', userController.postReset);
+app.post('/signup', userController.postSignup);
+app.get('/account', passportConf.isAuthenticated, userController.getAccount);
+app.post('/account', passportConf.isAuthenticated, userController.postAccount);
+app.post('/account/password', passportConf.isAuthenticated, userController.postUpdatePassword);
+app.post('/account/delete', passportConf.isAuthenticated, userController.postDeleteAccount);
 
 /**
  * 500 Error Handler.
  */
 
 if (process.env.NODE_ENV === 'development') {
-  app.use(errorhandler())
+  app.use(errorHandler())
 }
 
 /**
