@@ -20,7 +20,16 @@ var path = require('path');
 var session = require('express-session');
 
 var MongoStore = require('connect-mongo')(session);
-
+var sessionHandler = session({
+  resave: true,
+  saveUninitialized: true,
+  secret: process.env.SESSION_SECRET,
+  store: new MongoStore({
+    url: process.env.MONGOLAB_URI,
+    auto_reconnect: true
+  })
+});
+var flashHandler = flash();
 
 /**
  * Controllers (route handlers).
@@ -76,18 +85,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(expressValidator());
 app.use(cookieParser());
-app.use(session({
-  resave: true,
-  saveUninitialized: true,
-  secret: process.env.SESSION_SECRET,
-  store: new MongoStore({
-    url: process.env.MONGOLAB_URI,
-    auto_reconnect: true
-  })
-}));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(flash());
 if (process.env.NODE_ENV !== 'development') {
   app.use(csrf);
 }
@@ -138,11 +137,11 @@ app.get('/source/:calcId', homeController.index);
 app.get('/partials/:name', partialsController.partials);
 app.post('/api/login', userController.postLogin);
 app.get('/api/logout', userController.logout);
-app.get('/messages', userController.getMessages);
-app.get('/forgot', userController.getForgot);
-app.post('/forgot', userController.postForgot);
-app.get('/reset/:token', userController.getReset);
-app.post('/reset/:token', userController.postReset);
+app.get('/messages', sessionHandler, flashHandler, userController.getMessages);
+app.get('/forgot', sessionHandler, flashHandler, userController.getForgot);
+app.post('/forgot', sessionHandler, flashHandler, userController.postForgot);
+app.get('/reset/:token', sessionHandler, flashHandler, userController.getReset);
+app.post('/reset/:token', sessionHandler, flashHandler, userController.postReset);
 app.post('/api/signup', userController.postSignup);
 app.get('/api/account', passportConf.isAuthenticated, userController.getAccount);
 app.post('/api/account', passportConf.isAuthenticated, userController.postAccount);
