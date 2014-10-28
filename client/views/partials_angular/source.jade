@@ -1,4 +1,4 @@
-material-toolbar#toolbar-edit.material-tall
+material-toolbar#toolbar-source.material-tall
   .material-toolbar-tools
     button.icon(hide-md='hide-md', aria-label='Toggle Menu', ng-click='toggleNav()')
       material-icon(icon='img/icons/ic_menu_24px.svg')
@@ -8,7 +8,7 @@ material-toolbar#toolbar-edit.material-tall
     material-tab(label='SCRIPT')
 material-content#tab-content(flex='flex', layout='vertical')
   div(ng-show='selectedTabIndex == 0', flex='flex', layout='vertical')
-    div(ng-include="'/partials/calculator'", flex='flex', layout='vertical')
+    div(ng-include="'/partials/calc'", flex='flex', layout='vertical')
   div(ng-show='selectedTabIndex == 1', flex='flex', layout='vertical')
     #script-container(flex='flex', layout='horizontal')
       #script(flex='flex', flex-sm='60')

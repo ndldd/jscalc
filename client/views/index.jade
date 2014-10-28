@@ -22,5 +22,5 @@ html(lang='en', ng-app='jscalcApp', ng-controller='JscalcCtrl')
     material-sidenav.material-sidenav-left.material-whiteframe-z3(component-id='left', layout='vertical')
       material-content#side-nav(flex='flex')
         a#logo(href='/', ng-class="{active: isCurrentLocation('/')}", ink-ripple='ink-ripple') JSCalc
-        a(href='/edit/{{newCalcId}}', ng-class="{active: isCurrentLocation('/edit/' + newCalcId)}", ink-ripple='ink-ripple') New calculator
+        a(href='/source/{{newCalcId}}', ng-class="{active: isCurrentLocation('/source/' + newCalcId)}", ink-ripple='ink-ripple') New calculator
     material-content(role='main', layout='vertical', layout-fill='layout-fill', scroll-y='scroll-y', ng-view='ng-view')

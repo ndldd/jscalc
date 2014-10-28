@@ -23,7 +23,10 @@ jscalcControllers.controller('JscalcCtrl', [
     };
   }]);
 
-jscalcControllers.controller('EditCtrl', ['$scope', '$routeParams', '$timeout',
+jscalcControllers.controller('SourceCtrl', [
+  '$scope',
+  '$routeParams',
+  '$timeout',
   function($scope, $routeParams, $timeout) {
     $scope.calcId = $routeParams.calcId;
     $scope.selectedTabIndex = 0;
@@ -47,6 +50,6 @@ jscalcControllers.controller('EditCtrl', ['$scope', '$routeParams', '$timeout',
     });
   }]);
 
-jscalcControllers.controller('CalculatorCtrl', ['$scope',
+jscalcControllers.controller('CalcCtrl', ['$scope',
   function($scope) {
   }]);

@@ -7,9 +7,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user) {
-    done(err, user);
-  });
+  done(null, {id: id});
 });
 
 // Sign in using Email and Password.

@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var async = require('async');
 var crypto = require('crypto');
 var nodemailer = require('nodemailer');
@@ -18,13 +19,13 @@ exports.postLogin = function(req, res, next) {
   var errors = req.validationErrors();
 
   if (errors) {
-    return res.status(401).send(errors[0].msg);
+    return res.status(400).send(errors[0].msg);
   }
 
   passport.authenticate('local', function(err, user, info) {
     if (err) return next(err);
     if (!user) {
-      return res.status(401).send(info.message);
+      return res.status(400).send(info.message);
     }
     req.logIn(user, function(err) {
       if (err) return next(err);
@@ -59,7 +60,7 @@ exports.postSignup = function(req, res, next) {
   var errors = req.validationErrors();
 
   if (errors) {
-    return res.status(402).send(errors[0].msg);
+    return res.status(400).send(errors[0].msg);
   }
 
   var user = new User({
@@ -69,7 +70,7 @@ exports.postSignup = function(req, res, next) {
 
   User.findOne({email: req.body.email}, function(err, existingUser) {
     if (existingUser) {
-      return res.status(402).send('Account with that email address already exists.');
+      return res.status(400).send('Account with that email address already exists.');
     }
     user.save(function(err) {
       if (err) return next(err);
@@ -87,7 +88,13 @@ exports.postSignup = function(req, res, next) {
  */
 
 exports.getAccount = function(req, res) {
-  res.send({});
+  User.findById(req.user.id).
+  // Mongoose will drop from the list those calculators that do not exist.
+  populate('calcs', 'doc.name').
+  exec(function(err, user) {
+    if (err) return next(err);
+    res.send({calcs: user.calcs, email: user.email});
+  });
 };
 
 /**
@@ -120,7 +127,7 @@ exports.postUpdatePassword = function(req, res, next) {
   var errors = req.validationErrors();
 
   if (errors) {
-    return res.status(402).send(errors[0].msg);
+    return res.status(400).send(errors[0].msg);
   }
 
   User.findById(req.user.id, function(err, user) {
@@ -136,11 +143,11 @@ exports.postUpdatePassword = function(req, res, next) {
 };
 
 /**
- * POST /account/delete
+ * DELETE /account
  * Delete user account.
  */
 
-exports.postDeleteAccount = function(req, res, next) {
+exports.deleteAccount = function(req, res, next) {
   User.remove({ _id: req.user.id }, function(err) {
     if (err) return next(err);
     req.logout();

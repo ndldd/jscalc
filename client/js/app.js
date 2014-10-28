@@ -19,9 +19,9 @@ var jscalcApp = angular.module('jscalcApp', [
     });
     $routeProvider.
 
-      when('/edit/:calcId', {
-        templateUrl: '/partials/edit',
-        controller: 'EditCtrl'
+      when('/source/:calcId', {
+        templateUrl: '/partials/source',
+        controller: 'SourceCtrl'
       }).
 
       when('/', {

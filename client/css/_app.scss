@@ -40,13 +40,13 @@ material-toolbar {
 }
 
 
-#toolbar-edit {
+#toolbar-source {
   /* z1 */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
   height: 112px;
 }
 
-#toolbar-edit .tabs-header {
+#toolbar-source .tabs-header {
   background: transparent;
   color: #fff;
   max-width: 300px;
@@ -105,7 +105,7 @@ material-tab {
 
 
 @media (min-width: 600px) {
-  #toolbar-edit {
+  #toolbar-source {
     box-shadow: none;
     z-index: 0;
     height: 192px;

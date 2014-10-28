@@ -29,6 +29,7 @@ var MongoStore = require('connect-mongo')(session);
 var homeController = require('./controllers/home');
 var partialsController = require('./controllers/partials');
 var userController = require('./controllers/user');
+var calcController = require('./controllers/calc');
 
 /**
  * Passport configuration.
@@ -133,20 +134,24 @@ app.use(function(req, res, next) {
  */
 
 app.get('/', homeController.index);
-app.get('/edit/:calcId', homeController.index);
+app.get('/source/:calcId', homeController.index);
 app.get('/partials/:name', partialsController.partials);
-app.post('/login', userController.postLogin);
-app.get('/logout', userController.logout);
+app.post('/api/login', userController.postLogin);
+app.get('/api/logout', userController.logout);
 app.get('/messages', userController.getMessages);
 app.get('/forgot', userController.getForgot);
 app.post('/forgot', userController.postForgot);
 app.get('/reset/:token', userController.getReset);
 app.post('/reset/:token', userController.postReset);
-app.post('/signup', userController.postSignup);
-app.get('/account', passportConf.isAuthenticated, userController.getAccount);
-app.post('/account', passportConf.isAuthenticated, userController.postAccount);
-app.post('/account/password', passportConf.isAuthenticated, userController.postUpdatePassword);
-app.post('/account/delete', passportConf.isAuthenticated, userController.postDeleteAccount);
+app.post('/api/signup', userController.postSignup);
+app.get('/api/account', passportConf.isAuthenticated, userController.getAccount);
+app.post('/api/account', passportConf.isAuthenticated, userController.postAccount);
+app.post('/api/account/password', passportConf.isAuthenticated, userController.postUpdatePassword);
+app.delete('/api/account', passportConf.isAuthenticated, userController.deleteAccount);
+app.get('/api/source/:calcId', passportConf.isAuthenticated, calcController.getSource);
+app.post('/api/source/:calcId', passportConf.isAuthenticated, calcController.postSource);
+app.delete('/api/source/:calcId', passportConf.isAuthenticated, calcController.deleteSource);
+app.get('/api/calc/:calcId', calcController.getCalc);
 
 /**
  * 500 Error Handler.
