@@ -3,12 +3,15 @@
 /* App Module */
 
 var jscalcApp = angular.module('jscalcApp', [
+  'angularytics',
+  'http-auth-interceptor',
   'ngRoute',
   'ngMaterial',
-  'angularytics',
   'ui.ace',
 
-  'jscalcControllers'
+  'jscalcControllers',
+  'jscalcServices',
+  'preloadedData'
 ])
 
 .config(['$routeProvider', '$locationProvider',
@@ -17,7 +20,22 @@ var jscalcApp = angular.module('jscalcApp', [
       enabled: true,
       requireBase: false
     });
+
+    var randomString = function(length) {
+        var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        var result = '';
+        for (var i = length; i > 0; --i) {
+          result += chars[Math.round(Math.random() * (chars.length - 1))];
+        }
+        return result;
+    };
+
     $routeProvider.
+      when('/new', {
+        redirectTo: function() {
+          return '/source/' + randomString(16);
+        }
+      }).
 
       when('/source/:calcId', {
         templateUrl: '/partials/source',

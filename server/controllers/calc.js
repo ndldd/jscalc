@@ -48,8 +48,7 @@ exports.postSource = function(req, res, next) {
     async.parallel([
       function(done) {
         calc.save(function(err) {
-          if (err) return next(err);
-          done();
+          done(err);
         });
       },
       function(done) {
@@ -57,7 +56,7 @@ exports.postSource = function(req, res, next) {
           return done();
         }
         User.findById(req.user.id, function(err, user) {
-          if (err) return next(err);
+          if (err) return done(err);
 
           // calcId may be already present if a calculator with this ID was
           // previously deleted but removal from user.calcs failed.
@@ -68,15 +67,12 @@ exports.postSource = function(req, res, next) {
           user.calcs.push(req.params.calcId);
 
           user.save(function(err) {
-            if (err) return next(err);
-            done();
+            done(err);
           });
         });
       }
     ], function(err) {
-      if (err) {
-        return next(err);
-      }
+      if (err) return next(err);
       res.end();
     });
   });
@@ -91,26 +87,22 @@ exports.deleteSource = function(req, res, next) {
   async.parallel([
     function(done) {
       Calc.remove({_id: req.params.calcId}, function(err) {
-        if (err) return next(err);
-        done();
+        done(err);
       });
     },
     function(done) {
       User.findById(req.user.id, function(err, user) {
-        if (err) return next(err);
+        if (err) return done(err);
 
         user.calcs = _.without(user.calcs, req.params.calcId);
 
         user.save(function(err) {
-          if (err) return next(err);
-          done();
+          done(err);
         });
       });
     }
   ], function(err) {
-    if (err) {
-      return next(err);
-    }
+    if (err) return next(err);
     res.end();
   });
 };

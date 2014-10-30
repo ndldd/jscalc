@@ -98,31 +98,48 @@ exports.getAccount = function(req, res) {
 };
 
 /**
- * POST /account
- * Update account data.
+ * POST /account/email
+ * Update account email.
+ * @param email
  */
 
-exports.postAccount = function(req, res, next) {
+exports.postAccountEmail = function(req, res, next) {
   User.findById(req.user.id, function(err, user) {
     if (err) return next(err);
-    user.email = req.body.email || '';
 
-    user.save(function(err) {
-      if (err) return next(err);
-      res.end();
+    req.assert('email', 'Email is not valid').isEmail();
+
+    var errors = req.validationErrors();
+
+    if (errors) {
+      return res.status(400).send(errors[0].msg);
+    }
+
+    User.findOne({email: req.body.email}, function(err, existingUser) {
+      if (existingUser) {
+        return res.status(400).send('Account with that email address already exists.');
+      }
+
+      user.email = req.body.email;
+
+      user.save(function(err) {
+        if (err) return next(err);
+        res.end();
+      });
     });
   });
 };
 
 /**
  * POST /account/password
- * Update current password.
- * @param password
+ * Update account password.
+ * @param oldPassword
+ * @param newPassword
  */
 
-exports.postUpdatePassword = function(req, res, next) {
-  req.assert('password', 'Password must be at least 4 characters long').len(4);
-  req.assert('confirmPassword', 'Passwords do not match').optional().equals(req.body.password);
+exports.postAccountPassword = function(req, res, next) {
+  req.assert('oldPassword', 'Old password cannot be blank').notEmpty();
+  req.assert('newPassword', 'New password must be at least 4 characters long').len(4);
 
   var errors = req.validationErrors();
 
@@ -130,15 +147,28 @@ exports.postUpdatePassword = function(req, res, next) {
     return res.status(400).send(errors[0].msg);
   }
 
-  User.findById(req.user.id, function(err, user) {
+  async.waterfall([
+    function(done) {
+      User.findById(req.user.id, function(err, user) {
+        user.comparePassword(req.body.oldPassword, function(err, isMatch) {
+          if (err) return done(err);
+          if (!isMatch) {
+            return res.status(400).send('Old password is incorrect.');
+          }
+          done(null, user);
+        });
+      });
+    },
+    function(user, done) {
+      user.password = req.body.newPassword;
+
+      user.save(function(err) {
+        done(err);
+      });
+    }
+  ], function(err) {
     if (err) return next(err);
-
-    user.password = req.body.password;
-
-    user.save(function(err) {
-      if (err) return next(err);
-      res.end();
-    });
+    res.end();
   });
 };
 
@@ -220,7 +250,7 @@ exports.postReset = function(req, res, next) {
           user.resetPasswordExpires = undefined;
 
           user.save(function(err) {
-            if (err) return next(err);
+            if (err) return done(err);
             req.logIn(user, function(err) {
               done(err, user);
             });
