@@ -11,7 +11,8 @@ var jscalcApp = angular.module('jscalcApp', [
 
   'jscalcControllers',
   'jscalcServices',
-  'preloadedData'
+  'preloadedData',
+  'material.services.media'
 ])
 
 .config(['$routeProvider', '$locationProvider',

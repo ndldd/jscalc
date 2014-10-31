@@ -1,3 +1,8 @@
 {
-  "ignore": ["client/*", "builtAssets/*"]
+  "ignore": [
+    "client/bower_components/*",
+    "client/js/*",
+    "builtAssets/*"
+  ],
+  "ext": "js json scss"
 }

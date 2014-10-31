@@ -21,12 +21,12 @@ html(lang='en', ng-app='jscalcApp', ng-controller='JscalcCtrl')
 
       ga('create', 'UA-56071268-1', 'auto');
       ga('send', 'pageview');
-  body(layout='horizontal')
-    material-sidenav.material-sidenav-left.material-whiteframe-z3(component-id='left', layout='vertical')
-      material-content#side-nav(flex='flex')
+  body(layout='horizontal', md-theme="jscalc")
+    md-sidenav.md-sidenav-left.md-whiteframe-z3(component-id='left',  is-locked-open="sidenavsLockedOpen", layout='vertical')
+      md-content#side-nav(flex)
         a#logo(href='/', ng-class="{active: isCurrentLocation('/')}", ink-ripple='ink-ripple') JSCalc
         button(ng-if="user === null" ng-click="login()") Sign up/in
         button(ng-if="user.email" ng-click="logout()") Sign out
         a(href='/new', ink-ripple='ink-ripple') New calculator
         a(ng-repeat='calc in user.calcs', ng-init="url = '/source/' + calc._id" href="{{url}}", ng-class="{active: isCurrentLocation(url)}") {{calc.doc.name || 'Untitled calculator'}}
-    material-content(role='main', layout='vertical', layout-fill='layout-fill', scroll-y='scroll-y', ng-view='ng-view')
+    md-content(role='main', layout='vertical', layout-fill='layout-fill', scroll-y='scroll-y', ng-view='ng-view')

@@ -7,17 +7,24 @@ var jscalcControllers = angular.module('jscalcControllers', []);
 jscalcControllers.controller('JscalcCtrl', [
   '$scope',
   '$location',
-  '$materialSidenav',
+  '$mdSidenav',
   '$timeout',
   'User',
-  '$materialDialog',
+  '$mdDialog',
   'authService',
-  '$materialToast',
+  '$mdToast',
   '$http',
   'PRELOADED_DATA',
-  function($scope, $location, $materialSidenav, $timeout, User,
-      $materialDialog, authService, $materialToast, $http, PRELOADED_DATA) {
+  '$mdMedia',
+  function($scope, $location, $mdSidenav, $timeout, User,
+      $mdDialog, authService, $mdToast, $http, PRELOADED_DATA, $mdMedia) {
     $scope.user = PRELOADED_DATA.isAuthenticated ? User.get() : null;
+
+    $scope.$watch(function() {
+      return $mdMedia('min-width: 1400px');
+    }, function(sidenavsLockedOpen) {
+      $scope.sidenavsLockedOpen = sidenavsLockedOpen;
+    });
 
     $scope.isCurrentLocation = function(location) {
       return location === $location.path();
@@ -25,12 +32,12 @@ jscalcControllers.controller('JscalcCtrl', [
 
     $scope.toggleNav = function() {
       $timeout(function() {
-        $materialSidenav('left').toggle();
+        $mdSidenav('left').toggle();
       });
     };
 
     $scope.login = function($event) {
-      $materialDialog.show({
+      $mdDialog.show({
             targetEvent: $event,
             controller: 'AuthDialogCtrl',
             templateUrl: '/partials/auth_dialog'
@@ -50,15 +57,15 @@ jscalcControllers.controller('JscalcCtrl', [
 
     $scope.logout = function() {
       $http.get('/api/logout').success(function() {
-            $materialToast.show({
-              template: '<material-toast>Signed out.</material-toast>',
+            $mdToast.show({
+              template: '<md-toast>Signed out.</md-toast>',
               hideDelay: 3000
             });
             $scope.user = null;
           }).
           error(function(data) {
-            $materialToast.show({
-              template: '<material-toast>Oops, an error.</material-toast>',
+            $mdToast.show({
+              template: '<md-toast>Oops, an error.</md-toast>',
               hideDelay: 3000
             });
           });
@@ -98,41 +105,40 @@ jscalcControllers.controller('CalcCtrl', ['$scope',
 
 jscalcControllers.controller('AuthDialogCtrl', [
   '$scope',
-  '$materialDialog',
+  '$mdDialog',
   '$http',
   '$q',
-  function($scope, $materialDialog, $http, $q) {
-    $scope.selectedTabIndex = 0;
+  function($scope, $mdDialog, $http, $q) {
     $scope.canceler = null;
 
     $scope.cancel = function() {
       if ($scope.canceler !== null) {
         $scope.canceler.resolve();
       }
-      $materialDialog.cancel();
+      $mdDialog.cancel();
     };
 
     $scope.signUp = function() {
       $scope.canceler = $q.defer();
-      $http.post('/api/signup', $scope.signUpParams,
+      $http.post('/api/signup', $scope.params,
           {timeout: $scope.canceler.promise}).success(function() {
-            $materialDialog.hide();
+            $mdDialog.hide();
           }).
           error(function(data) {
             $scope.canceler = null;
-            $scope.signUpErrorMessage = data || 'Oops, an error.';
+            $scope.errorMessage = data || 'Oops, an error.';
           });
     };
 
     $scope.signIn = function() {
       $scope.canceler = $q.defer();
-      $http.post('/api/login', $scope.signInParams,
+      $http.post('/api/login', $scope.params,
           {timeout: $scope.canceler.promise}).success(function() {
-            $materialDialog.hide();
+            $mdDialog.hide();
           }).
           error(function(data) {
             $scope.canceler = null;
-            $scope.signInErrorMessage = data || 'Oops, an error.';
+            $scope.errorMessage = data || 'Oops, an error.';
           });
     };
   }]);

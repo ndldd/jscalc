@@ -6,7 +6,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "angular-material": "0.4.0",
+    "angular-material": "0.4.2-master-ddd977d",
     "angularytics": "0.3.0",
     "angular-route": "1.3.0-rc.4",
     "angular-ui-ace": "~0.1.1",

@@ -22,15 +22,9 @@ $seam-border-color: #E0E0E0;
 }
 
 
-.icon {
-  background: 0 0;
+.menu-icon {
+  background: none;
   border: none;
-}
-
-
-material-toolbar {
-  background-color: #00BCD4;
-  color: #fff;
 }
 
 
@@ -46,16 +40,9 @@ material-toolbar {
   height: 112px;
 }
 
-#toolbar-source .tabs-header {
-  background: transparent;
-  color: #fff;
+#toolbar-source md-tabs {
   max-width: 300px;
   margin-left: 18px;
-}
-
-
-material-tab {
-  color: rgba(255, 255, 255, 0.5);
 }
 
 
@@ -101,6 +88,26 @@ material-tab {
   left: 0;
   right: -0.5px;
   bottom: 0;
+}
+
+
+#auth-dialog {
+  md-content {
+    background: transparent;
+  }
+
+  input[type="email"], input[type="password"] {
+    width: 280px;
+  }
+
+  .row-forgot, .row-error {
+    font-size: 14px;
+    margin-top: 34px;
+  }
+
+  .row-error {
+    color: map-get($warn-color-palette, '500')
+  }
 }
 
 

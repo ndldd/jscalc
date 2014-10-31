@@ -1,25 +1,14 @@
-material-dialog
-  material-tabs(selected='selectedTabIndex')
-    material-tab(label='Sign up')
-    material-tab(label='Sign in')
-  material-content(ng-show='selectedTabIndex == 0')
+md-dialog#auth-dialog(md-theme='jscalc')
+  md-content
     .row
-      input(placeholder='Email', type='email', ng-model='signUpParams.email')
+      md-text-float(label='Email', type='email', ng-model='params.email')
     .row
-      input(placeholder='Password', type='password', ng-model='signUpParams.password')
-    .row
-      input(placeholder='Confirm password (optional)', type='password', ng-model='signUpParams.confirmPassword')
-    .row {{signUpErrorMessage}}
-  material-content(ng-show='selectedTabIndex == 1')
-    .row
-      input(placeholder='Email', type='email', ng-model='signInParams.email')
-    .row
-      input(placeholder='Password', type='password', ng-model='signInParams.password')
-    .row
+      md-text-float(label='Password', type='password', ng-model='params.password')
+    .row.row-forgot
       a(href='/forgot', target='_blank') Forgot password?
-    .row {{signInErrorMessage}}
-  .material-actions
-    material-button(ng-click='cancel()') Cancel
+    .row.row-error(ng-show="errorMessage") {{errorMessage}}
+  .md-actions
+    md-button(ng-click='cancel()') Cancel
     span(flex='flex')
-    material-button.material-primary(ng-show='selectedTabIndex == 0', ng-disabled='canceler !== null' ng-click="signUp()") Sign up
-    material-button.material-primary(ng-show='selectedTabIndex == 1', ng-disabled='canceler !== null' ng-click="signIn()") Sign in
+    md-button.md-primary(ng-disabled='canceler !== null' ng-click="signUp()") Sign up
+    md-button.md-primary(ng-disabled='canceler !== null' ng-click="signIn()") Sign in
