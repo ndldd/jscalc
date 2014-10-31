@@ -6,6 +6,7 @@ html(lang='en', ng-app='jscalcApp', ng-controller='JscalcCtrl')
     meta(name='fragment', content='!')
     title JSCalc
     link(rel='stylesheet', href='/bower_components/angular-material/angular-material.css')
+    link(rel='stylesheet', href='/bower_components/angular-material/themes/cyan-theme.css')
     // See https://github.com/ajaxorg/ace-builds/issues/45.
     script(src='/bower_components/ace-builds/src-min-noconflict/ace.js')
     != js('index')
@@ -21,7 +22,7 @@ html(lang='en', ng-app='jscalcApp', ng-controller='JscalcCtrl')
 
       ga('create', 'UA-56071268-1', 'auto');
       ga('send', 'pageview');
-  body(layout='horizontal', md-theme="jscalc")
+  body(layout='horizontal', md-theme="cyan")
     md-sidenav.md-sidenav-left.md-whiteframe-z3(component-id='left',  is-locked-open="sidenavsLockedOpen", layout='vertical')
       md-content#side-nav(flex)
         a#logo(href='/', ng-class="{active: isCurrentLocation('/')}", ink-ripple='ink-ripple') JSCalc

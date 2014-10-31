@@ -106,7 +106,7 @@ $seam-border-color: #E0E0E0;
   }
 
   .row-error {
-    color: map-get($warn-color-palette, '500')
+    color: map-get($color-red, '500')
   }
 }
 
