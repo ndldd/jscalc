@@ -1,0 +1,25 @@
+md-toolbar.md-whiteframe-z1
+  .md-toolbar-tools
+    button.menu-icon(ng-show='!sidenavsLockedOpen', aria-label='Toggle Menu', ng-click='toggleNav()')
+      md-icon(icon='/img/icons/ic_menu_24px.svg')
+    span#app-title Account settings
+md-content.account-settings-content(flex)
+  md-content.section.md-padding
+    h3 Email
+    p {{user.email}}
+    md-text-float(label='New email', type='email', ng-model='emailParams.email')
+    .action-row
+      md-button.md-primary.md-raised(ng-click='changeEmail()' ng-disabled='processingEmail') Change email
+      md-progress-circular(mode='indeterminate', ng-show='processingEmail')
+  md-content.section.md-padding
+    h3 Password
+    md-text-float(label='Current password', type='password', ng-model='passwordParams.oldPassword')
+    md-text-float(label='New password', type='password', ng-model='passwordParams.newPassword')
+    .action-row
+      md-button.md-primary.md-raised(ng-disabled='processingPassword' ng-click='changePassword()') Change password
+      md-progress-circular(mode='indeterminate', ng-show='processingPassword')
+  md-content.section.md-padding
+    h3 Delete account
+    .action-row
+      md-button.md-primary.md-raised(ng-disabled='processingDeleteAccount' ng-click='deleteAccount()') Delete account
+      md-progress-circular(mode='indeterminate', ng-show='processingDeleteAccount')

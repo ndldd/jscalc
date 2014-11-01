@@ -20,6 +20,10 @@ jscalcControllers.controller('JscalcCtrl', [
       $mdDialog, authService, $mdToast, $http, PRELOADED_DATA, $mdMedia) {
     $scope.user = PRELOADED_DATA.isAuthenticated ? User.get() : null;
 
+    $scope.setUser = function(user) {
+      $scope.user = user;
+    };
+
     $scope.$watch(function() {
       return $mdMedia('min-width: 1400px');
     }, function(sidenavsLockedOpen) {
@@ -36,6 +40,12 @@ jscalcControllers.controller('JscalcCtrl', [
       });
     };
 
+    $scope.closeNav = function() {
+      $timeout(function() {
+        $mdSidenav('left').close();
+      });
+    }
+
     $scope.login = function($event) {
       $mdDialog.show({
             targetEvent: $event,
@@ -47,7 +57,9 @@ jscalcControllers.controller('JscalcCtrl', [
               $scope.user = User.get();
             }
           }, function() {
-            authService.loginCancelled();
+            // 2nd argument is necessary because otherwise requests will not
+            // get rejected.
+            authService.loginCancelled(null, {});
           });
     };
 
@@ -62,12 +74,6 @@ jscalcControllers.controller('JscalcCtrl', [
               hideDelay: 3000
             });
             $scope.user = null;
-          }).
-          error(function(data) {
-            $mdToast.show({
-              template: '<md-toast>Oops, an error.</md-toast>',
-              hideDelay: 3000
-            });
           });
     };
   }]);
@@ -140,5 +146,65 @@ jscalcControllers.controller('AuthDialogCtrl', [
             $scope.canceler = null;
             $scope.errorMessage = data || 'Oops, an error.';
           });
+    };
+  }]);
+
+jscalcControllers.controller('AccountCtrl', [
+  '$scope',
+  'User',
+  '$mdToast',
+  '$location',
+  function($scope, User, $mdToast, $location) {
+    $scope.processingEmail = false;
+    $scope.processingPassword = false;
+    $scope.processingDeleteAccount = false;
+    $scope.emailParams = {};
+    $scope.passwordParams = {};
+
+    $scope.changeEmail = function() {
+      $scope.processingEmail = true;
+      User.saveEmail($scope.emailParams).$promise.then(function() {
+        $mdToast.show({
+          template: '<md-toast>Email has been changed.</md-toast>',
+          hideDelay: 3000
+        });
+        if ($scope.user.email) {
+          $scope.user.email = $scope.emailParams.email;
+        }
+        $scope.emailParams.email = '';
+      }).finally(function() {
+        $scope.processingEmail = false;
+      });
+    };
+
+    $scope.changePassword = function() {
+      $scope.processingPassword = true;
+      User.savePassword($scope.passwordParams).$promise.then(function() {
+        $mdToast.show({
+          template: '<md-toast>Password has been changed.</md-toast>',
+          hideDelay: 3000
+        });
+        $scope.passwordParams.oldPassword = '';
+        $scope.passwordParams.newPassword = '';
+      }).finally(function() {
+        $scope.processingPassword = false;
+      });
+    };
+
+
+    $scope.deleteAccount = function() {
+      if (window.confirm("Careful: are you sure you want to permanently delete your account?")) {
+        $scope.processingDeleteAccount = true;
+        User.delete().$promise.then(function() {
+          $mdToast.show({
+            template: '<md-toast>Your account has been deleted.</md-toast>',
+            hideDelay: 3000
+          });
+          $scope.setUser(null);
+          $location.path('/');
+        }).finally(function() {
+          $scope.processingDeleteAccount = false;
+        });
+      }
     };
   }]);

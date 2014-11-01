@@ -1,5 +1,15 @@
 $seam-border-color: #E0E0E0;
 
+@mixin z1 {
+  box-shadow: 0px 2px 5px 0 rgba(0, 0, 0, 0.26);
+}
+
+
+@mixin z2 {
+  box-shadow: 0px 8px 17px rgba(0, 0, 0, 0.2);
+}
+
+
 #side-nav a {
   position: relative;
   display: block;
@@ -8,12 +18,15 @@ $seam-border-color: #E0E0E0;
   font-size: 0.9em;
   line-height: 40px;
   padding: 0 24px;
-}
 
-#side-nav a.active {
-  font-weight: bold;
-}
+  &.active {
+    font-weight: bold;
+  }
 
+  &:focus {
+    background-color: #EEE;
+  }
+}
 
 #side-nav #logo {
   height: 64px;
@@ -35,8 +48,7 @@ $seam-border-color: #E0E0E0;
 
 
 #toolbar-source {
-  /* z1 */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
+  @include z1;
   height: 112px;
 }
 
@@ -111,6 +123,30 @@ $seam-border-color: #E0E0E0;
 }
 
 
+.account-settings-content {
+  margin-left: auto;
+  margin-right: auto;
+
+  .section {
+    display: inline-block;
+    vertical-align: top;
+    width: 300px;
+    margin-bottom: 20px;
+
+    .action-row {
+      margin-top: 27px;
+    }
+  }
+
+  md-progress-circular {
+    display: inline-block;
+    transform: scale(0.5) !important;
+    margin-top: -12px;
+    margin-bottom: -11px;
+  }
+}
+
+
 @media (min-width: 600px) {
   #toolbar-source {
     box-shadow: none;
@@ -144,8 +180,7 @@ $seam-border-color: #E0E0E0;
     /* Placed above toolbar. */
     z-index: 2;
     margin: 9px;
-    /* z2 */
-    box-shadow: 0px 8px 17px rgba(0, 0, 0, 0.2);
+    @include z1;
   }
 
 

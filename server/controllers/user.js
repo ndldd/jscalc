@@ -93,6 +93,7 @@ exports.getAccount = function(req, res) {
   populate('calcs', 'doc.name').
   exec(function(err, user) {
     if (err) return next(err);
+    if (!user) return res.sendStatus(404);
     res.send({calcs: user.calcs, email: user.email});
   });
 };

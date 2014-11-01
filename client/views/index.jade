@@ -23,11 +23,12 @@ html(lang='en', ng-app='jscalcApp', ng-controller='JscalcCtrl')
       ga('create', 'UA-56071268-1', 'auto');
       ga('send', 'pageview');
   body(layout='horizontal', md-theme="cyan")
-    md-sidenav.md-sidenav-left.md-whiteframe-z3(component-id='left',  is-locked-open="sidenavsLockedOpen", layout='vertical')
+    md-sidenav.md-sidenav-left.md-whiteframe-z3(component-id='left',  is-locked-open="sidenavsLockedOpen", layout='vertical', ng-click="closeNav()")
       md-content#side-nav(flex)
-        a#logo(href='/', ng-class="{active: isCurrentLocation('/')}", ink-ripple='ink-ripple') JSCalc
+        a#logo(href='/', ng-class="{active: isCurrentLocation('/')}") JSCalc
         button(ng-if="user === null" ng-click="login()") Sign up/in
         button(ng-if="user.email" ng-click="logout()") Sign out
-        a(href='/new', ink-ripple='ink-ripple') New calculator
+        a(href='/new') New calculator
         a(ng-repeat='calc in user.calcs', ng-init="url = '/source/' + calc._id" href="{{url}}", ng-class="{active: isCurrentLocation(url)}") {{calc.doc.name || 'Untitled calculator'}}
+        a(href='/account', ng-class="{active: isCurrentLocation('/account')}") Account settings
     md-content(role='main', layout='vertical', layout-fill='layout-fill', scroll-y='scroll-y', ng-view='ng-view')
