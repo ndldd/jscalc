@@ -1,9 +1,7 @@
 md-dialog#auth-dialog(md-theme='cyan')
   md-content
     form(ng-keydown='handleKeydown($event)', novalidate)
-      md-input-group.md-cyan-theme(ng-disabled='isDisabled')
-        label(for='email') Email
-        md-input.dialog-close#email(type='text', ng-model='params.email')
+      md-text-float(label='Email', fid='email', type='email', ng-model='params.email')
       md-text-float(label='Password', type='password', ng-model='params.password')
       md-text-float(ng-if='!signInMode', label='Retype password (optional)', type='password', ng-model='params.confirmPassword')
     .text-rows
