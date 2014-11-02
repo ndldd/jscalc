@@ -15,6 +15,7 @@ md-content.account-settings-content(flex)
     h3 Password
     md-text-float(label='Current password', type='password', ng-model='passwordParams.oldPassword')
     md-text-float(label='New password', type='password', ng-model='passwordParams.newPassword')
+    md-text-float(label='Retype new password', type='password', ng-model='passwordParams.confirmPassword')
     .action-row
       md-button.md-primary.md-raised(ng-disabled='processingPassword' ng-click='changePassword()') Change password
       md-progress-circular(mode='indeterminate', ng-show='processingPassword')

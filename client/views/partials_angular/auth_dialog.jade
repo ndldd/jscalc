@@ -3,7 +3,7 @@ md-dialog#auth-dialog(md-theme='cyan')
     form(ng-keydown='handleKeydown($event)', novalidate)
       md-text-float(label='Email', fid='email', type='email', ng-model='params.email')
       md-text-float(label='Password', type='password', ng-model='params.password')
-      md-text-float(ng-if='!signInMode', label='Retype password (optional)', type='password', ng-model='params.confirmPassword')
+      md-text-float(ng-if='!signInMode', label='Retype password', type='password', ng-model='params.confirmPassword')
     .text-rows
       .text-row.row-error(ng-if="errorMessage") {{errorMessage}}
       .text-row(ng-if='!signInMode')

@@ -216,6 +216,7 @@ jscalcControllers.controller('AccountCtrl', [
         });
         $scope.passwordParams.oldPassword = '';
         $scope.passwordParams.newPassword = '';
+        $scope.passwordParams.confirmPassword = '';
       }).finally(function() {
         $scope.processingPassword = false;
       });
