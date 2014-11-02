@@ -50,7 +50,10 @@ jscalcControllers.controller('JscalcCtrl', [
       $mdDialog.show({
             targetEvent: $event,
             controller: 'AuthDialogCtrl',
-            templateUrl: '/partials/auth_dialog'
+            templateUrl: '/partials/auth_dialog',
+            onComplete: function(scope, element) {
+              element[0].querySelector('#email').focus();
+            }
           }).then(function() {
             authService.loginConfirmed();
             if ($scope.user === null) {
