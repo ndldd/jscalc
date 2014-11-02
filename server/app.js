@@ -89,6 +89,10 @@ app.use(passport.session());
 app.use(flash());
 if (process.env.NODE_ENV !== 'development') {
   app.use(csrf);
+  app.use(function(req, res, next) {
+      res.cookie('XSRF-TOKEN', res.locals._csrf);
+      next();
+  });
 }
 app.use('/img', express.static(path.join(clientDir, 'img'), {maxAge: 3600000}));
 app.use('/bower_components',
