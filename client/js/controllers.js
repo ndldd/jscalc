@@ -115,7 +115,30 @@ jscalcControllers.controller('AuthDialogCtrl', [
   '$http',
   '$q',
   function($scope, $mdDialog, $http, $q) {
+    $scope.signInMode = false;
     $scope.canceler = null;
+    $scope.params = {};
+
+    $scope.toggleMode = function() {
+      $scope.signInMode = !$scope.signInMode;
+      $scope.errorMessage = '';
+    };
+
+
+    $scope.submit = function() {
+      if ($scope.signInMode) {
+        $scope.signIn();
+      } else {
+        $scope.signUp();
+      }
+    };
+
+    $scope.handleKeydown = function($event) {
+      if ($event.keyCode == 13) {
+        $event.preventDefault();
+        $scope.submit();
+      }
+    };
 
     $scope.cancel = function() {
       if ($scope.canceler !== null) {
@@ -147,6 +170,10 @@ jscalcControllers.controller('AuthDialogCtrl', [
             $scope.errorMessage = data || 'Oops, an error.';
           });
     };
+
+    $scope.forgot = function() {
+      window.open('/forgot', '_blank');
+    }
   }]);
 
 jscalcControllers.controller('AccountCtrl', [

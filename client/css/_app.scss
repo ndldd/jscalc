@@ -1,4 +1,5 @@
 $seam-border-color: #E0E0E0;
+$primary-color-palette: $color-cyan;
 
 @mixin z1 {
   box-shadow: 0px 2px 5px 0 rgba(0, 0, 0, 0.26);
@@ -7,6 +8,26 @@ $seam-border-color: #E0E0E0;
 
 @mixin z2 {
   box-shadow: 0px 8px 17px rgba(0, 0, 0, 0.2);
+}
+
+
+a, .link-button {
+  color: map-get($primary-color-palette, '400');
+  text-decoration: none;
+  font-weight: 400;
+
+  &:focus {
+    background-color: #EEE;
+  }
+}
+
+.link-button {
+  display: inline;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-weight: normal;
 }
 
 
@@ -21,10 +42,6 @@ $seam-border-color: #E0E0E0;
 
   &.active {
     font-weight: bold;
-  }
-
-  &:focus {
-    background-color: #EEE;
   }
 }
 
@@ -105,20 +122,27 @@ $seam-border-color: #E0E0E0;
 
 #auth-dialog {
   md-content {
+    width: 250px;
     background: transparent;
+    padding-top: 16px;
+    padding-bottom: 12px;
   }
 
-  input[type="email"], input[type="password"] {
-    width: 280px;
-  }
-
-  .row-forgot, .row-error {
-    font-size: 14px;
+  .text-rows {
     margin-top: 34px;
+  }
+
+  .text-row {
+    margin-top: 12px;
+    font-size: 14px;
   }
 
   .row-error {
     color: map-get($color-red, '500')
+  }
+
+  md-progress-circular {
+    margin-right: -16px;
   }
 }
 
@@ -137,13 +161,14 @@ $seam-border-color: #E0E0E0;
       margin-top: 27px;
     }
   }
+}
 
-  md-progress-circular {
-    display: inline-block;
-    transform: scale(0.5) !important;
-    margin-top: -12px;
-    margin-bottom: -11px;
-  }
+
+md-progress-circular {
+  display: inline-block;
+  transform: scale(0.5) !important;
+  margin-top: -12px;
+  margin-bottom: -11px;
 }
 
 

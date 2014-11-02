@@ -1,14 +1,25 @@
 md-dialog#auth-dialog(md-theme='cyan')
   md-content
-    .row
-      md-text-float(label='Email', type='email', ng-model='params.email')
-    .row
+    form(ng-keydown='handleKeydown($event)', novalidate)
+      md-input-group.md-cyan-theme(ng-disabled='isDisabled')
+        label(for='email') Email
+        md-input.dialog-close#email(type='text', ng-model='params.email')
       md-text-float(label='Password', type='password', ng-model='params.password')
-    .row.row-forgot
-      a(href='/forgot', target='_blank') Forgot password?
-    .row.row-error(ng-show="errorMessage") {{errorMessage}}
+      md-text-float(ng-if='!signInMode', label='Retype password (optional)', type='password', ng-model='params.confirmPassword')
+    .text-rows
+      .text-row.row-error(ng-if="errorMessage") {{errorMessage}}
+      .text-row(ng-if='!signInMode')
+        | Have an account?
+        =  ' '
+        button.link-button(ng-click='toggleMode()') Sign in
+      .text-row(ng-if='signInMode')
+        | New user?
+        =  ' '
+        button.link-button(ng-click='toggleMode()') Sign up
+      .text-row.row-forgot(ng-if='signInMode')
+        button.link-button(ng-click='forgot()') Forgot password?
   .md-actions
     md-button(ng-click='cancel()') Cancel
     span(flex='flex')
-    md-button.md-primary(ng-disabled='canceler !== null' ng-click="signUp()") Sign up
-    md-button.md-primary(ng-disabled='canceler !== null' ng-click="signIn()") Sign in
+    md-progress-circular(mode='indeterminate', ng-show='canceler !== null')
+    md-button.md-primary(ng-disabled='canceler !== null' ng-click="submit()") {{signInMode ? 'Sign in' : 'Sign up'}}
