@@ -214,7 +214,8 @@ jscalcControllers.controller('SourceCtrl', [
       $scope.view.title = newCaption;
     });
     $scope.$watch(function() {
-      return !_.find($scope.user.calcs, {_id: $scope.calcId});
+      return !$scope.user || !$scope.user.$resolved ||
+          !_.find($scope.user.calcs, {_id: $scope.calcId});
     }, function(newValue) {
       $scope.newAndNotSaved = newValue;
     });
@@ -243,8 +244,17 @@ jscalcControllers.controller('SourceCtrl', [
         return Source.post({calcId: $scope.calcId}, {doc: $scope.calc.doc}).
             $promise.then(function() {
               $scope.calc.saved = true;
-              if (!_.find($scope.user.calcs, {_id: $scope.calcId})) {
-                $scope.user.calcs.push({_id: $scope.calcId, doc: $scope.calc.doc});
+              if ($scope.user !== null) {
+                var maybeAddCalc = function() {
+                  if (!_.find($scope.user.calcs, {_id: $scope.calcId})) {
+                    $scope.user.calcs.push({_id: $scope.calcId, doc: $scope.calc.doc});
+                  }
+                };
+                if ($scope.user.$resolved) {
+                  maybeAddCalc();
+                } else {
+                  $scope.user.$promise.then(maybeAddCalc);
+                }
               }
               $mdToast.show({
                 template: '<md-toast>Calculator has been saved!</md-toast>',
