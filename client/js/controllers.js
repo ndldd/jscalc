@@ -340,7 +340,8 @@ jscalcControllers.controller('AuthDialogCtrl', [
   '$mdDialog',
   '$http',
   '$q',
-  function($scope, $mdDialog, $http, $q) {
+  'Angularytics',
+  function($scope, $mdDialog, $http, $q, Angularytics) {
     $scope.signInMode = false;
     $scope.canceler = null;
     $scope.params = {};
@@ -378,6 +379,7 @@ jscalcControllers.controller('AuthDialogCtrl', [
       $http.post('/api/signup', $scope.params,
           {timeout: $scope.canceler.promise}).success(function() {
             $mdDialog.hide();
+            Angularytics.trackEvent("Account", "Sign up");
           }).
           error(function(data) {
             $scope.canceler = null;
