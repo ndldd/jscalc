@@ -71,6 +71,11 @@ app.use(connectAssets({
   helperContext: app.locals
 }));
 app.use(logger('dev'));
+app.use('/img', express.static(path.join(clientDir, 'img'),
+    {maxAge: 3600000, etag: false}));
+app.use('/bower_components',
+    express.static(path.join(clientDir, 'bower_components'),
+    {maxAge: 3600000, etag: false}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(expressValidator());
@@ -95,10 +100,6 @@ if (process.env.NODE_ENV !== 'development') {
       next();
   });
 }
-app.use('/img', express.static(path.join(clientDir, 'img'), {maxAge: 3600000}));
-app.use('/bower_components',
-    express.static(path.join(clientDir, 'bower_components'),
-    {maxAge: 3600000}));
 app.use(function(req, res, next) {
   // If there is no fragment in the query params
   // then we're not serving a crawler
