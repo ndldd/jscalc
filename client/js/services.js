@@ -14,6 +14,20 @@ jscalcServices.factory('User', ['$resource', 'toastInterceptor',
       delete: {method:'DELETE', interceptor: toastInterceptor}
     });
   }]).
+  factory('Source', ['$resource', 'toastInterceptor',
+    function($resource, toastInterceptor){
+      return $resource('/api/source/:calcId', {calcId:'@id'}, {
+        get: {method:'GET', interceptor: toastInterceptor},
+        post: {method:'POST', interceptor: toastInterceptor},
+        delete: {method:'DELETE', interceptor: toastInterceptor}
+      });
+    }]).
+  factory('Calc', ['$resource', 'toastInterceptor',
+    function($resource, toastInterceptor){
+      return $resource('/api/calc/:calcId', {calcId:'@id'}, {
+        get: {method:'GET', interceptor: toastInterceptor}
+      });
+    }]).
   factory('toastInterceptor', ['$mdToast', '$q', function($mdToast, $q) {
     return {
       responseError: function(rejection) {

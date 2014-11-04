@@ -10,6 +10,7 @@ var jscalcApp = angular.module('jscalcApp', [
   'ui.ace',
 
   'jscalcControllers',
+  'jscalcDirectives',
   'jscalcServices',
   'preloadedData',
   'material.services.media'
@@ -22,25 +23,15 @@ var jscalcApp = angular.module('jscalcApp', [
       requireBase: false
     });
 
-    var randomString = function(length) {
-        var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        var result = '';
-        for (var i = length; i > 0; --i) {
-          result += chars[Math.round(Math.random() * (chars.length - 1))];
-        }
-        return result;
-    };
-
     $routeProvider.
-      when('/new', {
-        redirectTo: function() {
-          return '/source/' + randomString(16);
-        }
-      }).
-
       when('/source/:calcId', {
         templateUrl: '/partials/source',
         controller: 'SourceCtrl'
+      }).
+
+      when('/calc/:calcId', {
+        templateUrl: '/partials/published',
+        controller: 'PublishedCtrl'
       }).
 
       when('/account', {
@@ -49,7 +40,8 @@ var jscalcApp = angular.module('jscalcApp', [
       }).
 
       when('/', {
-        templateUrl: '/partials/welcome'
+        templateUrl: '/partials/welcome',
+        controller: 'WelcomeCtrl'
       }).
 
       otherwise({

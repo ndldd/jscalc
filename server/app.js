@@ -139,7 +139,7 @@ app.use(function(req, res, next) {
 
 app.get('/', homeController.index);
 app.get('/source/:calcId', homeController.index);
-app.get('/new', homeController.index);
+app.get('/calc/:calcId', homeController.index);
 app.get('/account', homeController.index);
 app.get('/partials/:name', partialsController.partials);
 app.post('/api/login', userController.postLogin);

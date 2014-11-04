@@ -8,7 +8,8 @@ html(lang='en', ng-app='jscalcApp', ng-controller='JscalcCtrl')
     meta(charset='utf-8')
     meta(name='viewport', content='initial-scale=1, maximum-scale=1, user-scalable=no')
     meta(name='fragment', content='!')
-    title JSCalc
+    meta(name='Description', content='{{view.description}}')
+    title(ng-bind="view.title ? view.title + ' - JSCalc' : 'JSCalc'")
     link(rel='stylesheet', href='/bower_components/angular-material/angular-material.css')
     link(rel='stylesheet', href='/bower_components/angular-material/themes/cyan-theme.css')
     // See https://github.com/ajaxorg/ace-builds/issues/45.
@@ -30,9 +31,16 @@ html(lang='en', ng-app='jscalcApp', ng-controller='JscalcCtrl')
     md-sidenav.md-sidenav-left.md-whiteframe-z3(component-id='left',  is-locked-open="sidenavsLockedOpen", layout='vertical', ng-click="closeNav()")
       md-content#side-nav(flex)
         a#logo(href='/', ng-class="{active: isCurrentLocation('/')}") JSCalc
-        button(ng-if="user === null" ng-click="login()") Sign up/in
-        button(ng-if="user.email" ng-click="logout()") Sign out
-        a(href='/new') New calculator
-        a(ng-repeat='calc in user.calcs', ng-init="url = '/source/' + calc._id" href="{{url}}", ng-class="{active: isCurrentLocation(url)}") {{calc.doc.name || 'Untitled calculator'}}
-        a(href='/account', ng-class="{active: isCurrentLocation('/account')}") Account settings
+        button(ng-click='new()')
+          md-icon.new-calculator-icon(icon='/img/icons/ic_add_24px.svg')
+          div.new-calculator-label New Calculator
+        .section(ng-show="user.calcs") Your Calculators
+        a.indent(ng-repeat="calc in calcList | orderBy:['caption', 'url']", href="{{calc.url}}", ng-class="{active: isCurrentLocation(calc.url)}") {{calc.caption}}
+        a(href='/account', ng-show='user.$resolved', ng-class="{active: isCurrentLocation('/account')}") Account Settings
     md-content(role='main', layout='vertical', layout-fill='layout-fill', scroll-y='scroll-y', ng-view='ng-view')
+    // Stop-gap menu until it's added to Angular Material.
+    .menu.md-whiteframe-z1(ng-if="menuShown")
+      .menuitem(ng-show="view.isCalcMode" ng-click="broadcast('jscalc-copy')") Make a copy
+      .menuitem(ng-show="view.isEditMode" ng-click="broadcast('jscalc-delete')") Delete
+      .menuitem(ng-show="user === null" ng-click="login()") Sign up/sign in
+      .menuitem(ng-show="user.$resolved" ng-click="logout()") Sign out

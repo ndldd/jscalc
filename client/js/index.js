@@ -8,7 +8,10 @@
 //= require angularytics/dist/angularytics
 //= require angular-ui-ace/ui-ace
 //= require angular-http-auth/src/http-auth-interceptor
+//= require lodash/dist/lodash
+//= require underscore.string/dist/underscore.string.min
 //= require app
 //= require controllers
+//= require directives
 //= require filters
 //= require services

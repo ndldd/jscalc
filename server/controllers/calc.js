@@ -30,7 +30,6 @@ exports.getSource = function(req, res, next) {
  * Update calculator source. If does not exist, saves for the first time and
  * adds to the user's list of calculators.
  * @param doc
- * @param published
  */
 
 exports.postSource = function(req, res, next) {
@@ -41,10 +40,11 @@ exports.postSource = function(req, res, next) {
       var isNew = true;
       calc = new Calc({
         _id: req.params.calcId,
-        permissions: [{user: req.user.id, level: 'owner'}]
+        permissions: [{user: req.user.id, level: 'owner'}],
+        published: true
       });
     }
-    _.assign(calc, _.pick(req.body, ['doc', 'published']));
+    _.assign(calc, _.pick(req.body, ['doc']));
     async.parallel([
       function(done) {
         calc.save(function(err) {

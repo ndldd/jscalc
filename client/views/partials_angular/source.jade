@@ -1,17 +1,22 @@
 md-toolbar#toolbar-source.md-tall
-  .md-toolbar-tools
-    button.menu-icon(ng-show='!sidenavsLockedOpen', aria-label='Toggle Menu', ng-click='toggleNav()')
-      md-icon(icon='/img/icons/ic_menu_24px.svg')
-    span#app-title Abc, {{calcId}}
+  div.md-toolbar-tools(ng-include="'/partials/toolbar_tools'", ng-controller='ToolbarToolsCtrl')
   md-tabs(selected='selectedTabIndex')
     md-tab(label='IO')
     md-tab(label='SCRIPT')
-md-content#tab-content(flex, layout='vertical')
+    md-tab(label='SHARE')
+md-content#tab-content(ng-if='calc !== null', flex, layout='vertical')
   div(ng-show='selectedTabIndex == 0', flex, layout='vertical')
-    div(ng-include="'/partials/calc'", flex, layout='vertical')
+    jscalc-calc(flex, layout='vertical', doc='calc.doc', edit-mode='true')
   div(ng-show='selectedTabIndex == 1', flex, layout='vertical')
     #script-container(flex, layout='horizontal')
       #script(flex, flex-sm='60')
         div(ui-ace='{onLoad: onAceLoad}')
-      #cheat-sheet(flex)
+      md-content.md-padding#cheat-sheet(flex)
         span cheat sheet
+  div(ng-show='selectedTabIndex == 2', flex, layout='vertical')
+    #share-container(flex, layout='horizontal')
+      md-content.md-padding#share(flex flex-sm='75')
+        p(ng-show='newAndNotSaved') After you save this calculator, it will become available on the web at the following URL:
+        p(ng-show='!newAndNotSaved') This calculator is published on the web at the following URL:
+        p
+          a(href='/calc/{{calcId}}') https://jscalc.io/calc/{{calcId}}

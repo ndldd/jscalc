@@ -33,24 +33,61 @@ a, .link-button {
 }
 
 
-#side-nav a {
-  position: relative;
-  display: block;
-  color: inherit;
-  text-decoration: none;
-  font-size: 0.9em;
-  line-height: 40px;
-  padding: 0 24px;
-
-  &.active {
-    font-weight: bold;
-  }
+md-sidenav {
+  width: 250px;
 }
 
-#side-nav #logo {
-  height: 64px;
-  border-bottom: 1px solid $seam-border-color;
-  margin-bottom: 12px;
+
+.md-sidenav-left {
+  a, .section, button {
+    text-decoration: none;
+    font-size: 0.9em;
+    line-height: 40px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    background: transparent;
+    color: inherit;
+    border: none;
+    margin: 0;
+    padding: 0 24px;
+    position: relative;
+
+    &.indent {
+      padding-left: 48px;
+    }
+  }
+
+  a {
+    position: relative;
+    display: block;
+    color: inherit;
+
+    &.active {
+      font-weight: bold;
+    }
+  }
+
+  .section {
+    color: #bbb;
+    font-weight: bold;
+  }
+
+  #logo {
+    height: 64px;
+    border-bottom: 1px solid $seam-border-color;
+    margin-bottom: 12px;
+  }
+
+  .new-calculator-icon {
+    position: absolute;
+    top: 2px;
+    left: 19px;
+  }
+
+  .new-calculator-label {
+    margin-left: 21px;
+  }
 }
 
 
@@ -60,20 +97,84 @@ a, .link-button {
 }
 
 
+.md-icon {
+  opacity: 0.6;
+}
+
+
 #app-title {
   font-size: 24px;
   line-height: 64px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+
+.button-action {
+  margin: 0 5px;
+}
+
+
+.button-more {
+  padding: 0 3px;
+}
+
+
+.rotatable {
+  position: relative;
+  width: 24px;
+  height: 24px;
+}
+
+
+.rotatable .md-icon {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  margin-left: -12px;
+  margin-top: -12px;
+}
+
+
+.rotating .md-icon {
+  -webkit-animation:spin 4s linear infinite;
+  -moz-animation:spin 4s linear infinite;
+  animation:spin 4s linear infinite;
+}
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
+
+.menu {
+  position: absolute;
+  z-index: 3;
+  right: 15px;
+  top: 15px;
+  background: #fff;
+  color: rgba(0, 0, 0, 0.73);
+  border-radius: 2px;
+  min-width: 168px;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 8px 16px;
+  line-height: 48px;
+}
+
+
+#toolbar-source, #toolbar-published {
+  @include z1;
 }
 
 
 #toolbar-source {
-  @include z1;
   height: 112px;
 }
 
-#toolbar-source md-tabs {
-  max-width: 300px;
-  margin-left: 18px;
+
+#toolbar-published {
+  height: 64px;
 }
 
 
@@ -90,11 +191,6 @@ a, .link-button {
 
 #inputs, #outputs {
   background-color: #fff;
-}
-
-
-#cheat-sheet {
-  background-color: #f0f0f0
 }
 
 
@@ -122,11 +218,19 @@ a, .link-button {
 }
 
 
+#share {
+  text-align: center;
+
+  a {
+    font-size: 24px;
+  }
+}
+
+
 #auth-dialog {
   md-content {
     width: 250px;
     background: transparent;
-    padding-top: 16px;
     padding-bottom: 12px;
   }
 
@@ -176,19 +280,36 @@ md-progress-circular {
 
 
 @media (min-width: 600px) {
-  #toolbar-source {
+  #toolbar-source, #toolbar-published {
     box-shadow: none;
     z-index: 0;
+  }
+
+
+  #toolbar-source {
     height: 192px;
+
+    md-tabs {
+      margin-left: 18px;
+    }
+
+    md-tab {
+      max-width: 106px;
+    }
+  }
+
+
+  #toolbar-published {
+    height: 126px;
   }
 
 
   #tab-content {
-    background-color: #f0f0f0;
+    background-color: #f9f9f9;
   }
 
 
-  #io-container, #script-container {
+  #io-container, #script-container, #share-container {
     padding: 9px;
     margin-top: -80px;
   }
@@ -204,7 +325,7 @@ md-progress-circular {
   }
 
 
-  #inputs, #outputs, #script, #cheat-sheet {
+  #inputs, #outputs, #script, #cheat-sheet, #share {
     /* Placed above toolbar. */
     z-index: 2;
     margin: 9px;
