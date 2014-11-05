@@ -31,10 +31,10 @@ html(lang='en', ng-app='jscalcApp', ng-controller='JscalcCtrl')
     md-sidenav.md-sidenav-left.md-whiteframe-z3(component-id='left',  is-locked-open="sidenavsLockedOpen", layout='vertical', ng-click="closeNav()")
       md-content#side-nav(flex)
         a#logo(href='/', ng-class="{active: isCurrentLocation('/')}")
-          md-icon.new-calculator-icon(icon='/img/icons/jscalc_full_bleed_24.svg')
+          img.logo-icon(src!=getImage('icons/jscalc_full_bleed_24.svg'))
           | JSCalc
         button(ng-click='new()')
-          md-icon.new-calculator-icon(icon='/img/icons/ic_add_24px.svg')
+          img.new-calculator-icon(src!=getImage('icons/ic_add_24px.svg'))
           div.new-calculator-label New Calculator
         .section(ng-show="calcList.length") Your Calculators
         a.indent(ng-repeat="calc in calcList | orderBy:['caption', 'url']", href="{{calc.url}}", ng-class="{active: isCurrentLocation(calc.url)}") {{calc.caption}}

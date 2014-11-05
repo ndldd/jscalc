@@ -82,22 +82,21 @@ md-sidenav {
     padding-left: 71px;
     color: inherit !important;
 
-    md-icon {
-      top: 6px;
+    .logo-icon {
+      position: absolute;
+      top: 13px;
       left: 24px;
-    }
-
-
-    .md-icon {
       width: 37px;
       height: 37px;
+      opacity: 1;
     }
   }
 
   .new-calculator-icon {
     position: absolute;
-    top: 1px;
+    top: 7px;
     left: 19px;
+    opacity: 0.6;
   }
 
   .new-calculator-label {

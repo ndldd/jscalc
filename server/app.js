@@ -12,6 +12,7 @@ var errorHandler = require('errorhandler');
 var express = require('express');
 var expressValidator = require('express-validator');
 var flash = require('express-flash');
+var fs = require('fs');
 var logger = require('morgan');
 var mongoose = require('mongoose');
 var request = require('request');
@@ -96,8 +97,8 @@ app.use(flash());
 if (process.env.NODE_ENV !== 'development') {
   app.use(csrf);
   app.use(function(req, res, next) {
-      res.cookie('XSRF-TOKEN', res.locals._csrf);
-      next();
+    res.cookie('XSRF-TOKEN', res.locals._csrf);
+    next();
   });
 }
 app.use(function(req, res, next) {
@@ -132,6 +133,15 @@ app.use(function(req, res, next) {
 
     res.send(stripScriptTags(body));
   });
+});
+
+app.use(function(req, res, next) {
+  res.locals.getImage = function(filename) {
+    return "data:image/svg+xml;charset=utf-8;base64," +
+        fs.readFileSync(path.join(clientDir, 'img', filename)).toString('base64') +
+         "";
+  };
+  next();
 });
 
 /**
