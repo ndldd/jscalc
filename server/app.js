@@ -72,10 +72,10 @@ app.use(connectAssets({
 }));
 app.use(logger('dev'));
 app.use('/img', express.static(path.join(clientDir, 'img'),
-    {maxAge: 3600000, etag: false}));
+    {maxAge: 3600000}));
 app.use('/bower_components',
     express.static(path.join(clientDir, 'bower_components'),
-    {maxAge: 3600000, etag: false}));
+    {maxAge: 3600000}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(expressValidator());
@@ -160,7 +160,7 @@ app.post('/api/source/:calcId', passportConf.isAuthenticated, calcController.pos
 app.delete('/api/source/:calcId', passportConf.isAuthenticated, calcController.deleteSource);
 app.get('/api/calc/:calcId', calcController.getCalc);
 app.get('/favicon.ico', function(req, res) {
-  res.sendfile(path.join(clientDir, 'img/favicon.ico'));
+  res.sendFile(path.join(clientDir, 'img/favicon.ico'), {maxAge: 3600000});
 });
 
 /**
