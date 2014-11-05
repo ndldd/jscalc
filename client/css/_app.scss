@@ -52,6 +52,7 @@ md-sidenav {
     margin: 0;
     padding: 0 24px;
     position: relative;
+    font-weight: bold;
 
     &.indent {
       padding-left: 48px;
@@ -64,24 +65,38 @@ md-sidenav {
     color: inherit;
 
     &.active {
-      font-weight: bold;
+      color: map-get($primary-color-palette, '400');
     }
   }
 
   .section {
     color: #bbb;
-    font-weight: bold;
   }
 
   #logo {
-    height: 64px;
+    font-size: 20px;
+    line-height: 64px;
     border-bottom: 1px solid $seam-border-color;
     margin-bottom: 12px;
+    font-weight: normal;
+    padding-left: 71px;
+    color: inherit !important;
+
+    md-icon {
+      top: 6px;
+      left: 24px;
+    }
+
+
+    .md-icon {
+      width: 37px;
+      height: 37px;
+    }
   }
 
   .new-calculator-icon {
     position: absolute;
-    top: 2px;
+    top: 1px;
     left: 19px;
   }
 

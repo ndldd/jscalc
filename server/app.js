@@ -159,6 +159,9 @@ app.get('/api/source/:calcId', passportConf.isAuthenticated, calcController.getS
 app.post('/api/source/:calcId', passportConf.isAuthenticated, calcController.postSource);
 app.delete('/api/source/:calcId', passportConf.isAuthenticated, calcController.deleteSource);
 app.get('/api/calc/:calcId', calcController.getCalc);
+app.get('/favicon.ico', function(req, res) {
+  res.sendfile(path.join(clientDir, 'img/favicon.ico'));
+});
 
 /**
  * 500 Error Handler.
