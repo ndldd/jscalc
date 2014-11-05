@@ -23,7 +23,6 @@ jscalcControllers.controller('JscalcCtrl', [
       $mdDialog, authService, $mdToast, $http, PRELOADED_DATA, $mdMedia,
       $document, $templateCache, $q) {
 
-
     $scope.user = PRELOADED_DATA.isAuthenticated ? User.get() : null;
     $scope.menuShown = false;
     $scope.view = {};
@@ -145,7 +144,7 @@ jscalcControllers.controller('JscalcCtrl', [
               hideDelay: 3000
             });
             $scope.user = null;
-            $scope.calcs = [];
+            $scope.calcs = {};
             $location.path('/');
           });
     };
@@ -179,31 +178,50 @@ jscalcControllers.controller('SourceCtrl', [
   'Source',
   '$mdToast',
   '$location',
-  function($scope, $routeParams, $timeout, Source, $mdToast, $location) {
-    $scope.calcId = $routeParams.calcId;
-    $scope.calc = null;
+  '$q',
+  'DEFAULTS',
+  '$interval',
+  function($scope, $routeParams, $timeout, Source, $mdToast, $location, $q,
+      DEFAULTS, $interval) {
+    $scope.DEFAULTS = DEFAULTS;
     $scope.view.isEditMode = false;
     $scope.view.isCalcMode = false;
-    $scope.saving = false;
-    if (!($scope.calcId in $scope.calcs)) {
-      Source.get({calcId: $scope.calcId}, function(source) {
-        if (!($scope.calcId in $scope.calcs)) {
-          var calc = {doc: source.doc, saved: true};
-          $scope.calc = calc;
-          $scope.calcs[$scope.calcId] = calc;
-        } else {
-          $scope.calc = $scope.calcs[$scope.calcId];
-        }
-        $scope.view.isEditMode = true;
-        $scope.view.isCalcMode = true;
-      });
-    } else {
-      $scope.calc = $scope.calcs[$scope.calcId];
+    $scope.calcId = $routeParams.calcId;
+    $scope.calc = null;
+    var calcPromise = $q(function(resolve) {
+      if (!($scope.calcId in $scope.calcs)) {
+        Source.get({calcId: $scope.calcId}, function(source) {
+          if (!($scope.calcId in $scope.calcs)) {
+            $scope.calc = {doc: source.doc, saved: true};
+            $scope.calcs[$scope.calcId] = $scope.calc;
+            resolve();
+          } else {
+            $scope.calc = $scope.calcs[$scope.calcId];
+            resolve();
+          }
+        });
+      } else {
+        $scope.calc = $scope.calcs[$scope.calcId];
+        resolve();
+      }
+    });
+    calcPromise.then(function() {
       $scope.view.isEditMode = true;
       $scope.view.isCalcMode = true;
-    }
+      $scope.savedCalcDoc = $scope.calc.saved ?
+          angular.copy($scope.calc.doc) : null;
+      $scope.$watch(function() {
+        if ($scope.savedCalcDoc !== null) {
+          if (!angular.equals($scope.savedCalcDoc, $scope.calc.doc)) {
+            $scope.calc.saved = false;
+            $scope.savedCalcDoc = null;
+          }
+        }
+      });
+    });
+    $scope.saving = false;
+    $scope.settingsTemplate = '/partials/settings_blank';
     $scope.selectedTabIndex = 0;
-    $scope.editor = null;
     $scope.$watch(function() {
       if ($scope.calc !== null) {
         return $scope.getCalcCaption($scope.calc);
@@ -221,12 +239,31 @@ jscalcControllers.controller('SourceCtrl', [
     });
     $scope.view.description = '';
 
-    $scope.onAceLoad = function(editor) {
-      $scope.editor = editor;
-      editor.getSession().setMode("ace/mode/javascript");
-      editor.getSession().setTabSize(2);
-    };
+    var editorPromise = $q(function(resolve) {
+      $scope.onAceLoad = function(editor) {
+        $scope.editor = editor;
+        resolve();
+      };
+    });
+    editorPromise.then(function() {
+      $scope.editor.getSession().setMode("ace/mode/javascript");
+    });
+    $q.all([calcPromise, editorPromise]).then(function() {
+      $scope.editor.getSession().setValue($scope.calc.doc.script || '');
 
+      var readValue = function() {
+        $scope.calc.doc.script = $scope.editor.getSession().getValue();
+      };
+      $scope.editor.getSession().on('changeCursor', readValue);
+      var stopInterval = $interval(readValue, 1000);
+      $scope.$on('$destroy', function() {
+        $interval.cancel(stopInterval);
+      });
+
+      $scope.$watch('calc.doc.tabSize', function(newValue) {
+        $scope.editor.getSession().setTabSize(newValue || DEFAULTS.tabSize);
+      });
+    });
     $scope.$watch('selectedTabIndex', function(value) {
       if (value == 1) {
         $timeout(function() {
@@ -244,6 +281,7 @@ jscalcControllers.controller('SourceCtrl', [
         return Source.post({calcId: $scope.calcId}, {doc: $scope.calc.doc}).
             $promise.then(function() {
               $scope.calc.saved = true;
+              $scope.savedCalcDoc = angular.copy($scope.calc.doc);
               if ($scope.user !== null) {
                 var maybeAddCalc = function() {
                   if (!_.find($scope.user.calcs, {_id: $scope.calcId})) {
@@ -301,6 +339,16 @@ jscalcControllers.controller('SourceCtrl', [
       $scope.calcs[id] = {doc: angular.copy($scope.calc.doc), saved: false};
       $location.path('/source/' + id);
     });
+
+    $scope.openSettings = function(settingsTemplate, settingsModel) {
+      $scope.settingsTemplate = settingsTemplate;
+      $scope.settingsModel = settingsModel;
+      if (!$scope.sidenavsLockedOpen) {
+        $timeout(function() {
+          $scope.settingsOpen = true;
+        });
+      }
+    };
   }]);
 
 jscalcControllers.controller('PublishedCtrl', [

@@ -16,6 +16,10 @@ var jscalcApp = angular.module('jscalcApp', [
   'material.services.media'
 ])
 
+.constant('DEFAULTS', {
+  'tabSize': 2
+})
+
 .config(['$routeProvider', '$locationProvider',
   function($routeProvider, $locationProvider) {
     $locationProvider.html5Mode({

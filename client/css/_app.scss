@@ -223,6 +223,28 @@ md-sidenav {
 
   a {
     font-size: 24px;
+    word-wrap: break-word;
+  }
+}
+
+
+.settings {
+  .title {
+    font-size: 20px;
+    line-height: 64px;
+    padding: 0 20px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    border-bottom: 1px solid $seam-border-color;
+  }
+
+  .content {
+    padding: 20px;
+  }
+
+  .label {
+    margin-top: 34px;
   }
 }
 

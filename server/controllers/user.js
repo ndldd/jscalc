@@ -87,7 +87,7 @@ exports.postSignup = function(req, res, next) {
  * Account data.
  */
 
-exports.getAccount = function(req, res) {
+exports.getAccount = function(req, res, next) {
   User.findById(req.user.id).
   // Mongoose will drop from the list those calculators that do not exist.
   populate('calcs', 'doc.name').

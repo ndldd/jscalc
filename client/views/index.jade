@@ -34,7 +34,7 @@ html(lang='en', ng-app='jscalcApp', ng-controller='JscalcCtrl')
         button(ng-click='new()')
           md-icon.new-calculator-icon(icon='/img/icons/ic_add_24px.svg')
           div.new-calculator-label New Calculator
-        .section(ng-show="user.calcs") Your Calculators
+        .section(ng-show="user.calcs.length") Your Calculators
         a.indent(ng-repeat="calc in calcList | orderBy:['caption', 'url']", href="{{calc.url}}", ng-class="{active: isCurrentLocation(calc.url)}") {{calc.caption}}
         a(href='/account', ng-show='user.$resolved', ng-class="{active: isCurrentLocation('/account')}") Account Settings
     md-content(role='main', layout='vertical', layout-fill='layout-fill', scroll-y='scroll-y', ng-view='ng-view')
