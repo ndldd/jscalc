@@ -181,8 +181,9 @@ jscalcControllers.controller('SourceCtrl', [
   '$q',
   'DEFAULTS',
   '$interval',
+  '$mdBottomSheet',
   function($scope, $routeParams, $timeout, Source, $mdToast, $location, $q,
-      DEFAULTS, $interval) {
+      DEFAULTS, $interval, $mdBottomSheet) {
     $scope.DEFAULTS = DEFAULTS;
     $scope.view.isEditMode = false;
     $scope.view.isCalcMode = false;
@@ -348,6 +349,50 @@ jscalcControllers.controller('SourceCtrl', [
           $scope.settingsOpen = true;
         });
       }
+    };
+
+    $scope.addInput = function($event) {
+      console.log($event);
+      $mdBottomSheet.show({
+        templateUrl: '/partials/bottom_sheet_inputs',
+        controller: 'InputsBottomSheetCtrl',
+        targetEvent: $event
+      }).then(function(inputType) {
+        console.log(inputType, $event);
+      });
+    };
+
+    $scope.addOutput = function($event) {
+      console.log($event);
+      $mdBottomSheet.show({
+        templateUrl: '/partials/bottom_sheet_outputs',
+        controller: 'OutputsBottomSheetCtrl',
+        targetEvent: $event
+      }).then(function(outputType) {
+        console.log(outputType, $event);
+      });
+    };
+  }]);
+
+jscalcControllers.controller('InputsBottomSheetCtrl', [
+  '$scope',
+  '$mdBottomSheet',
+  'INPUT_TYPES',
+  function($scope, $mdBottomSheet, INPUT_TYPES) {
+    $scope.INPUT_TYPES = INPUT_TYPES;
+    $scope.hideBottomSheet = function(result) {
+      $mdBottomSheet.hide(result);
+    };
+  }]);
+
+jscalcControllers.controller('OutputsBottomSheetCtrl', [
+  '$scope',
+  '$mdBottomSheet',
+  'OUTPUT_TYPES',
+  function($scope, $mdBottomSheet, OUTPUT_TYPES) {
+    $scope.OUTPUT_TYPES = OUTPUT_TYPES;
+    $scope.hideBottomSheet = function(result) {
+      $mdBottomSheet.hide(result);
     };
   }]);
 

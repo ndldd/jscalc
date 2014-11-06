@@ -79,16 +79,16 @@ md-sidenav {
     border-bottom: 1px solid $seam-border-color;
     margin-bottom: 12px;
     font-weight: normal;
-    padding-left: 71px;
+    padding-left: 65px;
     color: inherit !important;
 
     .logo-icon {
       position: absolute;
-      top: 13px;
+      top: 15px;
       left: 24px;
-      width: 37px;
-      height: 37px;
-      opacity: 1;
+      width: 33px;
+      height: 33px;
+      opacity: 0.8;
     }
   }
 
@@ -96,7 +96,7 @@ md-sidenav {
     position: absolute;
     top: 7px;
     left: 19px;
-    opacity: 0.6;
+    opacity: 0.5;
   }
 
   .new-calculator-label {
@@ -112,7 +112,7 @@ md-sidenav {
 
 
 .md-icon {
-  opacity: 0.6;
+  opacity: 0.5;
 }
 
 
@@ -259,6 +259,26 @@ md-sidenav {
 
   .label {
     margin-top: 34px;
+  }
+}
+
+
+md-bottom-sheet {
+  md-item {
+    p.md-grid-text {
+      width: 80px !important;
+    }
+  }
+
+  .md-icon-container md-inline-grid-icon {
+    display: inline-block;
+    height: 48px;
+    width: 48px;
+    opacity: 0.5;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
   }
 }
 

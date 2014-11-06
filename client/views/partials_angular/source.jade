@@ -8,7 +8,8 @@
         md-tab(label='SHARE')
     md-content#tab-content(ng-if='calc !== null', flex, layout='vertical')
       div(ng-show='selectedTabIndex == 0', flex, layout='vertical')
-        jscalc-calc(flex, layout='vertical', doc='calc.doc', edit-mode='true')
+        jscalc-calc(flex, layout='vertical', doc='calc.doc', edit-mode='true',
+        add-input='addInput($event)', add-output='addOutput($event)')
       div(ng-show='selectedTabIndex == 1', flex, layout='vertical')
         #script-container(flex, layout='horizontal')
           #script(flex, flex-sm='60')

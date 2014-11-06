@@ -27,6 +27,31 @@ html(lang='en', ng-app='jscalcApp', ng-controller='JscalcCtrl')
 
       ga('create', 'UA-56071268-1', 'auto');
       ga('send', 'pageview');
+    style.
+      .input-icon[input-type=binary] {
+        background-image: url('!{getImage("icons/ic_check_box_24px.svg")}')
+      }
+      .input-icon[input-type=number] {
+        background-image: url('!{getImage("icons/number_input_24.svg")}')
+      }
+      .input-icon[input-type=date] {
+        background-image: url('!{getImage("icons/ic_insert_invitation_24px.svg")}')
+      }
+      .input-icon[input-type=choice] {
+        background-image: url('!{getImage("icons/ic_radio_button_on_24px.svg")}')
+      }
+      .input-icon[input-type=list] {
+        background-image: url('!{getImage("icons/ic_playlist_add_24px.svg")}')
+      }
+      .output-icon[input-type=value] {
+        background-image: url('!{getImage("icons/number_output_24.svg")}')
+      }
+      .output-icon[input-type=table] {
+        background-image: url('!{getImage("icons/ic_border_all_24px.svg")}')
+      }
+      .output-icon[input-type=chart] {
+        background-image: url('!{getImage("icons/ic_insert_chart_24px.svg")}')
+      }
   body(layout='horizontal', md-theme="cyan")
     md-sidenav.md-sidenav-left.md-whiteframe-z3(component-id='left',  is-locked-open="sidenavsLockedOpen", layout='vertical', ng-click="closeNav()")
       md-content#side-nav(flex)

@@ -8,8 +8,10 @@ angular.module('jscalcDirectives', [])
       restrict: 'E',
       templateUrl: '/partials/calc',
       scope: {
-        doc: '=doc',
-        editMode: '=editMode'
+        doc: '=',
+        editMode: '=',
+        addInput: '&',
+        addOutput: '&'
       }
     };
   })

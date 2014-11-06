@@ -20,6 +20,20 @@ var jscalcApp = angular.module('jscalcApp', [
   'tabSize': 2
 })
 
+.constant('INPUT_TYPES', [
+  {type: 'number', title: 'Number'},
+  {type: 'binary', title: 'Checkbox'},
+  {type: 'date', title: 'Date'},
+  {type: 'choice', title: 'Radio'},
+  {type: 'list', title: 'Repeating Item'}
+])
+
+.constant('OUTPUT_TYPES', [
+  {type: 'value', title: 'Value'},
+  {type: 'table', title: 'Table'},
+  {type: 'chart', title: 'Chart'}
+])
+
 .config(['$routeProvider', '$locationProvider',
   function($routeProvider, $locationProvider) {
     $locationProvider.html5Mode({
