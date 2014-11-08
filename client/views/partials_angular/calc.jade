@@ -2,8 +2,8 @@
   md-content.md-padding#inputs
     form(novalidate='novalidate', name='inputsForm', role='form')
       .title Inputs
-      .sortable-container(ui-sortable, ng-model="doc.metaInputs")
-        .input-row(ng-repeat='metaInput in doc.metaInputs track by metaInput.id', ng-include='getInputTemplateName(metaInput)', ng-init='inputsInner = inputs; metaInputs=doc.metaInputs', ng-class="{'calc-hidden': !usedInputs[metaInput.name].used}")
+      .nonsortable-container(ng-if="!editMode", ng-include="'/partials/calc_inputs'")
+      .sortable-container(ng-if="editMode", ui-sortable, ng-model="doc.metaInputs", ng-include="'/partials/calc_inputs'")
       .button-row(ng-if="editMode")
         md-button.md-primary(ng-click="addInput({$event: $event})") Add input
         md-button(ng-if="showDefaultsButtons()", ng-click="updateDefaults()") Update defaults
