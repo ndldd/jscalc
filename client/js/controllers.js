@@ -431,11 +431,15 @@ jscalcControllers.controller('SourceCtrl', [
         if (!('metaInputs' in $scope.calc.doc)) {
           $scope.calc.doc.metaInputs = [];
         }
-        $scope.calc.doc.metaInputs.push({
+        var metaInput = {
           id: getNewInputId(),
           name: getNewName(),
           type: inputType
-        })
+        };
+        if (inputType == 'binary') {
+          metaInput.presentationType = 'checkbox';
+        }
+        $scope.calc.doc.metaInputs.push(metaInput);
       });
     };
 
@@ -457,7 +461,7 @@ jscalcControllers.controller('SourceCtrl', [
     };
 
     $scope.configureInput = function(metaInputs, metaInput) {
-      $scope.openSettings('/partials/settings_number', {
+      $scope.openSettings('/partials/settings_' + metaInput.type, {
         metaInputs: metaInputs,
         metaInput: metaInput
       });

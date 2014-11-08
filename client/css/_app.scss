@@ -19,7 +19,7 @@ a, .link-button {
   font-weight: 400;
 
   &:focus {
-    background-color: #EEE;
+    background-color: #EEE !important;
   }
 }
 
@@ -97,7 +97,6 @@ md-sidenav {
     position: absolute;
     top: 10px;
     left: 19px;
-    opacity: 0.5;
   }
 
   .new-calculator-label {
@@ -112,7 +111,7 @@ md-sidenav {
 }
 
 
-.md-icon {
+.black-icon {
   opacity: 0.5;
 }
 
@@ -230,12 +229,12 @@ md-sidenav {
 .config-icons {
   display: inline-block;
   margin-bottom: 6px;
+  vertical-align: bottom;
 }
 
 
 .inline-icon {
   display: inline-block;
-  opacity: 0.5;
   width: 24px;
   height: 24px;
 }
@@ -248,6 +247,12 @@ md-sidenav {
 
   md-input-group {
     display: inline-block;
+  }
+
+  md-checkbox {
+    display: inline-block;
+    margin-left: 1px;
+    margin-top: 31px;
   }
 }
 

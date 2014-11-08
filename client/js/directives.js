@@ -20,7 +20,7 @@ angular.module('jscalcDirectives', [])
 
         $scope.getInputTemplateName = function(metaInput) {
           var getType = function() {
-            if (metaInput.type == 'choice') {
+            if (metaInput.type == 'binary') {
               return metaInput.presentationType;
             } else {
               return metaInput.type;

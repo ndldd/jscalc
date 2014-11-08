@@ -1,9 +1,9 @@
 button.menu-icon(ng-show='!sidenavsLockedOpen', aria-label='Toggle Menu', ng-click='toggleNav()')
-  md-icon(icon='/img/icons/ic_menu_24px.svg')
+  md-icon.black-icon(icon='/img/icons/ic_menu_24px.svg')
 span(flex)#app-title {{title}}
 button.button-action.menu-icon(ng-show='view.isEditMode', aria-label='Configure', ng-click="openSettings('/partials/settings_calc', calc.doc)")
-  md-icon(icon='/img/icons/ic_settings_24px.svg')
+  md-icon.black-icon(icon='/img/icons/ic_settings_24px.svg')
 button.button-action.menu-icon(ng-show='view.isEditMode', aria-label='Save', ng-click='save($event)')
-  md-icon.rotatable(icon='/img/icons/ic_save_24px.svg', ng-class="{rotating: saving}")
+  md-icon.black-icon.rotatable(icon='/img/icons/ic_save_24px.svg', ng-class="{rotating: saving}")
 button.button-action.button-more.menu-icon(aria-label='More', ng-click='toggleMenu($event)')
-  md-icon(icon='/img/icons/ic_more_vert_24px.svg')
+  md-icon.black-icon(icon='/img/icons/ic_more_vert_24px.svg')
