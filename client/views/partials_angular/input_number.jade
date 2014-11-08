@@ -1,8 +1,9 @@
-md-text-float(label='{{metaInput.label}}', type="number", ng-model="inputsInner[metaInput.id]" required)
-.config-icons
-  button.button-action.menu-icon(ng-if='editMode', aria-label='Configure', ng-click="configureInput({metaInputs: metaInputs, metaInput: metaInput})")
-    .md-icon-container
-      .inline-icon.settings-icon
-  button.button-action.menu-icon(ng-if='editMode', aria-label='Delete', ng-click="deleteInput({metaInputs: metaInputs, id: metaInput.id})")
-    .md-icon-container
-      .inline-icon.delete-icon
+.text-input-container(layout='horizontal', layout-align="start end")
+  md-text-float(label='{{metaInput.label}}', type="number", ng-model="inputsInner[metaInput.id]" required)
+  .config-icons
+    button.button-action.menu-icon(ng-if='editMode', aria-label='Configure', ng-click="configureInput({metaInputs: metaInputs, metaInput: metaInput})")
+      .md-icon-container
+        .inline-icon.settings-icon
+    button.button-action.menu-icon(ng-if='editMode', aria-label='Delete', ng-click="deleteInput({metaInputs: metaInputs, id: metaInput.id})")
+      .md-icon-container
+        .inline-icon.delete-icon
