@@ -1,3 +1,5 @@
+//= require jquery/dist/jquery
+//= require jquery-ui/jquery-ui
 //= require angular/angular
 //= require angular-route/angular-route
 //= require angular-resource/angular-resource
@@ -7,6 +9,7 @@
 //= require angular-material/angular-material
 //= require angularytics/dist/angularytics
 //= require angular-ui-ace/ui-ace
+//= require angular-ui-sortable/sortable
 //= require angular-http-auth/src/http-auth-interceptor
 //= require lodash/dist/lodash
 //= require underscore.string/dist/underscore.string.min
