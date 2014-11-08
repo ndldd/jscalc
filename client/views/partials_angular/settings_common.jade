@@ -1,0 +1,4 @@
+md-text-float(label='Name', ng-model='settingsModel.metaInput.name')
+.warning(ng-if='isNameConflict(settingsModel.metaInputs, settingsModel.metaInput)')
+  | This name conflicts with that of another input.
+md-text-float(label='Label', ng-model='settingsModel.metaInput.label')
