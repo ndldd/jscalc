@@ -52,6 +52,12 @@ html(lang='en', ng-app='jscalcApp', ng-controller='JscalcCtrl')
       .output-icon[input-type=chart] {
         background-image: url('!{getImage("icons/ic_insert_chart_24px.svg")}')
       }
+      .settings-icon {
+        background-image: url('!{getImage("icons/ic_settings_24px.svg")}')
+      }
+      .delete-icon {
+        background-image: url('!{getImage("icons/ic_delete_24px.svg")}')
+      }
   body(layout='horizontal', md-theme="cyan")
     md-sidenav.md-sidenav-left.md-whiteframe-z3(component-id='left',  is-locked-open="sidenavsLockedOpen", layout='vertical', ng-click="closeNav()")
       md-content#side-nav(flex)

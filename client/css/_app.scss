@@ -205,11 +205,35 @@ md-sidenav {
 
 #inputs, #outputs {
   background-color: #fff;
+
+  .title {
+    font-size: 20px;
+  }
 }
 
 
 #inputs {
   border-bottom: 1px solid $seam-border-color;
+}
+
+
+.config-icons {
+  display: inline-block;
+}
+
+
+.inline-icon {
+  display: inline-block;
+  opacity: 0.5;
+  width: 24px;
+  height: 24px;
+}
+
+
+.input-row {
+  md-input-group {
+    display: inline-block;
+  }
 }
 
 
@@ -259,6 +283,11 @@ md-sidenav {
 
   .label {
     margin-top: 34px;
+  }
+
+  .warning {
+    color: map-get($color-red, '500');
+    font-size: 14px;
   }
 }
 

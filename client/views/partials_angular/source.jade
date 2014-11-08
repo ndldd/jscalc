@@ -9,13 +9,13 @@
     md-content#tab-content(ng-if='calc !== null', flex, layout='vertical')
       div(ng-show='selectedTabIndex == 0', flex, layout='vertical')
         jscalc-calc(flex, layout='vertical', doc='calc.doc', edit-mode='true',
-        add-input='addInput($event)', add-output='addOutput($event)')
+        add-input='addInput($event)', add-output='addOutput($event)', configure-input='configureInput(metaInputs, metaInput)', delete-input='deleteInput(metaInputs, id)')
       div(ng-show='selectedTabIndex == 1', flex, layout='vertical')
         #script-container(flex, layout='horizontal')
           #script(flex, flex-sm='60')
             div(ui-ace='{onLoad: onAceLoad}')
           md-content.md-padding#cheat-sheet(flex)
-            span cheat sheet
+            span Cheatsheet
       div(ng-show='selectedTabIndex == 2', flex, layout='vertical')
         #share-container(flex, layout='horizontal')
           md-content.md-padding#share(flex flex-sm='75')

@@ -1,5 +1,12 @@
 #io-container(flex='flex')
-  #inputs(ng-click="addInput({$event: $event})")
-    div(style='height: 1000px;') inputs, {{doc}}, {{editMode}}
-  #outputs(ng-click="addOutput({$event: $event})")
-    span outputs
+  md-content.md-padding#inputs
+    form(novalidate='novalidate', name='inputsForm', role='form')
+      .title Inputs
+      .input-row(ng-repeat='metaInput in doc.metaInputs track by metaInput.id', ng-include='getInputTemplateName(metaInput)', ng-init='inputsInner = inputs; metaInputs=doc.metaInputs', ng-class="{'calc-hidden': !usedInputs[metaInput.name].used}")
+      .button-row(ng-if="editMode")
+        md-button.md-primary(ng-click="addInput({$event: $event})") Add input
+        md-button(ng-if="showDefaultsButtons()", ng-click="updateDefaults()") Update defaults
+        md-button(ng-if="showDefaultsButtons()", ng-click="loadDefaults()") Load defaults
+  md-content.md-padding#outputs(ng-click="addOutput({$event: $event})")
+    .title Outputs
+    div(style='height: 1000px;') {{doc}}

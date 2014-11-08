@@ -184,6 +184,11 @@ jscalcControllers.controller('SourceCtrl', [
   '$mdBottomSheet',
   function($scope, $routeParams, $timeout, Source, $mdToast, $location, $q,
       DEFAULTS, $interval, $mdBottomSheet) {
+
+    /**
+     * UI and calculator resource.
+     */
+
     $scope.DEFAULTS = DEFAULTS;
     $scope.view.isEditMode = false;
     $scope.view.isCalcMode = false;
@@ -341,6 +346,10 @@ jscalcControllers.controller('SourceCtrl', [
       $location.path('/source/' + id);
     });
 
+    /**
+     * Calculator configuration.
+     */
+
     $scope.openSettings = function(settingsTemplate, settingsModel) {
       $scope.settingsTemplate = settingsTemplate;
       $scope.settingsModel = settingsModel;
@@ -351,26 +360,116 @@ jscalcControllers.controller('SourceCtrl', [
       }
     };
 
+    var forEachMetaInput = function(metaInputs, f) {
+      _.forEach(metaInputs || [], function(metaInput) {
+        f(metaInput);
+        if (metaInput.type == 'list') {
+          forEachInput(metaInput.metaInputs);
+        }
+      });
+    };
+
+    var forEachMetaOutput = function(metaOutputs, f) {
+      _.forEach(metaOutputs || [], function(metaOutput) {
+        f(metaOutput);
+      });
+    };
+
+    var getNewInputId = function() {
+      var id = 0;
+      forEachMetaInput($scope.calc.doc.metaInputs, function(metaInput) {
+        if (metaInput.id > id) {
+          id = metaInput.id;
+        }
+      });
+      return id + 1;
+    };
+
+    var getNewOutputId = function() {
+      var id = 0;
+      forEachMetaOutput($scope.calc.doc.metaOutputs, function(metaOutputs) {
+        if (metaOutputs.id > id) {
+          id = metaOutputs.id;
+        }
+      });
+      return id + 1;
+    };
+
+    var getNewName = function() {
+      var namesHash = {};
+      var addName = function(item) {
+        namesHash[item.name] = true;
+      };
+      forEachMetaInput($scope.calc.doc.metaInputs, addName);
+      forEachMetaOutput($scope.calc.doc.metaOutputs, addName);
+      var letters = 'abcdefghijklmnopqrstuvwxyz';
+      var getNameOfLength = function(prefix, length) {
+        if (!length) {
+          return (prefix in namesHash) ? undefined : prefix;
+        }
+        for (var i = 0; i < letters.length; i++) {
+          var letter = letters[i];
+          var name = getNameOfLength(prefix + letter, length - 1);
+          if (name) return name;
+        }
+      };
+      var length = 1;
+      var name;
+      while(true) {
+        name = getNameOfLength('', length);
+        if (name) return name;
+        length += 1;
+      }
+    };
+
     $scope.addInput = function($event) {
-      console.log($event);
       $mdBottomSheet.show({
         templateUrl: '/partials/bottom_sheet_inputs',
         controller: 'InputsBottomSheetCtrl',
         targetEvent: $event
       }).then(function(inputType) {
-        console.log(inputType, $event);
+        if (!('metaInputs' in $scope.calc.doc)) {
+          $scope.calc.doc.metaInputs = [];
+        }
+        $scope.calc.doc.metaInputs.push({
+          id: getNewInputId(),
+          name: getNewName(),
+          type: inputType
+        })
       });
     };
 
     $scope.addOutput = function($event) {
-      console.log($event);
       $mdBottomSheet.show({
         templateUrl: '/partials/bottom_sheet_outputs',
         controller: 'OutputsBottomSheetCtrl',
         targetEvent: $event
       }).then(function(outputType) {
-        console.log(outputType, $event);
+        if (!('metaOutputs' in $scope.calc.doc)) {
+          $scope.calc.doc.metaOutputs = [];
+        }
+        $scope.calc.doc.metaOutputs.push({
+          id: getNewOutputId(),
+          name: getNewName(),
+          type: outputType
+        })
       });
+    };
+
+    $scope.configureInput = function(metaInputs, metaInput) {
+      $scope.openSettings('/partials/settings_number', {
+        metaInputs: metaInputs,
+        metaInput: metaInput
+      });
+    };
+
+    $scope.deleteInput = function(metaInputs, id) {
+      _.remove(metaInputs, {id: id});
+    };
+
+    $scope.isNameConflict = function(metaInputs, metaInput) {
+      var otherMetaInputs = _.reject(metaInputs, {'id': metaInput.id});
+      return _.some(otherMetaInputs, {'name': metaInput.name});
     };
   }]);
 
