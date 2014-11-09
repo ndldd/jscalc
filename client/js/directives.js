@@ -3,12 +3,14 @@
 /* Directives */
 
 angular.module('jscalcDirectives', [])
-  .directive('jscalcCalc', ['$mdToast', function($mdToast) {
+  .directive('jscalcCalc', ['$mdToast', 'DEFAULTS', function($mdToast,
+      DEFAULTS) {
     return {
       restrict: 'E',
       templateUrl: '/partials/calc',
       scope: {
         doc: '=',
+        inputs: '=',
         editMode: '=',
         addInput: '&?',
         addOutput: '&?',
@@ -16,7 +18,9 @@ angular.module('jscalcDirectives', [])
         deleteInput: '&?'
       },
       link: function($scope, element, attr) {
-        $scope.inputs = angular.copy($scope.doc.defaults) || {};
+        $scope.DEFAULTS = DEFAULTS;
+
+        angular.copy($scope.doc.defaults || {}, $scope.inputs);
 
         $scope.getInputTemplateName = function(metaInput) {
           var getType = function() {
@@ -80,4 +84,71 @@ angular.module('jscalcDirectives', [])
         ngModel.$parsers.push(fromUser);
       }
     };
-  });
+  })
+  .directive('jscalcDateInput', ['jscalcDateInput', function(jscalcDateInput) {
+    return {
+      restrict: 'E',
+      templateUrl: '/partials/jscalc_date_input',
+      scope: {
+        value: '=ngModel',
+        defaultValueType: '@?'
+      },
+      compile: function(element, attr) {
+        return {
+          pre: function($scope, element, attr) {
+            $scope.months = [
+              {value: 0, label: 'Jan'},
+              {value: 1, label: 'Feb'},
+              {value: 2, label: 'Mar'},
+              {value: 3, label: 'Apr'},
+              {value: 4, label: 'May'},
+              {value: 5, label: 'Jun'},
+              {value: 6, label: 'Jul'},
+              {value: 7, label: 'Aug'},
+              {value: 8, label: 'Sep'},
+              {value: 9, label: 'Oct'},
+              {value: 10, label: 'Nov'},
+              {value: 11, label: 'Dec'}
+            ];
+
+            $scope.units = [
+              {value: 'days', label: 'Days'},
+              {value: 'months', label: 'Months'},
+              {value: 'years', label: 'Years'}
+            ];
+
+            $scope.getAbsoluteDate = function() {
+              return jscalcDateInput.getAbsoluteDate($scope.value && $scope.value.params).toDate();
+            };
+
+            $scope.getType = function() {
+              return ($scope.value && $scope.value.type) ||
+                  $scope.defaultValueType;
+            }
+
+            $scope.toggleType = function() {
+              var date = jscalcDateInput.toDate($scope.value,
+                  $scope.defaultValueType);
+              $scope.value.type = {'absolute': 'relative', 'relative': 'absolute'}[$scope.getType()];
+              if (date) {
+                if ($scope.getType() == 'absolute') {
+                  $scope.value.params = {
+                    day: date.date(),
+                    month: date.month(),
+                    year: date.year()
+                  };
+                } else {
+                  $scope.value.params = {
+                    delta: date.diff(moment().startOf('day'), 'days'),
+                    units: 'days'
+                  };
+                }
+              } else {
+                $scope.value.params = {};
+              }
+            };
+          }
+        }
+      }
+    };
+  }]);

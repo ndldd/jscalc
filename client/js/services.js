@@ -45,4 +45,34 @@ jscalcServices.factory('User', ['$resource', 'toastInterceptor',
         return $q.reject(rejection);
       }
     };
+  }]).
+  factory('jscalcDateInput', [function() {
+    var getAbsoluteDate = function(relativeParams) {
+      if (!relativeParams) {
+        return moment().startOf('day');
+      }
+      return moment()
+          .startOf('day')
+          .add(relativeParams.delta || 0, relativeParams.units || 'days');
+    };
+
+    return {
+      getAbsoluteDate: getAbsoluteDate,
+      toDate: function(value, defaultValueType) {
+        if (((value && value.type) || defaultValueType) == 'absolute') {
+          if (!value) return null;
+          if (!value.params) return null;
+          if (!value.params.day) return null;
+          if (!value.params.month && value.params.month !== 0) return null;
+          if (!value.params.year && value.params.year !== 0) return null;
+          return moment({
+            day: value.params.day,
+            month: value.params.month,
+            year: value.params.year
+          });
+        } else {
+          return getAbsoluteDate(value && value.params);
+        }
+      }
+    };
   }]);

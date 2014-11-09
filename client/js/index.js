@@ -18,3 +18,4 @@
 //= require directives
 //= require filters
 //= require services
+//= require moment/moment

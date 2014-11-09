@@ -194,6 +194,7 @@ jscalcControllers.controller('SourceCtrl', [
     $scope.view.isCalcMode = false;
     $scope.calcId = $routeParams.calcId;
     $scope.calc = null;
+    $scope.inputs = {};
     var calcPromise = $q(function(resolve) {
       if (!($scope.calcId in $scope.calcs)) {
         Source.get({calcId: $scope.calcId}, function(source) {
@@ -360,6 +361,35 @@ jscalcControllers.controller('SourceCtrl', [
       }
     };
 
+    /**
+     * From the supplied inputs object, removes those inputs that no longer have
+     * corresponding metainputs, and for inputs that are objects/arrays, creates
+     * empty values where they are absent. Called on calculator inputs and on
+     * default inputs whenever metainputs are added/removed.
+     */
+    var fixInputs = function(inputs, metaInputs) {
+      var idsHash = {};
+      _.forEach(metaInputs, function(metaInput) {
+        idsHash[metaInput.id] = true;
+        if (metaInput.type == 'date' && !(metaInput.id in inputs)) {
+          inputs[metaInput.id] = {};
+        }
+        if (metaInput.type == 'list' && !(metaInput.id in inputs)) {
+          inputs[metaInput.id] = [];
+        }
+        if (metaInput.type == 'list') {
+          _.forEach(inputs[metaInput.id], function(inputs) {
+            fixInputs(inputs, metaInput.metaInputs);
+          });
+        }
+      });
+      for (var id in inputs) {
+        if (!(id in idsHash)) {
+          delete inputs[id];
+        }
+      }
+    };
+
     var forEachMetaInput = function(metaInputs, f) {
       _.forEach(metaInputs || [], function(metaInput) {
         f(metaInput);
@@ -440,6 +470,11 @@ jscalcControllers.controller('SourceCtrl', [
           metaInput.presentationType = 'checkbox';
         }
         $scope.calc.doc.metaInputs.push(metaInput);
+        if (!$scope.calc.doc.defaults) {
+          $scope.calc.doc.defaults = {};
+        }
+        fixInputs($scope.calc.doc.defaults, $scope.calc.doc.metaInputs);
+        fixInputs($scope.inputs, $scope.calc.doc.metaInputs);
       });
     };
 
@@ -469,6 +504,8 @@ jscalcControllers.controller('SourceCtrl', [
 
     $scope.deleteInput = function(metaInputs, id) {
       _.remove(metaInputs, {id: id});
+      fixInputs($scope.calc.doc.defaults, $scope.calc.doc.metaInputs);
+      fixInputs($scope.inputs, $scope.calc.doc.metaInputs);
     };
 
     $scope.isNameConflict = function(metaInputs, metaInput) {
@@ -507,6 +544,7 @@ jscalcControllers.controller('PublishedCtrl', [
   function($scope, $routeParams, Calc, $location) {
     $scope.calcId = $routeParams.calcId;
     $scope.calc = null;
+    $scope.inputs = {};
     $scope.view.isEditMode = false;
     $scope.view.isCalcMode = false;
     $scope.title = '';

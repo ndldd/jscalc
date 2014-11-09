@@ -1,0 +1,5 @@
+.date-input-container
+  .first-row(ng-if="metaInput.label") {{metaInput.label}}
+  .second-row
+    jscalc-date-input(ng-model="inputsInner[metaInput.id]", default-value-type='{{DEFAULTS.dateInputValueType}}', required)
+    .config-icons(ng-include="'/partials/input_config_icons'")

@@ -237,6 +237,10 @@ md-sidenav {
   display: inline-block;
   width: 24px;
   height: 24px;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 
@@ -253,6 +257,75 @@ md-sidenav {
     display: inline-block;
     margin-left: 1px;
     margin-top: 31px;
+  }
+}
+
+
+.date-input-container {
+  margin-top: 24px;
+
+  .first-row {
+    color: rgba(0, 0, 0, 0.372);
+    font-size: 12px;
+  }
+
+  .config-icons {
+    vertical-align: top;
+    margin-top: 12px;
+  }
+}
+
+
+jscalc-date-input {
+  display: inline-block;
+  margin-right: 19px;
+
+  select {
+    margin-bottom: 6px;
+  }
+
+  .content {
+    height: 43px;
+  }
+
+  .today-plus {
+    margin-bottom: 8px;
+  }
+
+  .footer {
+    font-size: 14px;
+    margin-top: 9px;
+
+    md-button {
+      margin-right: -6px;
+    }
+  }
+
+  .absolute-date {
+    margin-top: 6px;
+  }
+
+  .forward-icon {
+    width: 20px;
+    height: 20px;
+    margin-top: -3px;
+    margin-bottom: -5px;
+  }
+
+  .day, .year {
+    margin: 0 0 0 24px;
+
+    input {
+      width: 80px
+    }
+  }
+
+  .delta {
+    margin: 0 24px;
+
+    input {
+      width: 80px
+    }
   }
 }
 
