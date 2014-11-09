@@ -330,6 +330,21 @@ jscalc-date-input {
 }
 
 
+.radio-input-container {
+  margin-top: 24px;
+
+  .label {
+    margin-right: 16px;
+  }
+
+  .config-icons {
+    vertical-align: top;
+    margin-top: -4px;
+    margin-bottom: -10px;
+  }
+}
+
+
 #script {
   position: relative;
 }
@@ -372,15 +387,45 @@ jscalc-date-input {
 
   .content {
     padding: 20px;
+    padding-top: 0;
   }
 
-  .label {
-    margin-top: 34px;
+
+  .radio-label {
+    margin-top: 24px;
   }
+
 
   .warning {
     color: map-get($color-red, '500');
     font-size: 14px;
+  }
+
+  h3 {
+    font-weight: normal;
+    font-size: 20px;
+    margin-top: 40px;
+  }
+
+
+  .choice {
+    margin-bottom: 40px;
+  }
+
+
+  .label {
+    display: inline-block;
+    color: map-get($primary-color-palette, '400');
+  }
+
+  .button-delete-choice {
+    margin: -6px 15px -10px;
+    vertical-align: top;
+  }
+
+
+  .button-row {
+    margin-left: -6px;
   }
 }
 

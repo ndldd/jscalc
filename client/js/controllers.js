@@ -390,48 +390,31 @@ jscalcControllers.controller('SourceCtrl', [
       }
     };
 
-    var forEachMetaInput = function(metaInputs, f) {
-      _.forEach(metaInputs || [], function(metaInput) {
-        f(metaInput);
-        if (metaInput.type == 'list') {
-          forEachInput(metaInput.metaInputs);
-        }
-      });
-    };
-
-    var forEachMetaOutput = function(metaOutputs, f) {
-      _.forEach(metaOutputs || [], function(metaOutput) {
-        f(metaOutput);
-      });
-    };
-
-    var getNewInputId = function() {
+    /**
+     * Returns a new unused numeric id, takes as argument an array of objects
+     * each with property 'id'.
+     */
+    var getNewId = function(items) {
       var id = 0;
-      forEachMetaInput($scope.calc.doc.metaInputs, function(metaInput) {
-        if (metaInput.id > id) {
-          id = metaInput.id;
+      _.forEach(items, function(item) {
+        if (item.id > id) {
+          id = item.id;
         }
       });
       return id + 1;
     };
 
-    var getNewOutputId = function() {
-      var id = 0;
-      forEachMetaOutput($scope.calc.doc.metaOutputs, function(metaOutputs) {
-        if (metaOutputs.id > id) {
-          id = metaOutputs.id;
-        }
-      });
-      return id + 1;
-    };
-
-    var getNewName = function() {
+    /**
+     * Returns a new unused name. Takes as an argument a function that
+     * iteratively calls its callback for each existing name, with that name
+     * as argument.
+     */
+    var getNewName = function(f) {
       var namesHash = {};
-      var addName = function(item) {
-        namesHash[item.name] = true;
+      var addName = function(name) {
+        namesHash[name] = true;
       };
-      forEachMetaInput($scope.calc.doc.metaInputs, addName);
-      forEachMetaOutput($scope.calc.doc.metaOutputs, addName);
+      f(addName);
       var letters = 'abcdefghijklmnopqrstuvwxyz';
       var getNameOfLength = function(prefix, length) {
         if (!length) {
@@ -452,7 +435,7 @@ jscalcControllers.controller('SourceCtrl', [
       }
     };
 
-    $scope.addInput = function($event) {
+    $scope.addInput = function($event, metaInputs) {
       $mdBottomSheet.show({
         templateUrl: '/partials/bottom_sheet_inputs',
         controller: 'InputsBottomSheetCtrl',
@@ -462,12 +445,19 @@ jscalcControllers.controller('SourceCtrl', [
           $scope.calc.doc.metaInputs = [];
         }
         var metaInput = {
-          id: getNewInputId(),
-          name: getNewName(),
+          id: getNewId(metaInputs),
+          name: getNewName(function(f) {
+            _.forEach(metaInputs, function(metaInput) {
+              f(metaInput.name);
+            });
+          }),
           type: inputType
         };
         if (inputType == 'binary') {
           metaInput.presentationType = 'checkbox';
+        }
+        if (inputType == 'choice') {
+          metaInput.presentationType = 'radio';
         }
         $scope.calc.doc.metaInputs.push(metaInput);
         if (!$scope.calc.doc.defaults) {
@@ -489,7 +479,11 @@ jscalcControllers.controller('SourceCtrl', [
         }
         $scope.calc.doc.metaOutputs.push({
           id: getNewOutputId(),
-          name: getNewName(),
+          name: getNewName(function(f) {
+            _.forEach($scope.calc.doc.metaOutputs, function(metaOutput) {
+              f(metaOutput.name);
+            });
+          }),
           type: outputType
         })
       });
@@ -500,6 +494,25 @@ jscalcControllers.controller('SourceCtrl', [
         metaInputs: metaInputs,
         metaInput: metaInput
       });
+    };
+
+    $scope.addChoice = function(metaInput) {
+      if (!('choices' in metaInput)) {
+        metaInput.choices = [];
+      };
+      metaInput.choices.push({
+        id: getNewId(metaInput.choices),
+        label: '',
+        value: getNewName(function(f) {
+          _.forEach(metaInput.choices, function(choice) {
+            f(choice.value);
+          });
+        })
+      });
+    };
+
+    $scope.deleteChoice = function(choices, id) {
+      _.remove(choices, {id: id});
     };
 
     $scope.deleteInput = function(metaInputs, id) {

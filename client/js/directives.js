@@ -26,6 +26,8 @@ angular.module('jscalcDirectives', [])
           var getType = function() {
             if (metaInput.type == 'binary') {
               return metaInput.presentationType;
+            } else if (metaInput.type == 'choice') {
+              return metaInput.presentationType;
             } else {
               return metaInput.type;
             }

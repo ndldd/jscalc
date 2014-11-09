@@ -1,2 +1,2 @@
-md-checkbox(ng-model="inputsInner[metaInput.id]", aria-label="{{metaInput.label}}", noink) {{metaInput.label}}
+md-checkbox(ng-model="inputsInner[metaInput.id]", aria-label="{{metaInput.label}}", noink) {{metaInput.label || '[Label goes here]'}}
 .config-icons(ng-include="'/partials/input_config_icons'")

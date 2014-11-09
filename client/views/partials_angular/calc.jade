@@ -5,7 +5,7 @@
       .nonsortable-container(ng-if="!editMode", ng-include="'/partials/calc_inputs'")
       .sortable-container(ng-if="editMode", ui-sortable, ng-model="doc.metaInputs", ng-include="'/partials/calc_inputs'")
       .button-row(ng-if="editMode")
-        md-button.md-primary(ng-click="addInput({$event: $event})") Add input
+        md-button.md-primary(ng-click="addInput({$event: $event, metaInputs: doc.metaInputs})") Add input
         md-button(ng-if="showDefaultsButtons()", ng-click="updateDefaults()") Update defaults
         md-button(ng-if="showDefaultsButtons()", ng-click="loadDefaults()") Load defaults
   md-content.md-padding#outputs(ng-click="addOutput({$event: $event})")
