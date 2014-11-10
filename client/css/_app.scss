@@ -207,7 +207,7 @@ md-sidenav {
   background-color: #fff;
 
   .title {
-    font-size: 20px;
+    font-size: 24px;
     color: map-get($primary-color-palette, '400');
   }
 }
@@ -246,7 +246,7 @@ md-sidenav {
 
 .input-row {
   .text-input-container {
-    height: 75px;
+    height: 64px;
   }
 
   md-input-group {
@@ -256,7 +256,15 @@ md-sidenav {
   md-checkbox {
     display: inline-block;
     margin-left: 1px;
-    margin-top: 31px;
+    margin-top: 22px;
+    margin-bottom: 8px;
+  }
+}
+
+
+.checkbox-input-container {
+  .config-icons {
+    margin-bottom: 0;
   }
 }
 
@@ -341,6 +349,43 @@ jscalc-date-input {
     vertical-align: top;
     margin-top: -4px;
     margin-bottom: -10px;
+  }
+}
+
+
+.list-input-container {
+  .item {
+    margin-top: 24px;
+  }
+
+
+  .title-row .label {
+    margin-right: 16px;
+    font-size: 20px;
+    color: map-get($primary-color-palette, '400');
+  }
+
+  .title-row .config-icons {
+    vertical-align: top;
+    margin-top: -2px;
+    margin-bottom: -7px;
+  }
+
+  .subtitle-row {
+    font-size: 14px;
+    margin-top: 13px;
+  }
+
+
+  .content-row {
+    margin-left: 16px;
+  }
+
+
+  .delete-item {
+    margin-top: -5px;
+    margin-bottom: -6px;
+    vertical-align: bottom;
   }
 }
 

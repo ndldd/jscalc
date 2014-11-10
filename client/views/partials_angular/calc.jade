@@ -10,4 +10,5 @@
         md-button(ng-if="showDefaultsButtons()", ng-click="loadDefaults()") Load defaults
   md-content.md-padding#outputs(ng-click="addOutput({$event: $event})")
     .title Outputs
+    div(style='margin-bottom: 100px;') {{inputs}}
     div(style='height: 1000px;') {{doc}}

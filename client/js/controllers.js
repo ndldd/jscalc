@@ -381,6 +381,7 @@ jscalcControllers.controller('SourceCtrl', [
           _.forEach(inputs[metaInput.id], function(inputs) {
             fixInputs(inputs, metaInput.metaInputs);
           });
+          fixInputs(metaInput.itemPrototype, metaInput.metaInputs);
         }
       });
       for (var id in inputs) {
@@ -441,9 +442,6 @@ jscalcControllers.controller('SourceCtrl', [
         controller: 'InputsBottomSheetCtrl',
         targetEvent: $event
       }).then(function(inputType) {
-        if (!('metaInputs' in $scope.calc.doc)) {
-          $scope.calc.doc.metaInputs = [];
-        }
         var metaInput = {
           id: getNewId(metaInputs),
           name: getNewName(function(f) {
@@ -459,7 +457,11 @@ jscalcControllers.controller('SourceCtrl', [
         if (inputType == 'choice') {
           metaInput.presentationType = 'radio';
         }
-        $scope.calc.doc.metaInputs.push(metaInput);
+        if (inputType == 'list') {
+          metaInput.metaInputs = [];
+          metaInput.itemPrototype = {};
+        }
+        metaInputs.push(metaInput);
         if (!$scope.calc.doc.defaults) {
           $scope.calc.doc.defaults = {};
         }

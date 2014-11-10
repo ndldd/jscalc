@@ -22,6 +22,10 @@ angular.module('jscalcDirectives', [])
 
         angular.copy($scope.doc.defaults || {}, $scope.inputs);
 
+        if (!('metaInputs' in $scope.doc)) {
+          $scope.doc.metaInputs = [];
+        }
+
         $scope.getInputTemplateName = function(metaInput) {
           var getType = function() {
             if (metaInput.type == 'binary') {
@@ -52,6 +56,14 @@ angular.module('jscalcDirectives', [])
 
         $scope.showDefaultsButtons = function() {
           return !angular.equals($scope.doc.defaults || {}, $scope.inputs);
+        };
+
+        $scope.addItem = function(items, metaInput) {
+          items.push(angular.copy(metaInput.itemPrototype));
+        };
+
+        $scope.deleteItem = function(items, index) {
+          items.splice(index, 1);
         };
       }
     };
