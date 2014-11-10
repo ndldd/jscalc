@@ -1,7 +1,7 @@
 #io-container(flex='flex')
   md-content.md-padding#inputs
     form(novalidate='novalidate', name='inputsForm', role='form')
-      .title Inputs
+      .frame-title Inputs
       .nonsortable-container(ng-if="!editMode", ng-include="'/partials/calc_inputs'")
       .sortable-container(ng-if="editMode", ui-sortable, ng-model="doc.metaInputs", ng-include="'/partials/calc_inputs'")
       .button-row(ng-if="editMode")
@@ -9,6 +9,6 @@
         md-button(ng-if="showDefaultsButtons()", ng-click="updateDefaults()") Update defaults
         md-button(ng-if="showDefaultsButtons()", ng-click="loadDefaults()") Load defaults
   md-content.md-padding#outputs(ng-click="addOutput({$event: $event})")
-    .title Outputs
+    .frame-title Outputs
     div(style='margin-bottom: 100px;') {{inputs}}
     div(style='height: 1000px;') {{doc}}

@@ -1,7 +1,6 @@
 .radio-input-container
-  .first-row
-    span.label {{metaInput.label || '[Label goes here]'}}
+  .title-row(layout='horizontal')
+    .title(flex) {{metaInput.label || '[Label goes here]'}}:
     .config-icons(ng-include="'/partials/input_config_icons'")
-  .second-row
-    md-radio-group(ng-model='inputsInner[metaInput.id]')
-      md-radio-button(ng-repeat='choice in metaInput.choices', ng-value='choice.value', aria-label='choice.label') {{choice.label}}
+  md-radio-group(ng-model='inputsInner[metaInput.id]')
+    md-radio-button(ng-repeat='choice in metaInput.choices', ng-value='choice.value', aria-label='choice.label') {{choice.label}}

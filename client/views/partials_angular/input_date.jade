@@ -1,5 +1,6 @@
 .date-input-container
-  .first-row {{metaInput.label || '[Label goes here]'}}
-  .second-row
-    jscalc-date-input(ng-model="inputsInner[metaInput.id]", default-value-type='{{DEFAULTS.dateInputValueType}}', required)
+  .title-row(layout='horizontal')
+    .title(flex) {{metaInput.label || '[Label goes here]'}}:
     .config-icons(ng-include="'/partials/input_config_icons'")
+  .content-row
+    jscalc-date-input(ng-model="inputsInner[metaInput.id]", default-value-type='{{DEFAULTS.dateInputValueType}}', required)

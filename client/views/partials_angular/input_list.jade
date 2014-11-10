@@ -1,21 +1,22 @@
 .list-input-container(ng-init='metaInputOuter = metaInput')
   .item.item-prototype(ng-if='editMode')
-    .title-row
-      span.label {{metaInput.label || 'Item'}} Prototype
+    .title-row.title-row-list(layout='horizontal')
+      .title.title-list(flex) Prototype of {{metaInput.label || 'Item'}}
       .config-icons(ng-include="'/partials/input_config_icons'")
-    .subtitle-row
-      | Will not be displayed in published calculator.
     .content-row
+      .subtitle-row
+        | Will not be displayed in published calculator.
       .sortable-container(ui-sortable, ng-model='metaInputOuter.metaInputs')
         .input-row.sortable-item(ng-repeat='metaInput in metaInputOuter.metaInputs track by metaInput.id', ng-include='getInputTemplateName(metaInput)', ng-init='inputsInner = metaInputOuter.itemPrototype; metaInputs = metaInputOuter.metaInputs')
       .button-row
         md-button.md-primary(ng-click="addInput({$event: $event, metaInputs: metaInputOuter.metaInputs, nested: true})") Add input
   .item.item-actual(ng-repeat='listItem in inputsInner[metaInput.id]', ng-init='indexListItem = $index; editMode = false')
-    .title-row
-      span.label {{metaInput.label}} {{$index + 1}}
-      button.button-action.menu-icon.delete-item(aria-label='Delete', ng-click="deleteItem(inputsInner[metaInput.id], $index)")
-        .md-icon-container
-          .inline-icon.delete-icon.black-icon
+    .title-row.title-row-list(layout='horizontal')
+      .title(flex) {{metaInput.label || 'Item'}} {{$index + 1}}
+      .config-icons
+        button.button-action.menu-icon.delete-item(aria-label='Delete', ng-click="deleteItem(inputsInner[metaInput.id], $index)")
+          .md-icon-container
+            .inline-icon.delete-icon.black-icon
     .content-row
       .input-row.sortable-item(ng-repeat='metaInput in metaInputOuter.metaInputs track by metaInput.id', ng-include='getInputTemplateName(metaInput)', ng-init='inputsInner = listItem; metaInputs = metaInputOuter.metaInputs', ng-class="{'calc-hidden': !usedInputs[metaInputOuter.id].properties[indexListItem].properties[metaInput.id].used}")
   .button-row

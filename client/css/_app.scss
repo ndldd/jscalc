@@ -206,32 +206,20 @@ md-sidenav {
 #inputs, #outputs {
   background-color: #fff;
 
-  .title {
-    font-size: 24px;
+  .frame-title {
     color: map-get($primary-color-palette, '400');
+    font-size: 24px;
   }
 }
 
 
 #inputs {
   border-bottom: 1px solid $seam-border-color;
-
-  .button-row {
-    margin-left: -5px;
-    margin-top: 19px;
-  }
 }
 
 .sortable-container .sortable-item {
   cursor: move;
 }
-
-.config-icons {
-  display: inline-block;
-  margin-bottom: 6px;
-  vertical-align: bottom;
-}
-
 
 .inline-icon {
   display: inline-block;
@@ -244,42 +232,73 @@ md-sidenav {
 }
 
 
-.input-row {
-  .text-input-container {
-    height: 64px;
-  }
+.input-row, .button-row {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
 
+
+.button-row {
+  margin-left: -5px;
+}
+
+
+.input-row {
   md-input-group {
     display: inline-block;
+    /* Prevent jumpy effect when focusing */
+    height: 32px;
+    margin-bottom: 0;
   }
 
-  md-checkbox {
+  md-radio-group {
+    margin-bottom: -15px;
+  }
+
+  .config-icons {
     display: inline-block;
-    margin-left: 1px;
-    margin-top: 22px;
-    margin-bottom: 8px;
+    white-space: nowrap;
+    margin-left: -7px;
+    vertical-align: baseline;
+    margin-bottom: -12px;
+    margin-top: -11px;
+    top: 6px;
+    position: relative;
+    margin-right: -11px;
+
+    button {
+      margin: 0;
+    }
+  }
+
+  .title-row {
+    .title {
+      display: inline-block;
+      margin-right: 16px;
+    }
+  }
+
+  .title-row-list {
+    .title {
+      color: map-get($primary-color-palette, '400');
+      font-size: 20px;
+    }
+
+    .config-icons {
+      top: 10px;
+    }
+  }
+
+  .content-row {
+    margin-left: 16px;
   }
 }
 
 
 .checkbox-input-container {
-  .config-icons {
-    margin-bottom: 0;
-  }
-}
-
-
-.date-input-container {
-  margin-top: 24px;
-
-  .first-row {
-    color: rgba(0, 0, 0, 0.372);
-    font-size: 12px;
-  }
-
-  .config-icons {
-    vertical-align: top;
-    margin-top: 12px;
+  md-checkbox {
+    display: inline-block;
+    margin: 0 15px 0 0;
   }
 }
 
@@ -302,7 +321,7 @@ jscalc-date-input {
 
   .footer {
     font-size: 14px;
-    margin-top: 9px;
+    margin-top: 4px;
 
     md-button {
       margin-right: -6px;
@@ -338,21 +357,6 @@ jscalc-date-input {
 }
 
 
-.radio-input-container {
-  margin-top: 24px;
-
-  .label {
-    margin-right: 16px;
-  }
-
-  .config-icons {
-    vertical-align: top;
-    margin-top: -4px;
-    margin-bottom: -10px;
-  }
-}
-
-
 .list-input-container {
   .item {
     margin-top: 24px;
@@ -360,32 +364,13 @@ jscalc-date-input {
 
 
   .title-row .label {
-    margin-right: 16px;
     font-size: 20px;
     color: map-get($primary-color-palette, '400');
   }
 
-  .title-row .config-icons {
-    vertical-align: top;
-    margin-top: -2px;
-    margin-bottom: -7px;
-  }
-
   .subtitle-row {
     font-size: 14px;
-    margin-top: 13px;
-  }
-
-
-  .content-row {
-    margin-left: 16px;
-  }
-
-
-  .delete-item {
-    margin-top: -5px;
-    margin-bottom: -6px;
-    vertical-align: bottom;
+    margin-top: 30px;
   }
 }
 
