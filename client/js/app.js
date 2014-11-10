@@ -23,11 +23,12 @@ var jscalcApp = angular.module('jscalcApp', [
 })
 
 .constant('INPUT_TYPES', [
-  {type: 'number', title: 'Number'},
-  {type: 'binary', title: 'Checkbox'},
-  {type: 'date', title: 'Date'},
-  {type: 'choice', title: 'Radio'},
-  {type: 'list', title: 'Repeating Item'}
+  {type: 'number', title: 'Number', default: null},
+  {type: 'binary', title: 'Checkbox', default: false},
+  {type: 'date', title: 'Date', default:
+      {"params":{"delta":0,"units":"days"},"type":"relative"}},
+  {type: 'choice', title: 'Radio', default: null},
+  {type: 'list', title: 'Repeating Item', default: []}
 ])
 
 .constant('OUTPUT_TYPES', [

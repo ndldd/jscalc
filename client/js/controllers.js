@@ -180,10 +180,11 @@ jscalcControllers.controller('SourceCtrl', [
   '$location',
   '$q',
   'DEFAULTS',
+  'INPUT_TYPES',
   '$interval',
   '$mdBottomSheet',
   function($scope, $routeParams, $timeout, Source, $mdToast, $location, $q,
-      DEFAULTS, $interval, $mdBottomSheet) {
+      DEFAULTS, INPUT_TYPES, $interval, $mdBottomSheet) {
 
     /**
      * UI and calculator resource.
@@ -363,19 +364,17 @@ jscalcControllers.controller('SourceCtrl', [
 
     /**
      * From the supplied inputs object, removes those inputs that no longer have
-     * corresponding metainputs, and for inputs that are objects/arrays, creates
-     * empty values where they are absent. Called on calculator inputs and on
-     * default inputs whenever metainputs are added/removed.
+     * corresponding metainputs, and fills in missing inputs with default
+     * values. Called on calculator inputs and on default inputs whenever
+     * metainputs are added/removed.
      */
     var fixInputs = function(inputs, metaInputs) {
       var idsHash = {};
       _.forEach(metaInputs, function(metaInput) {
         idsHash[metaInput.id] = true;
-        if (metaInput.type == 'date' && !(metaInput.id in inputs)) {
-          inputs[metaInput.id] = {};
-        }
-        if (metaInput.type == 'list' && !(metaInput.id in inputs)) {
-          inputs[metaInput.id] = [];
+        if (!(metaInput.id in inputs)) {
+          inputs[metaInput.id] = angular.copy(
+              _.find(INPUT_TYPES, {type: metaInput.type}).default);
         }
         if (metaInput.type == 'list') {
           _.forEach(inputs[metaInput.id], function(inputs) {
