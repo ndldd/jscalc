@@ -1,6 +1,6 @@
 md-bottom-sheet.md-grid
   md-list
-    md-item(ng-repeat='inputType in INPUT_TYPES', ng-click='hideBottomSheet(inputType.type)')
+    md-item(ng-repeat='inputType in inputTypes', ng-click='hideBottomSheet(inputType.type)')
       .md-item-content
         .md-icon-container
           md-inline-grid-icon.input-icon(input-type='{{inputType.type}}')

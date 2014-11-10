@@ -436,11 +436,12 @@ jscalcControllers.controller('SourceCtrl', [
       }
     };
 
-    $scope.addInput = function($event, metaInputs) {
+    $scope.addInput = function($event, metaInputs, nested) {
       $mdBottomSheet.show({
         templateUrl: '/partials/bottom_sheet_inputs',
         controller: 'InputsBottomSheetCtrl',
-        targetEvent: $event
+        targetEvent: $event,
+        locals: {nested: nested}
       }).then(function(inputType) {
         var metaInput = {
           id: getNewId(metaInputs),
@@ -533,8 +534,12 @@ jscalcControllers.controller('InputsBottomSheetCtrl', [
   '$scope',
   '$mdBottomSheet',
   'INPUT_TYPES',
-  function($scope, $mdBottomSheet, INPUT_TYPES) {
-    $scope.INPUT_TYPES = INPUT_TYPES;
+  'nested',
+  function($scope, $mdBottomSheet, INPUT_TYPES, nested) {
+    $scope.inputTypes = angular.copy(INPUT_TYPES);
+    if (nested) {
+      _.remove($scope.inputTypes, {type: 'list'});
+    }
     $scope.hideBottomSheet = function(result) {
       $mdBottomSheet.hide(result);
     };

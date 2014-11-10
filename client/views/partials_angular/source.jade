@@ -9,7 +9,7 @@
     md-content#tab-content(ng-if='calc !== null', flex, layout='vertical')
       div(ng-show='selectedTabIndex == 0', flex, layout='vertical')
         jscalc-calc(flex, layout='vertical', doc='calc.doc', inputs='inputs', edit-mode='true',
-        add-input='addInput($event, metaInputs)', add-output='addOutput($event)', configure-input='configureInput(metaInputs, metaInput)', delete-input='deleteInput(metaInputs, id)')
+        add-input='addInput($event, metaInputs, nested)', add-output='addOutput($event)', configure-input='configureInput(metaInputs, metaInput)', delete-input='deleteInput(metaInputs, id)')
       div(ng-show='selectedTabIndex == 1', flex, layout='vertical')
         #script-container(flex, layout='horizontal')
           #script(flex, flex-sm='60')
