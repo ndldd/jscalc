@@ -209,7 +209,7 @@ md-sidenav {
   .frame-title {
     color: map-get($primary-color-palette, '400');
     font-size: 24px;
-    margin: 18px 0;
+    margin: 25px 0;
   }
 }
 
@@ -241,6 +241,7 @@ md-sidenav {
 
 .button-row {
   margin-left: -5px;
+  margin-right: -5px;
 }
 
 
@@ -370,7 +371,7 @@ jscalc-date-input {
 
   .footer {
     font-size: 14px;
-    margin-top: 4px;
+    margin-top: 18px;
 
     md-button {
       margin-right: -6px;
@@ -395,6 +396,10 @@ jscalc-date-input {
     input {
       width: 80px
     }
+  }
+
+  .forward-icon {
+    opacity: 0.5;
   }
 }
 
@@ -439,11 +444,8 @@ jscalc-date-input {
 .value-output-container {
   font-size: 20px;
 
-  .output-boolean {
-    .inline-icon {
-      margin: -6px 7px;
-      opacity: 0.5;
-    }
+  .label {
+    color: map-get($primary-color-palette, '400');
   }
 }
 
@@ -534,6 +536,7 @@ jscalc-date-input {
 
   .button-row {
     margin-left: -6px;
+    margin-right: -6px;
   }
 
   md-checkbox {

@@ -4,10 +4,11 @@
       .frame-title Inputs
       .nonsortable-container(ng-if="!editMode", ng-include="'/partials/calc_inputs'")
       .sortable-container(ng-if="editMode", ui-sortable, ng-model="doc.metaInputs", ng-include="'/partials/calc_inputs'")
-      .button-row(ng-if="editMode")
+      .button-row(ng-if="editMode", layout="horizontal")
+        md-button.md-primary(ng-click="addInput({$event: $event, metaInputs: doc.metaInputs, nested: false})") Add input
+        span(flex)
         md-button(ng-if="showDefaultsButtons()", ng-click="updateDefaults()") Update defaults
         md-button(ng-if="showDefaultsButtons()", ng-click="loadDefaults()") Load defaults
-        md-button.md-primary(ng-click="addInput({$event: $event, metaInputs: doc.metaInputs, nested: false})") Add input
   md-content.md-padding#outputs
     .frame-title Outputs
     .button-row(ng-if="workerError", layout='horizontal', layout-align="start center")
@@ -17,7 +18,9 @@
         button.link-button(ng-if='editMode && workerError.lineNumber' ng-click='gotoLine({lineNumber: workerError.lineNumber})') Line {{workerError.lineNumber}}
     .nonsortable-container(ng-if="!editMode", ng-include="'/partials/calc_outputs'")
     .sortable-container(ng-if="editMode", ui-sortable, ng-model="doc.metaOutputs", ng-include="'/partials/calc_outputs'")
-    .button-row(ng-if="editMode")
+    .button-row(ng-if="editMode", layout="horizontal")
+      md-button.md-primary(ng-click="addOutput({$event: $event})") Add output
+      span(flex)
       md-button(ng-if="!debugMode", ng-click="toggleDebugMode()")
         .inline-icon.forward-icon.text-button-icon
         | Debug mode
@@ -25,7 +28,6 @@
         .inline-icon.forward-icon.text-button-icon
         | Normal mode
       md-button(ng-if="debugMode", ng-click="calculate()") Calculate
-      md-button.md-primary(ng-click="addOutput({$event: $event})") Add output
       .debug-comment(ng-if="debugMode")
         | You are in debug mode. The script is not run automatically but only when you click CALCULATE button above. To pause execution at some point in your script, insert
         = ' '

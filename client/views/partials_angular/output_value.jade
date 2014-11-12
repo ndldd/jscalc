@@ -1,6 +1,6 @@
 .value-output-container(layout='horizontal')
   .content(flex)
-    | {{metaOutput.label || '[Label goes here]'}}:
+    span.label {{metaOutput.label || '[Label goes here]'}}:
     = ' '
     span.output-text(ng-if='outputs[metaOutput.id].type != "boolean"')
       | {{outputs[metaOutput.id].value}}
