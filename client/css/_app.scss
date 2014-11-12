@@ -232,7 +232,7 @@ md-sidenav {
 }
 
 
-.input-row, .button-row {
+.input-row, .output-row, .button-row {
   margin-top: 30px;
   margin-bottom: 30px;
 }
@@ -295,11 +295,54 @@ md-sidenav {
 }
 
 
+.hidden-indicator {
+  display: none;
+  background-color: rgba(43, 175, 43, 0.87);
+  border-radius: 20px;
+  font-size: 13px;
+  color: #FFF;
+  padding: 1px 6px;
+  text-transform: uppercase;
+  position: relative;
+  top: -6px;
+  margin-right: 10px;
+}
+
+.edit-mode .hidden .hidden-indicator {
+  display: inline-block;
+}
+
+
+.hidden {
+  display: none;
+}
+
+.edit-mode .hidden {
+  display: block;
+}
+
+
 .checkbox-input-container {
   md-checkbox {
     display: inline-block;
     margin: 0 15px 0 0;
   }
+}
+
+
+.text-button-icon {
+  width: 20px;
+  height: 20px;
+  margin-top: -2px;
+  margin-bottom: -4px;
+}
+
+
+.text-button-icon-small {
+  width: 20px;
+  height: 20px;
+  margin-top: -3px;
+  margin-bottom: -5px;
 }
 
 
@@ -330,13 +373,6 @@ jscalc-date-input {
 
   .absolute-date {
     margin-top: 6px;
-  }
-
-  .forward-icon {
-    width: 20px;
-    height: 20px;
-    margin-top: -3px;
-    margin-bottom: -5px;
   }
 
   .day, .year {
@@ -372,6 +408,25 @@ jscalc-date-input {
     font-size: 14px;
     margin-top: 30px;
   }
+}
+
+
+.debug-comment {
+  font-size: 14px;
+  margin-left: 6px;
+}
+
+
+.outputs-warning {
+  display: inline-block;
+  height: 48px;
+  width: 48px;
+  margin-right: 12px;
+  opacity: 0.5;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 
@@ -456,6 +511,15 @@ jscalc-date-input {
 
   .button-row {
     margin-left: -6px;
+  }
+
+  md-checkbox {
+    margin-left: 0;
+  }
+
+  .comment {
+    margin-top: -10px;
+    font-size: 14px;
   }
 }
 

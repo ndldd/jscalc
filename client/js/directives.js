@@ -3,8 +3,13 @@
 /* Directives */
 
 angular.module('jscalcDirectives', [])
-  .directive('jscalcCalc', ['$mdToast', 'DEFAULTS', function($mdToast,
-      DEFAULTS) {
+  .directive('jscalcCalc', [
+    '$mdToast',
+    'DEFAULTS',
+    '$location',
+    '$timeout',
+    'jscalcDateInput',
+    function($mdToast, DEFAULTS, $location, $timeout, jscalcDateInput) {
     return {
       restrict: 'E',
       templateUrl: '/partials/calc',
@@ -15,16 +20,183 @@ angular.module('jscalcDirectives', [])
         addInput: '&?',
         addOutput: '&?',
         configureInput: '&?',
-        deleteInput: '&?'
+        deleteInput: '&?',
+        gotoLine: '&?'
       },
       link: function($scope, element, attr) {
         $scope.DEFAULTS = DEFAULTS;
+        var blobUrl;
+        var worker = null;
+        $scope.workerBuzy = false;
+        $scope.workerError = null;
+        $scope.debugMode = false;
+        var recalculationScheduled = false;
+        var calculationTimeoutPromise = null;
 
         angular.copy($scope.doc.defaults || {}, $scope.inputs);
 
         if (!('metaInputs' in $scope.doc)) {
           $scope.doc.metaInputs = [];
         }
+
+        var convertInputs = function(inputs, metaInputs) {
+          var convertedInputs = {};
+          _.forEach(metaInputs, function(metaInput) {
+            if (metaInput.name in convertedInputs) {
+              throw {name: 'JscalcNameConflictError', message: metaInput.name};
+            }
+            if (metaInput.type == 'list') {
+              convertedInputs[metaInput.name] = _.map(inputs[metaInput.id],
+                  function(item) {
+                    return convertInputs(item, metaInput.metaInputs);
+                  });
+            } else if (metaInput.type == 'date') {
+              var dateMoment = jscalcDateInput.toDate(inputs[metaInput.id],
+                  DEFAULTS.dateInputValueType);
+              convertedInputs[metaInput.name] = dateMoment ?
+                  dateMoment.toDate() : null;
+            } else {
+              convertedInputs[metaInput.name] = inputs[metaInput.id];
+            }
+          });
+          return convertedInputs;
+        };
+
+        var convertUsedInputs = function(usedInputs, metaInputs) {
+          var convertedUsedInputs = {};
+          _.forEach(metaInputs, function(metaInput) {
+            if (!(metaInput.name in usedInputs)) return;
+            convertedUsedInputs[metaInput.id] =
+                {used: usedInputs[metaInput.name].used};
+            if (metaInput.type == 'list') {
+              convertedUsedInputs[metaInput.id].properties =
+                  _.mapValues(usedInputs[metaInput.name].properties,
+                      function(item) {
+                        return {
+                          used: item.used,
+                          properties: convertUsedInputs(item.properties,
+                              metaInput.metaInputs)
+                        };
+                      });
+            }
+          });
+          return convertedUsedInputs;
+        };
+
+        $scope.$watch('doc.script', function(script) {
+          if (blobUrl) window.URL.revokeObjectURL(blobUrl);
+          var hostUrl = $location.protocol() + '://' + $location.host();
+          if ($location.port()) hostUrl += ':' + $location.port();
+          blobUrl = window.URL.createObjectURL(new Blob([
+            'var calculate = function(inputs) {' + script + '};\n\n' +
+            'importScripts("' + hostUrl + '/bower_components/lodash/dist/lodash.min.js");\n' +
+            'importScripts("' + hostUrl + '/bower_components/moment/min/moment.min.js");\n' +
+            'importScripts("' + hostUrl + '/bower_components/mathjs/dist/math.min.js");\n' +
+            'importScripts("' + hostUrl + '/js/worker.js");\n'
+          ]));
+          if (worker) destroyWorker();
+          requestRecalculation();
+        });
+
+        var cancelCalculationTimeout = function() {
+          if (calculationTimeoutPromise) {
+            $timeout.cancel(calculationTimeoutPromise);
+            calculationTimeoutPromise = null;
+          }
+        };
+
+        var createWorker = function() {
+          worker = new Worker(blobUrl);
+          worker.onmessage = function(e) {
+            $scope.$apply(function() {
+              cancelCalculationTimeout();
+              $scope.workerBuzy = false;
+              if ('outputs' in e.data) {
+                $scope.outputs = e.data.outputs;
+                $scope.workerError = null;
+              }
+              $scope.usedInputs = convertUsedInputs(e.data.usedInputs,
+                  $scope.doc.metaInputs);
+            });
+          };
+          worker.onerror = function(e) {
+            $scope.$apply(function() {
+              e.preventDefault();
+              cancelCalculationTimeout();
+              $scope.workerError = {message: e.message};
+              if (e.lineno) {
+                $scope.workerError.lineNumber = e.lineno;
+              }
+              $scope.outputs = null;
+            });
+          }
+        };
+
+        var destroyWorker = function() {
+          worker.terminate();
+          worker = null;
+          $scope.workerBuzy = false;
+          $scope.workerError = null;
+          cancelCalculationTimeout();
+        };
+
+        var startWorker = function() {
+          if (!worker) {
+            createWorker();
+          }
+          if ($scope.workerBuzy) {
+            destroyWorker();
+            createWorker();
+          }
+          try {
+            var convertedInputs = convertInputs($scope.inputs,
+                $scope.doc.metaInputs);
+          } catch (e) {
+            if (e.name != 'JscalcNameConflictError') {
+              throw e;
+            }
+            $scope.workerError = {message: 'Multiple inputs have name "' + e.message + '".'};
+            return;
+          }
+          calculationTimeoutPromise = $timeout(function() {
+            $scope.workerError = {message: 'Calculation did not finish after 1 second. Is there an infinite loop?'};
+            $scope.outputs = null;
+          }, 1000);
+          $scope.workerBuzy = true;
+          worker.postMessage({
+            inputs: convertedInputs
+          });
+        };
+
+        var requestRecalculation = function() {
+          if ($scope.debugMode) return;
+          if (!recalculationScheduled) {
+            recalculationScheduled = true;
+            $timeout(function() {
+              recalculationScheduled = false;
+              startWorker();
+            });
+          }
+        };
+
+        $scope.$watch(function() {
+          try {
+            return convertInputs($scope.inputs,
+                $scope.doc.metaInputs);
+          } catch (e) {
+            if (e.name != 'JscalcNameConflictError') {
+              throw e;
+            }
+            return null;
+          }
+        }, requestRecalculation, true);
+
+        $scope.toggleDebugMode = function() {
+          $scope.debugMode = !$scope.debugMode;
+          if (!$scope.debugMode) requestRecalculation();
+        };
+
+        $scope.calculate = startWorker;
 
         $scope.getInputTemplateName = function(metaInput) {
           var getType = function() {
@@ -77,7 +249,10 @@ angular.module('jscalcDirectives', [])
       },
       link: function($scope, element, attr, ngModel) {
         function toUser(value) {
-          return (value || $scope.defaultValue);
+          if (!angular.isDefined(value) || value === null) {
+            return $scope.defaultValue;
+          }
+          return value;
         }
         ngModel.$formatters.push(toUser);
       }

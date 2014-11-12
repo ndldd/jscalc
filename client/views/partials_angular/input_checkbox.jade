@@ -1,3 +1,4 @@
 .checkbox-input-container(layout='horizontal')
-  md-checkbox(flex, ng-model="inputsInner[metaInput.id]", aria-label="{{metaInput.label}}", noink) {{metaInput.label || '[Label goes here]'}}
+  div(flex)
+    md-checkbox(ng-model="inputsInner[metaInput.id]", aria-label="{{metaInput.label}}", noink) {{metaInput.label || '[Label goes here]'}}
   .config-icons(ng-include="'/partials/input_config_icons'")

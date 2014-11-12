@@ -1,14 +1,43 @@
-#io-container(flex='flex')
+#io-container(flex='flex', ng-class="{'edit-mode': editMode}")
   md-content.md-padding#inputs
     form(novalidate='novalidate', name='inputsForm', role='form')
       .frame-title Inputs
       .nonsortable-container(ng-if="!editMode", ng-include="'/partials/calc_inputs'")
       .sortable-container(ng-if="editMode", ui-sortable, ng-model="doc.metaInputs", ng-include="'/partials/calc_inputs'")
       .button-row(ng-if="editMode")
-        md-button.md-primary(ng-click="addInput({$event: $event, metaInputs: doc.metaInputs, nested: false})") Add input
         md-button(ng-if="showDefaultsButtons()", ng-click="updateDefaults()") Update defaults
         md-button(ng-if="showDefaultsButtons()", ng-click="loadDefaults()") Load defaults
-  md-content.md-padding#outputs(ng-click="addOutput({$event: $event})")
+        md-button.md-primary(ng-click="addInput({$event: $event, metaInputs: doc.metaInputs, nested: false})") Add input
+  md-content.md-padding#outputs
     .frame-title Outputs
-    div(style='margin-bottom: 100px;') {{inputs}}
+    .button-row(ng-if="workerError", layout='horizontal', layout-align="start center")
+      .outputs-warning.warning-icon
+      .description(flex)
+        .message {{workerError.message}}
+        button.link-button(ng-if='editMode && workerError.lineNumber' ng-click='gotoLine({lineNumber: workerError.lineNumber})') Line {{workerError.lineNumber}}
+    .button-row(ng-if="editMode")
+      md-button(ng-if="!debugMode", ng-click="toggleDebugMode()")
+        .inline-icon.forward-icon.text-button-icon
+        | Debug mode
+      md-button(ng-if="debugMode", ng-click="toggleDebugMode()")
+        .inline-icon.forward-icon.text-button-icon
+        | Normal mode
+      md-button(ng-if="debugMode", ng-click="calculate()") Calculate
+      md-button.md-primary(ng-click="addOutput({$event: $event})") Add output
+      .debug-comment(ng-if="debugMode")
+        | You are in debug mode. The script is not run automatically but only when you click CALCULATE button above. To pause execution at some point in your script, insert
+        = ' '
+        code
+          a(href='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/debugger', target='_blank') debugger;
+        = ' '
+        | statement at that point and open your browser's developer tools. You can also use
+        = ' '
+        code
+          a(href='https://developer.mozilla.org/en-US/docs/Web/API/Console.log', target='_blank') console.log()
+        | .
+
+    div(style='margin-bottom: 20px;') {{outputs}}
+    div(style='margin-bottom: 20px;') {{workerError}}
+    div(style='margin-bottom: 20px;') {{usedInputs}}
+    div(style='margin-bottom: 20px;') {{inputs}}
     div(style='height: 1000px;') {{doc}}

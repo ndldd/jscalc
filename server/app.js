@@ -77,6 +77,8 @@ app.use('/img', express.static(path.join(clientDir, 'img'),
 app.use('/bower_components',
     express.static(path.join(clientDir, 'bower_components'),
     {maxAge: 3600000}));
+app.use('/js', express.static(path.join(clientDir, 'js'),
+    {maxAge: 3600000}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(expressValidator());

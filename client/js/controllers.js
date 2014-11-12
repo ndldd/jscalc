@@ -271,6 +271,11 @@ jscalcControllers.controller('SourceCtrl', [
       $scope.$watch('calc.doc.tabSize', function(newValue) {
         $scope.editor.getSession().setTabSize(newValue || DEFAULTS.tabSize);
       });
+
+      $scope.gotoLine = function(lineNumber) {
+        $scope.selectedTabIndex = 1;
+        $scope.editor.gotoLine(lineNumber);
+      };
     });
     $scope.$watch('selectedTabIndex', function(value) {
       if (value == 1) {

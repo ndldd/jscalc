@@ -2,3 +2,5 @@ md-text-float(label='Property name', ng-model='settingsModel.metaInput.name')
 .warning(ng-if='isNameConflict(settingsModel.metaInputs, settingsModel.metaInput)')
   | This name conflicts with that of another input.
 md-text-float(label="{{settingsModel.metaInput.type == 'list' ? 'Caption (singular)' : 'Label'}}", ng-model='settingsModel.metaInput.label')
+md-checkbox(ng-model='settingsModel.metaInput.autohide') Auto-hide when not applicable
+.comment Hides the input if the script does not read its value.

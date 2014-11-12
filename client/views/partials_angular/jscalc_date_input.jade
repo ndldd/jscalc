@@ -6,7 +6,7 @@ div(ng-if="getType() == 'absolute'")
   .footer(layout="horizontal")
     span(flex='flex')
     md-button(ng-click="toggleType()")
-      .inline-icon.forward-icon
+      .inline-icon.forward-icon.text-button-icon-small
       | Relative date
 div(ng-if="getType() == 'relative'")
   .content(layout='horizontal', layout-align="start end")
@@ -17,5 +17,5 @@ div(ng-if="getType() == 'relative'")
     span.absolute-date {{getAbsoluteDate() | date:'mediumDate'}}
     span(flex='flex')
     md-button(ng-click="toggleType()")
-      .inline-icon.forward-icon
+      .inline-icon.forward-icon.text-button-icon-small
       | Absolute date
