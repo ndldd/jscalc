@@ -42,7 +42,7 @@ md-sidenav {
 .md-sidenav-left {
   a, .section, button {
     text-decoration: none;
-    font-size: 15px;
+    font-size: 14px;
     line-height: 44px;
     overflow: hidden;
     white-space: nowrap;
@@ -71,7 +71,7 @@ md-sidenav {
   }
 
   .section {
-    color: #bbb;
+    color: #aaa;
   }
 
   #logo {
@@ -209,6 +209,7 @@ md-sidenav {
   .frame-title {
     color: map-get($primary-color-palette, '400');
     font-size: 24px;
+    margin: 18px 0;
   }
 }
 
@@ -290,7 +291,7 @@ md-sidenav {
   }
 
   .content-row {
-    margin-left: 16px;
+    margin-left: 24px;
   }
 }
 
@@ -669,6 +670,7 @@ md-progress-circular {
   #inputs, #outputs, #cheat-sheet {
     overflow: auto;
     -webkit-overflow-scrolling: touch;
+    padding: 0 24px;
   }
 
 
