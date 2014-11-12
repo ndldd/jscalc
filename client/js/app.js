@@ -33,8 +33,7 @@ var jscalcApp = angular.module('jscalcApp', [
 
 .constant('OUTPUT_TYPES', [
   {type: 'value', title: 'Value'},
-  {type: 'table', title: 'Table'},
-  {type: 'chart', title: 'Chart'}
+  {type: 'table', title: 'Table'}
 ])
 
 .config(['$routeProvider', '$locationProvider',

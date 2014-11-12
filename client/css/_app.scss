@@ -244,6 +244,23 @@ md-sidenav {
 }
 
 
+.config-icons {
+  display: inline-block;
+  white-space: nowrap;
+  margin-left: -7px;
+  vertical-align: baseline;
+  margin-bottom: -12px;
+  margin-top: -11px;
+  top: 6px;
+  position: relative;
+  margin-right: -11px;
+
+  button {
+    margin: 0;
+  }
+}
+
+
 .input-row {
   md-input-group {
     display: inline-block;
@@ -254,22 +271,6 @@ md-sidenav {
 
   md-radio-group {
     margin-bottom: -15px;
-  }
-
-  .config-icons {
-    display: inline-block;
-    white-space: nowrap;
-    margin-left: -7px;
-    vertical-align: baseline;
-    margin-bottom: -12px;
-    margin-top: -11px;
-    top: 6px;
-    position: relative;
-    margin-right: -11px;
-
-    button {
-      margin: 0;
-    }
   }
 
   .title-row {
@@ -291,6 +292,10 @@ md-sidenav {
   }
 
   .content-row {
+    margin-left: 24px;
+  }
+
+  md-radio-button {
     margin-left: 24px;
   }
 }
@@ -431,6 +436,17 @@ jscalc-date-input {
 }
 
 
+.value-output-container {
+  font-size: 20px;
+
+  .output-boolean {
+    .inline-icon {
+      margin: -6px 7px;
+      opacity: 0.5;
+    }
+  }
+}
+
 #script {
   position: relative;
 }
@@ -477,6 +493,11 @@ jscalc-date-input {
   }
 
 
+  .label-row {
+    margin: 16px 0;
+  }
+
+
   .radio-label {
     margin-top: 24px;
   }
@@ -491,6 +512,7 @@ jscalc-date-input {
     font-weight: normal;
     font-size: 20px;
     margin-top: 40px;
+    margin-bottom: 10px;
   }
 
 

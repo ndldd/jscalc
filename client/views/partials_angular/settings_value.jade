@@ -1,0 +1,7 @@
+.title Value Output Settings
+.content
+  div(ng-include="'/partials/settings_output_common'")
+  h3 Number Format
+  md-text-float(label='Decimal places', type='number', ng-model='settingsModel.metaOutput.decimalPlaces')
+  md-text-float(label='Currency sign', ng-model='settingsModel.metaOutput.currencySign')
+  md-checkbox(ng-model='settingsModel.metaOutput.percent') Display in percent

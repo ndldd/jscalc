@@ -485,7 +485,7 @@ jscalcControllers.controller('SourceCtrl', [
           $scope.calc.doc.metaOutputs = [];
         }
         $scope.calc.doc.metaOutputs.push({
-          id: getNewOutputId(),
+          id: getNewId($scope.calc.doc.metaOutputs),
           name: getNewName(function(f) {
             _.forEach($scope.calc.doc.metaOutputs, function(metaOutput) {
               f(metaOutput.name);
@@ -500,6 +500,13 @@ jscalcControllers.controller('SourceCtrl', [
       $scope.openSettings('/partials/settings_' + metaInput.type, {
         metaInputs: metaInputs,
         metaInput: metaInput
+      });
+    };
+
+    $scope.configureOutput = function(metaOutput) {
+      $scope.openSettings('/partials/settings_' + metaOutput.type, {
+        metaOutputs: $scope.calc.doc.metaOutputs,
+        metaOutput: metaOutput
       });
     };
 
@@ -526,6 +533,10 @@ jscalcControllers.controller('SourceCtrl', [
       _.remove(metaInputs, {id: id});
       fixInputs($scope.calc.doc.defaults, $scope.calc.doc.metaInputs);
       fixInputs($scope.inputs, $scope.calc.doc.metaInputs);
+    };
+
+    $scope.deleteOutput = function(id) {
+      _.remove($scope.calc.doc.metaOutputs, {id: id});
     };
 
     $scope.isNameConflict = function(metaInputs, metaInput) {

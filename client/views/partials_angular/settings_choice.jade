@@ -1,6 +1,6 @@
 .title Choice Input Settings
 .content
-  div(ng-include="'/partials/settings_common'")
+  div(ng-include="'/partials/settings_input_common'")
   h3 Choices
   .sortable-container(ui-sortable, ng-model="settingsModel.metaInput.choices")
     .choice.sortable-item(ng-repeat='choice in settingsModel.metaInput.choices track by choice.id')
