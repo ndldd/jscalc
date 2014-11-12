@@ -250,9 +250,9 @@ angular.module('jscalcDirectives', [])
               return;
             }
             calculationTimeoutPromise = $timeout(function() {
-              $scope.workerError = {message: 'Calculation did not finish after 1 second. Is there an infinite loop?'};
+              $scope.workerError = {message: 'Calculation did not finish after 5 seconds. Is there an infinite loop?'};
               $scope.outputs = null;
-            }, 1000);
+            }, 5000);
             $scope.workerBuzy = true;
             worker.postMessage({
               inputs: convertedInputs
