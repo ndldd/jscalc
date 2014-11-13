@@ -2,10 +2,10 @@
 .content
   div(ng-include="'/partials/settings_input_common'")
   h3 Choices
-  .sortable-container(ui-sortable, ng-model="settingsModel.metaInput.choices")
+  .sortable-container(ui-sortable='{axis: "y"}', ng-model="settingsModel.metaInput.choices")
     .choice.sortable-item(ng-repeat='choice in settingsModel.metaInput.choices track by choice.id')
       .label-row
-        .label Option {{$index}}
+        .label Option {{$index + 1}}
         button.button-delete-choice.menu-icon(aria-label='Delete', ng-click="deleteChoice(settingsModel.metaInput.choices, choice.id)")
           .md-icon-container
             .inline-icon.delete-icon.black-icon

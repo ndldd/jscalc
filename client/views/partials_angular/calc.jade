@@ -3,7 +3,7 @@
     form(novalidate='novalidate', name='inputsForm', role='form')
       .frame-title Inputs
       .nonsortable-container(ng-if="!editMode", ng-include="'/partials/calc_inputs'")
-      .sortable-container(ng-if="editMode", ui-sortable, ng-model="doc.metaInputs", ng-include="'/partials/calc_inputs'")
+      .sortable-container(ng-if="editMode", ui-sortable='{axis: "y"}', ng-model="doc.metaInputs", ng-include="'/partials/calc_inputs'")
       .button-row(ng-if="editMode", layout="horizontal")
         md-button.md-primary(ng-click="addInput({$event: $event, metaInputs: doc.metaInputs, nested: false})") Add input
         span(flex)
@@ -17,7 +17,7 @@
         .message {{workerError.message}}
         button.link-button(ng-if='editMode && workerError.lineNumber' ng-click='gotoLine({lineNumber: workerError.lineNumber})') Line {{workerError.lineNumber}}
     .nonsortable-container(ng-if="!editMode", ng-include="'/partials/calc_outputs'")
-    .sortable-container(ng-if="editMode", ui-sortable, ng-model="doc.metaOutputs", ng-include="'/partials/calc_outputs'")
+    .sortable-container(ng-if="editMode", ui-sortable='{axis: "y"}', ng-model="doc.metaOutputs", ng-include="'/partials/calc_outputs'")
     .button-row(ng-if="editMode", layout="horizontal")
       md-button.md-primary(ng-click="addOutput({$event: $event})") Add output
       span(flex)
@@ -39,8 +39,3 @@
       code
         a(href='https://developer.mozilla.org/en-US/docs/Web/API/Console.log', target='_blank') console.log()
       | .
-    div(style='margin-bottom: 20px;') {{outputs}}
-    div(style='margin-bottom: 20px;') {{workerError}}
-    div(style='margin-bottom: 20px;') {{usedInputs}}
-    div(style='margin-bottom: 20px;') {{inputs}}
-    div(style='height: 1000px;') {{doc}}

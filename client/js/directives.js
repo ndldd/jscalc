@@ -115,9 +115,11 @@ angular.module('jscalcDirectives', [])
               var output = outputs[metaOutput.name];
               var convertedOutput;
               if (metaOutput.type == 'table') {
+                if (output == null || !angular.isDefined(output)) return;
                 if (!angular.isArray(output)) {
                   throw {name: 'JscalcExpectedArrayError', message: metaOutput.name};
                 }
+                if (!output.length) return;
                 convertedOutput = _.map(output,
                     function(item) {
                       return convertOutputs(item, metaOutput.metaOutputs);
@@ -197,7 +199,7 @@ angular.module('jscalcDirectives', [])
                     } else if (e.name == 'JscalcUnrecognizedOutputError') {
                       $scope.workerError = {message: 'The outputs object or a table row object has unrecognized key "' + e.message + '".'};
                     } else if (e.name == 'JscalcExpectedArrayError') {
-                      $scope.workerError = {message: 'Output "' + e.message + '" must be an array.'};
+                      $scope.workerError = {message: 'Output "' + e.message + '" must be an array, null, or undefined.'};
                     } else if (e.name == 'JscalcValueTypeError') {
                       $scope.workerError = {message: 'Invalid value for "' + e.message + '". Values must be numbers, strings, booleans, nulls, or undefined.'};
                     } else {

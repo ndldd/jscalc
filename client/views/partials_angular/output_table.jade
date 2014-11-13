@@ -1,0 +1,16 @@
+.table-output-container
+  .title(layout='horizontal')
+    span.label(flex) {{metaOutput.label || '[Label goes here]'}}
+    .config-icons(ng-include="'/partials/output_config_icons'")
+  .content(ng-if="outputs[metaOutput.id]")
+    table
+      thead
+        tr
+          th(ng-repeat='column in metaOutput.metaOutputs track by column.id') {{column.label || '[Column header]'}}
+      tbody
+        tr(ng-repeat='row in outputs[metaOutput.id] track by $index')
+          td(ng-repeat='column in metaOutput.metaOutputs track by column.id')
+            span(ng-if='row[column.id].type != "boolean"')
+              | {{row[column.id].value}}
+            span(ng-if='row[column.id].type == "boolean"')
+              | {{row[column.id].value ? 'Yes' : 'No'}}

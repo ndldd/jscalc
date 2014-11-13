@@ -543,6 +543,25 @@ jscalcControllers.controller('SourceCtrl', [
       var otherMetaInputs = _.reject(metaInputs, {'id': metaInput.id});
       return _.some(otherMetaInputs, {'name': metaInput.name});
     };
+
+    $scope.addColumn = function(metaOutput) {
+      if (!('metaOutputs' in metaOutput)) {
+        metaOutput.metaOutputs = [];
+      };
+      metaOutput.metaOutputs.push({
+        id: getNewId(metaOutput.metaOutputs),
+        name: getNewName(function(f) {
+          _.forEach(metaOutput.metaOutputs, function(metaOutput) {
+            f(metaOutput.name);
+          });
+        }),
+        type: 'value'
+      });
+    };
+
+    $scope.deleteColumn = function(metaInputs, id) {
+      _.remove(metaInputs, {id: id});
+    };
   }]);
 
 jscalcControllers.controller('InputsBottomSheetCtrl', [

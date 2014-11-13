@@ -425,6 +425,7 @@ jscalc-date-input {
 .debug-comment {
   font-size: 14px;
   margin-top: -22px;
+  margin-bottom: 30px;
 }
 
 
@@ -446,6 +447,34 @@ jscalc-date-input {
 
   .label {
     color: map-get($primary-color-palette, '400');
+  }
+}
+
+.table-output-container {
+  .label {
+    font-size: 20px;
+    color: map-get($primary-color-palette, '400');
+  }
+
+  table {
+    width: 100%;
+    border-spacing: 0;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+
+  th, td {
+    text-align: left;
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 1px solid #DDD;
+  }
+
+  th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #DDD;
+    border-top: 0;
   }
 }
 
@@ -518,7 +547,7 @@ jscalc-date-input {
   }
 
 
-  .choice {
+  .choice, .column {
     margin-bottom: 40px;
   }
 
@@ -528,7 +557,7 @@ jscalc-date-input {
     color: map-get($primary-color-palette, '400');
   }
 
-  .button-delete-choice {
+  .button-delete-choice, .button-delete-column {
     margin: -6px 15px -10px;
     vertical-align: top;
   }
