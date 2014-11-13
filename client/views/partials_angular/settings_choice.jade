@@ -1,5 +1,5 @@
 .title Choice Input Settings
-.content
+.content(ng-if="settingsModel.metaInput")
   div(ng-include="'/partials/settings_input_common'")
   h3 Choices
   .sortable-container(ui-sortable='{axis: "y"}', ng-model="settingsModel.metaInput.choices")

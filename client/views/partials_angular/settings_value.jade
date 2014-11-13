@@ -1,5 +1,5 @@
 .title Value Output Settings
-.content
+.content(ng-if="settingsModel.metaOutput")
   div(ng-include="'/partials/settings_output_common'")
   h3 Number Format
   md-text-float(label='Decimal places', type='number', ng-model='settingsModel.metaOutput.decimalPlaces')

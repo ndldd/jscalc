@@ -1,5 +1,5 @@
 .title Table Output Settings
-.content
+.content(ng-if="settingsModel.metaOutput")
   div(ng-include="'/partials/settings_output_common'")
   h3 Columns
   .sortable-container(ui-sortable='{axis: "y"}', ng-model="settingsModel.metaOutput.metaOutputs")

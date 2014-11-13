@@ -503,9 +503,9 @@ jscalcControllers.controller('SourceCtrl', [
       });
     };
 
-    $scope.configureOutput = function(metaOutput) {
+    $scope.configureOutput = function(metaOutputs, metaOutput) {
       $scope.openSettings('/partials/settings_' + metaOutput.type, {
-        metaOutputs: $scope.calc.doc.metaOutputs,
+        metaOutputs: metaOutputs,
         metaOutput: metaOutput
       });
     };
