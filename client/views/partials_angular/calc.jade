@@ -28,17 +28,17 @@
         .inline-icon.forward-icon.text-button-icon
         | Normal mode
       md-button(ng-if="debugMode", ng-click="calculate()") Calculate
-      .debug-comment(ng-if="debugMode")
-        | You are in debug mode. The script is not run automatically but only when you click CALCULATE button above. To pause execution at some point in your script, insert
-        = ' '
-        code
-          a(href='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/debugger', target='_blank') debugger;
-        = ' '
-        | statement at that point and open your browser's developer tools. You can also use
-        = ' '
-        code
-          a(href='https://developer.mozilla.org/en-US/docs/Web/API/Console.log', target='_blank') console.log()
-        | .
+    .debug-comment(ng-if="debugMode")
+      | You are in debug mode. The script is not run automatically but only when you click CALCULATE button above. To pause execution at some point in your script, insert
+      = ' '
+      code
+        a(href='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/debugger', target='_blank') debugger;
+      = ' '
+      | statement at that point and open your browser's developer tools. You can also use
+      = ' '
+      code
+        a(href='https://developer.mozilla.org/en-US/docs/Web/API/Console.log', target='_blank') console.log()
+      | .
     div(style='margin-bottom: 20px;') {{outputs}}
     div(style='margin-bottom: 20px;') {{workerError}}
     div(style='margin-bottom: 20px;') {{usedInputs}}
