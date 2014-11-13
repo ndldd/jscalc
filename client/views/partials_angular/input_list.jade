@@ -4,8 +4,8 @@
       .title Prototype of {{metaInput.label || '[Item name goes here]'}}
       .config-icons(ng-include="'/partials/input_config_icons'")
     .content-row
-      .subtitle-row
-        | Prototype of a repeating item will not be displayed in published calculator. Use it to configure (1) included inputs and (2) initial values for new instances.
+      .comment
+        | This prototype of a repeating item will not be displayed in the published calculator. Use it to configure (1) inputs that each item consists of, and (2) initial values for newly added items.
       .sortable-container(ui-sortable='{axis: "y"}', ng-model='metaInputOuter.metaInputs')
         .input-row.sortable-item(ng-repeat='metaInput in metaInputOuter.metaInputs track by metaInput.id', ng-include='getInputTemplateName(metaInput)', ng-init='inputsInner = metaInputOuter.itemPrototype; metaInputs = metaInputOuter.metaInputs; hidden = false')
       .button-row

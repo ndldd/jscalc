@@ -226,6 +226,11 @@ md-icon-container {
     font-weight: bold;
     margin: 22px 0px;
   }
+
+  .button-row {
+    margin-left: -6px;
+    margin-right: -6px;
+  }
 }
 
 
@@ -251,12 +256,12 @@ md-icon-container {
 .input-row, .output-row, .button-row {
   margin-top: 30px;
   margin-bottom: 30px;
-}
 
-
-.button-row {
-  margin-left: -5px;
-  margin-right: -5px;
+  .comment {
+    font-size: 13px;
+    margin-top: 10px;
+    color: #AAA;
+  }
 }
 
 
@@ -419,12 +424,6 @@ jscalc-date-input {
   & > .item > .content-row {
     margin-left: 20px;
   }
-
-  .subtitle-row {
-    font-size: 13px;
-    margin-top: 12px;
-    color: #AAA;
-  }
 }
 
 
@@ -473,6 +472,7 @@ jscalc-date-input {
 
   th {
     color: $header-color;
+    font-size: 13px;
     vertical-align: bottom;
     border-bottom: 2px solid map-get($primary-color-palette, '400');
     border-top: 0;

@@ -257,7 +257,8 @@ jscalcControllers.controller('SourceCtrl', [
       $scope.editor.getSession().setMode("ace/mode/javascript");
     });
     $q.all([calcPromise, editorPromise]).then(function() {
-      $scope.editor.getSession().setValue($scope.calc.doc.script || '');
+      $scope.editor.getSession().setValue($scope.calc.doc.script ||
+          DEFAULTS.script);
 
       var readValue = function() {
         $scope.calc.doc.script = $scope.editor.getSession().getValue();
