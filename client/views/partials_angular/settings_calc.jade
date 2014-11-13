@@ -5,3 +5,13 @@
   md-radio-group(ng-model='settingsModel.tabSize', jscalc-number-to-string, jscalc-default, default-value="DEFAULTS.tabSize")
     md-radio-button(value='2', aria-label='2 spaces') 2 spaces
     md-radio-button(value='4', aria-label='4 spaces') 4 spaces
+  .radio-label Include libraries:
+  md-checkbox(ng-model='settingsModel.libraries.lodash') Lo-Dash
+  .comment
+    a(href='https://lodash.com/', target='_blank') Website
+  md-checkbox(ng-model='settingsModel.libraries.moment') Moment.js
+  .comment
+    a(href='http://momentjs.com/', target='_blank') Website
+  md-checkbox(ng-model='settingsModel.libraries.mathjs') Math.js
+  .comment
+    a(href='http://mathjs.org/', target='_blank') Website

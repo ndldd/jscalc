@@ -154,20 +154,26 @@ angular.module('jscalcDirectives', [])
             return convertedOutputs;
           };
 
-          $scope.$watch('doc.script', function(script) {
+          var refreshWorker = function() {
             if (blobUrl) window.URL.revokeObjectURL(blobUrl);
             var hostUrl = $location.protocol() + '://' + $location.host();
             if ($location.port()) hostUrl += ':' + $location.port();
+            var imports = [hostUrl + '/js/worker.js'];
+            if ($scope.doc.libraries.lodash) imports.push(hostUrl + '/bower_components/lodash/dist/lodash.min.js');
+            if ($scope.doc.libraries.moment) imports.push(hostUrl + '/bower_components/moment/min/moment.min.js');
+            if ($scope.doc.libraries.mathjs) imports.push(hostUrl + '/bower_components/mathjs/dist/math.min.js');
+            var importsStr = 'importScripts(' + _.map(imports, function(importStr) {
+              return '"' + importStr + '"';
+            }).join(', ') + ');\n';
             blobUrl = window.URL.createObjectURL(new Blob([
-              'var calculate = function(inputs) {' + script + '};\n\n' +
-              'importScripts("' + hostUrl + '/bower_components/lodash/dist/lodash.min.js");\n' +
-              'importScripts("' + hostUrl + '/bower_components/moment/min/moment.min.js");\n' +
-              'importScripts("' + hostUrl + '/bower_components/mathjs/dist/math.min.js");\n' +
-              'importScripts("' + hostUrl + '/js/worker.js");\n'
+              'var calculate = function(inputs) {' + $scope.doc.script + '};\n\n' + importsStr
             ]));
             if (worker) destroyWorker();
             requestRecalculation();
-          });
+          };
+
+          $scope.$watch('doc.script', refreshWorker);
+          $scope.$watch('doc.libraries', refreshWorker, true);
 
           $scope.$watch('doc.metaOutputs', function() {
             requestRecalculation();
