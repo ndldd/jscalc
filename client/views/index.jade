@@ -52,14 +52,17 @@ html(lang='en', ng-app='jscalcApp', ng-controller='JscalcCtrl')
       .settings-icon {
         background-image: url('!{getImage("icons/ic_settings_24px.svg")}')
       }
-      .delete-icon {
-        background-image: url('!{getImage("icons/ic_delete_24px.svg")}')
+      .settings-primary-icon {
+        background-image: url('!{getImage("icons/ic_settings_24px_primary.svg")}')
+      }
+      .delete-primary-icon {
+        background-image: url('!{getImage("icons/ic_delete_24px_primary.svg")}')
       }
       .forward-icon {
         background-image: url('!{getImage("icons/ic_arrow_forward_24px.svg")}')
       }
-      .warning-icon {
-        background-image: url('!{getImage("icons/ic_warning_24px.svg")}')
+      .warning-colored-icon {
+        background-image: url('!{getImage("icons/ic_warning_24px_colored.svg")}')
       }
   body(layout='horizontal', md-theme="cyan")
     md-sidenav.md-sidenav-left.md-whiteframe-z3(component-id='left',  is-locked-open="sidenavsLockedOpen", layout='vertical', ng-click="closeNav()")

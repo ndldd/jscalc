@@ -1,5 +1,5 @@
 #io-container(flex='flex', ng-class="{'edit-mode': editMode}")
-  md-content.md-padding#inputs
+  md-content#inputs
     form(novalidate='novalidate', name='inputsForm', role='form')
       .frame-title Inputs
       .nonsortable-container(ng-if="!editMode", ng-include="'/partials/calc_inputs'")
@@ -9,10 +9,10 @@
         span(flex)
         md-button(ng-if="showDefaultsButtons()", ng-click="updateDefaults()") Update defaults
         md-button(ng-if="showDefaultsButtons()", ng-click="loadDefaults()") Load defaults
-  md-content.md-padding#outputs
+  md-content#outputs
     .frame-title Outputs
     .button-row(ng-if="workerError", layout='horizontal', layout-align="start center")
-      .outputs-warning.warning-icon
+      .outputs-warning.warning-colored-icon
       .description(flex)
         .message {{workerError.message}}
         button.link-button(ng-if='editMode && workerError.lineNumber' ng-click='gotoLine({lineNumber: workerError.lineNumber})') Line {{workerError.lineNumber}}

@@ -4,11 +4,11 @@
   h3 Choices
   .sortable-container(ui-sortable='{axis: "y"}', ng-model="settingsModel.metaInput.choices")
     .choice.sortable-item(ng-repeat='choice in settingsModel.metaInput.choices track by choice.id')
-      .label-row
-        .label Option {{$index + 1}}
+      .label-row(layout="horizontal")
+        .label(flex) Option {{$index + 1}}
         button.button-delete-choice.menu-icon(aria-label='Delete', ng-click="deleteChoice(settingsModel.metaInput.choices, choice.id)")
           .md-icon-container
-            .inline-icon.delete-icon.black-icon
+            .inline-icon.delete-primary-icon
       md-text-float(label='Label', ng-model='choice.label')
       md-text-float(label='Value', ng-model='choice.value')
   .button-row

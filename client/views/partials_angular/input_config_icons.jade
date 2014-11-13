@@ -1,8 +1,8 @@
-.hidden-indicator
-  .content Hidden
 button.button-action.menu-icon(ng-if='editMode', aria-label='Configure', ng-click="configureInput({metaInputs: metaInputs, metaInput: metaInput})")
   .md-icon-container
-    .inline-icon.settings-icon.black-icon
+    .inline-icon.settings-primary-icon
 button.button-action.menu-icon(ng-if='editMode', aria-label='Delete', ng-click="deleteInput({metaInputs: metaInputs, id: metaInput.id})")
   .md-icon-container
-    .inline-icon.delete-icon.black-icon
+    .inline-icon.delete-primary-icon
+.hidden-indicator
+  .content Hidden

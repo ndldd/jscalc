@@ -1,9 +1,9 @@
-.value-output-container(layout='horizontal')
-  .content(flex)
-    span.label {{metaOutput.label || '[Label goes here]'}}:
-    = ' '
+.value-output-container
+  .title-row
+    span.title {{metaOutput.label || '[Label goes here]'}}:
+    .config-icons(ng-include="'/partials/output_config_icons'")
+  .content-row
     span.output-text(ng-if='outputs[metaOutput.id].type != "boolean"')
       | {{outputs[metaOutput.id].value}}
     span.output-boolean(ng-if='outputs[metaOutput.id].type == "boolean"')
       | {{outputs[metaOutput.id].value ? 'Yes' : 'No'}}
-  .config-icons(ng-include="'/partials/output_config_icons'")

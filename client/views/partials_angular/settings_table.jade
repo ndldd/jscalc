@@ -4,10 +4,10 @@
   h3 Columns
   .sortable-container(ui-sortable='{axis: "y"}', ng-model="settingsModel.metaOutput.metaOutputs")
     .column.sortable-item(ng-repeat='column in settingsModel.metaOutput.metaOutputs track by column.id')
-      .label-row
-        .label Column {{$index + 1}}
+      .label-row(layout="horizontal")
+        .label(flex) Column {{$index + 1}}
         button.button-delete-column.menu-icon(aria-label='Delete', ng-click="deleteColumn(settingsModel.metaOutput.metaOutputs, column.id)")
-          .md-icon-container
+          .md-icon-container.delete-primary-icon
             .inline-icon.delete-icon.black-icon
       md-text-float(label='Property name', ng-model='column.name')
       .warning(ng-if='isNameConflict(settingsModel.metaOutput.metaOutputs, column)')

@@ -1,8 +1,8 @@
 .table-output-container
-  .title(layout='horizontal')
-    span.label(flex) {{metaOutput.label || '[Label goes here]'}}
+  .title-row
+    span.title {{metaOutput.label || '[Label goes here]'}}
     .config-icons(ng-include="'/partials/output_config_icons'")
-  .content(ng-if="outputs[metaOutput.id]")
+  .content-row(ng-if="outputs[metaOutput.id]")
     table
       thead
         tr

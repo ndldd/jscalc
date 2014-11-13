@@ -1,7 +1,7 @@
 .list-input-container(ng-init='metaInputOuter = metaInput')
   .item.item-prototype(ng-if='editMode')
-    .title-row.title-row-list(layout='horizontal')
-      .title.title-list(flex) Prototype of {{metaInput.label || '[Item name goes here]'}}
+    .title-row.title-row-list
+      .title Prototype of {{metaInput.label || '[Item name goes here]'}}
       .config-icons(ng-include="'/partials/input_config_icons'")
     .content-row
       .subtitle-row
@@ -11,12 +11,12 @@
       .button-row
         md-button.md-primary(ng-click="addInput({$event: $event, metaInputs: metaInputOuter.metaInputs, nested: true})") Add input
   .item.item-actual(ng-repeat='listItem in inputsInner[metaInput.id]', ng-init='indexListItem = $index; editMode = false')
-    .title-row.title-row-list(layout='horizontal')
-      .title(flex) {{metaInput.label || '[Item name goes here]'}} {{$index + 1}}
+    .title-row.title-row-list
+      .title {{metaInput.label || '[Item name goes here]'}} {{$index + 1}}
       .config-icons
         button.button-action.menu-icon.delete-item(aria-label='Delete', ng-click="deleteItem(inputsInner[metaInput.id], $index)")
           .md-icon-container
-            .inline-icon.delete-icon.black-icon
+            .inline-icon.delete-primary-icon
     .content-row
       .input-row.sortable-item(ng-repeat='metaInput in metaInputOuter.metaInputs track by metaInput.id', ng-include='getInputTemplateName(metaInput)', ng-init='inputsInner = listItem; metaInputs = metaInputOuter.metaInputs', ng-class="{'hidden': metaInput.autohide && !usedInputs[metaInputOuter.id].properties[indexListItem].properties[metaInput.id].used}")
   .button-row
