@@ -216,7 +216,16 @@ angular.module('jscalcDirectives', [])
               $scope.$apply(function() {
                 e.preventDefault();
                 cancelCalculationTimeout();
-                $scope.workerError = {message: e.message};
+                var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+                var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+                var errorPrefix = '';
+                if (isChrome) errorPrefix = 'Uncaught ';
+                if (isFirefox) errorPrefix = 'InternalError: uncaught exception: ';
+                var message = e.message;
+                if (errorPrefix && message.indexOf(errorPrefix) == 0) {
+                  message = message.slice(errorPrefix.length);
+                }
+                $scope.workerError = {message: message};
                 if (e.lineno) {
                   $scope.workerError.lineNumber = e.lineno;
                 }
