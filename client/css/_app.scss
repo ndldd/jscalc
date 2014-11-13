@@ -36,6 +36,10 @@ a, .link-button {
 md-sidenav {
   width: 250px;
   background-color: #FAFAFA;
+
+  md-content {
+    background-color: transparent !important;
+  }
 }
 
 
