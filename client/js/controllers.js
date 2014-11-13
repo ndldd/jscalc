@@ -183,8 +183,9 @@ jscalcControllers.controller('SourceCtrl', [
   'INPUT_TYPES',
   '$interval',
   '$mdBottomSheet',
+  '$document',
   function($scope, $routeParams, $timeout, Source, $mdToast, $location, $q,
-      DEFAULTS, INPUT_TYPES, $interval, $mdBottomSheet) {
+      DEFAULTS, INPUT_TYPES, $interval, $mdBottomSheet, $document) {
 
     /**
      * UI and calculator resource.
@@ -196,6 +197,7 @@ jscalcControllers.controller('SourceCtrl', [
     $scope.calcId = $routeParams.calcId;
     $scope.calc = null;
     $scope.inputs = {};
+
     var calcPromise = $q(function(resolve) {
       if (!($scope.calcId in $scope.calcs)) {
         Source.get({calcId: $scope.calcId}, function(source) {
@@ -225,6 +227,17 @@ jscalcControllers.controller('SourceCtrl', [
             $scope.savedCalcDoc = null;
           }
         }
+      });
+
+      var handleKeydown = function(e) {
+        if (e.keyCode == 83 && e.metaKey) {
+          e.preventDefault();
+          $scope.save();
+        }
+      };
+      $document.bind('keydown', handleKeydown);
+      $scope.$on('$destroy', function() {
+        $document.off('keydown', handleKeydown);
       });
     });
     $scope.saving = false;
