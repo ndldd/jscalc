@@ -20,7 +20,7 @@ var jscalcApp = angular.module('jscalcApp', [
 .constant('DEFAULTS', {
   'tabSize': 2,
   'dateInputValueType': 'relative',
-  'script': 'return {};\n'
+  'script': "'use strict';\n\nreturn {};\n"
 })
 
 .constant('INPUT_TYPES', [
