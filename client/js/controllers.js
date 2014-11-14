@@ -230,7 +230,7 @@ jscalcControllers.controller('SourceCtrl', [
       });
 
       var handleKeydown = function(e) {
-        if (e.keyCode == 83 && e.metaKey) {
+        if (e.keyCode == 83 && (e.metaKey || e.ctrlKey)) {
           e.preventDefault();
           $scope.save();
         }
