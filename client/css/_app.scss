@@ -8,6 +8,11 @@ body {
   font-size: 15px;
 }
 
+code, pre {
+  font-family: Monaco, Menlo, 'Ubuntu Mono', Consolas, source-code-pro, monospace;
+  font-size: 12px;
+}
+
 @mixin z1 {
   box-shadow: 0px 2px 5px 0 rgba(0, 0, 0, 0.26);
 }
@@ -485,6 +490,15 @@ jscalc-date-input {
 
 #cheat-sheet {
   display: none;
+  font-size: 13px;
+
+  p {
+    line-height: 22px;
+  }
+
+  pre {
+    margin-left: 20px;
+  }
 }
 
 

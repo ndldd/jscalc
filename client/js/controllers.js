@@ -597,6 +597,121 @@ jscalcControllers.controller('SourceCtrl', [
     $scope.deleteColumn = function(metaInputs, id) {
       _.remove(metaInputs, {id: id});
     };
+
+    var quote = function(s) {
+      // Modified version of polyfill on https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/quote
+
+      // prepare fallback
+      // ----------------
+      // backslash escape single quotes and backslashes
+      var escp_regex = /[\\']/g,
+        escp_callback = '\\$&',
+        // escape control characters
+        ctrl_map = {
+          '\b': '\\b', // backspace
+          '\t': '\\t', // tab
+          '\n': '\\n', // new line
+          '\f': '\\f', // form feed
+          '\r': '\\r'  // carriage return
+        },
+        // don't rely on `Object.keys(ctrl_map).join('')`
+        ctrl_regex = new RegExp('[\b\t\n\f\r]', 'g'),
+        ctrl_callback = function(match){
+          return ctrl_map[match];
+        },
+        // hex-escape, spare out control characters and ASCII printables
+        // [0-7,11,14-31,127-255]
+        xhex_regex = /[\x00-\x07\x0B\x0E-\x1F\x7F-\xFF]/g,
+        xhex_callback = function(match, char_code){
+          char_code = match.charCodeAt(0);
+          return '\\x' + (char_code < 16 ? '0' : '') + char_code;
+        },
+        // hex-escape all others
+        uhex_regex = /[\u0100-\uFFFF]/g,
+        uhex_callback = function(match, char_code){
+          char_code = match.charCodeAt(0);
+          return '\\u' + (char_code < 4096 ? '0' : '') + char_code;
+        };
+
+      return "'" + s
+        .replace(escp_regex, escp_callback)
+        .replace(ctrl_regex, ctrl_callback)
+        .replace(xhex_regex, xhex_callback)
+        .replace(uhex_regex, uhex_callback) + "'";
+    };
+
+    var looksValidJsName = function(s) {
+      // See http://stackoverflow.com/a/2008444/2852295
+      return /^[_$a-zA-Z\xA0-\uFFFF][_$a-zA-Z0-9\xA0-\uFFFF]*$/.test(s);
+    };
+
+    $scope.getInputsSchema = function() {
+      var f = function(prefix, metaInputs) {
+        var s = '{\n';
+        s += _.map(metaInputs, function(metaInput) {
+          var name = metaInput.name;
+          if (!looksValidJsName(name)) {
+            name = quote(name);
+          }
+          var s = prefix + '  ' + name + ':';
+          if (metaInput.type == 'number') {
+            s += ' <number or null>';
+          } else if (metaInput.type == 'binary') {
+            s += ' <boolean or null>';
+          } else if (metaInput.type == 'date') {
+            s += ' <instance of Date or null>';
+          } else if (metaInput.type == 'choice') {
+            var choices = _.map(metaInput.choices, function(choice) {
+              return quote(choice.value);
+            });
+            choices.push(choices.length ? 'null' : 'null (no choices have been added yet)');
+            var joined;
+            if (choices.length == 1) {
+              joined = choices[0];
+            } else if (choices.length == 2) {
+              joined = choices.join(' or ');
+            } else {
+              var joinedWithComma = choices.slice(0, choices.length - 1).join(', ');
+              joined = [joinedWithComma, choices[choices.length - 1]].join(', or ');
+            }
+            s += ' <' + joined + '>';
+          } else if (metaInput.type == 'list') {
+            s += ' [';
+            s += f(prefix + '  ', metaInput.metaInputs) + ', ...]';
+          }
+          return s;
+        }).join(',\n');
+        return s + '\n' + prefix + '}';
+      };
+      return f('', $scope.calc.doc.metaInputs);
+    };
+
+
+    $scope.getOutputsSchema = function() {
+      var f = function(prefix, metaOutputs) {
+        var s = '{\n';
+        s += _.map(metaOutputs, function(metaOutput) {
+          var name = metaOutput.name;
+          if (!looksValidJsName(name)) {
+            name = quote(name);
+          }
+          var s = prefix + '  ' + name + ':';
+          if (metaOutput.type == 'value') {
+            s += ' <number, boolean, Date, string, or null>';
+          } else if (metaOutput.type == 'table') {
+            if (!metaOutput.metaOutputs ||!metaOutput.metaOutputs.length) {
+              s += ' <no columns have been added yet>';
+            } else {
+              s += ' [';
+              s += f(prefix + '  ', metaOutput.metaOutputs) + ', ...]';
+            }
+          }
+          return s;
+        }).join(',\n');
+        return s + '\n' + prefix + '}';
+      };
+      return f('', $scope.calc.doc.metaOutputs);
+    };
   }]);
 
 jscalcControllers.controller('InputsBottomSheetCtrl', [

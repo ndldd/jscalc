@@ -15,7 +15,43 @@
           #script(flex, flex-sm='60')
             div(ui-ace='{onLoad: onAceLoad}')
           md-content.md-padding#cheat-sheet(flex)
-            span Cheatsheet
+            .frame-title Cheatsheet
+            .content(ng-if='!(calc.doc.metaInputs.length && calc.doc.metaOutputs.length)')
+              p
+                | Not so fast! First add some
+                = ' '
+                span(ng-if='!calc.doc.metaInputs.length && calc.doc.metaOutputs.length') inputs
+                span(ng-if='calc.doc.metaInputs.length && !calc.doc.metaOutputs.length') outputs
+                span(ng-if='!calc.doc.metaInputs.length && !calc.doc.metaOutputs.length') inputs and outputs
+                = ' '
+                | in the IO tab.
+            .content(ng-if='calc.doc.metaInputs.length && calc.doc.metaOutputs.length')
+              p
+                | You need to write the body of a function that transforms inputs into outputs:
+              pre
+                | function(inputs) {
+                |   [Your script goes here]
+                | } -> outputs
+              p
+                | where
+                = ' '
+                code inputs
+                = ' '
+                | is an object like this:
+              pre
+                | {{getInputsSchema()}}
+              p
+                | and the returned value is an object like this:
+              pre
+                | {{getOutputsSchema()}}
+              p
+                | Some properties can be omitted from outputs. You can configure property names in both above objects in settings for specific inputs and outputs.
+              p
+                | The script will be run in a Web Worker. You can choose which libraries to use in calculator settings. If the script throws an error, its string representation will be displayed to the user, so you could write something like
+                = ' '
+                code throw 'Text to display'
+                = ' '
+                | .
       div(ng-show='selectedTabIndex == 2', flex, layout='vertical')
         #share-container(flex, layout='horizontal')
           md-content.md-padding#share(flex flex-sm='75')
