@@ -168,7 +168,7 @@ angular.module('jscalcDirectives', [])
               return '"' + importStr + '"';
             }).join(', ') + ');\n';
             blobUrl = window.URL.createObjectURL(new Blob([
-              'var calculate = function(inputs) {' + $scope.doc.script + '};\n\n' + importsStr
+              'var calculate = function(inputs) {' + ($scope.doc.script || DEFAULTS.script) + '};\n\n' + importsStr
             ]));
             if (worker) destroyWorker();
             requestRecalculation();
@@ -279,6 +279,7 @@ angular.module('jscalcDirectives', [])
           };
 
           var requestRecalculation = function() {
+            if (!$scope.doc) return;
             if ($scope.debugMode) return;
             if (!recalculationScheduled) {
               recalculationScheduled = true;
