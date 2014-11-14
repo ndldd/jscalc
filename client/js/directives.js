@@ -159,9 +159,11 @@ angular.module('jscalcDirectives', [])
             var hostUrl = $location.protocol() + '://' + $location.host();
             if ($location.port()) hostUrl += ':' + $location.port();
             var imports = [hostUrl + '/js/worker.js'];
-            if ($scope.doc.libraries.lodash) imports.push(hostUrl + '/bower_components/lodash/dist/lodash.min.js');
-            if ($scope.doc.libraries.moment) imports.push(hostUrl + '/bower_components/moment/min/moment.min.js');
-            if ($scope.doc.libraries.mathjs) imports.push(hostUrl + '/bower_components/mathjs/dist/math.min.js');
+            if ($scope.calc && $scope.calc.doc && $scope.calc.doc.libraries) {
+              if ($scope.doc.libraries.lodash) imports.push(hostUrl + '/bower_components/lodash/dist/lodash.min.js');
+              if ($scope.doc.libraries.moment) imports.push(hostUrl + '/bower_components/moment/min/moment.min.js');
+              if ($scope.doc.libraries.mathjs) imports.push(hostUrl + '/bower_components/mathjs/dist/math.min.js');
+            }
             var importsStr = 'importScripts(' + _.map(imports, function(importStr) {
               return '"' + importStr + '"';
             }).join(', ') + ');\n';
