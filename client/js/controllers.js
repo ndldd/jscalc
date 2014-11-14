@@ -267,7 +267,28 @@ jscalcControllers.controller('SourceCtrl', [
       };
     });
     editorPromise.then(function() {
+      var updateJshintOptions = function() {
+        if ($scope.editor.getSession().$worker) {
+          var predefs = ["inputs"];
+          if ($scope.calc && $scope.calc.doc && $scope.calc.doc.libraries) {
+            if ($scope.calc.doc.libraries.lodash) predefs.push('_');
+            if ($scope.calc.doc.libraries.moment) predefs.push('moment');
+            if ($scope.calc.doc.libraries.mathjs) predefs.push('math');
+          }
+          $scope.editor.getSession().$worker.send("setOptions", [{
+            undef: true,
+            predef: predefs,
+            unused: true,
+            globalstrict: true,
+            debug: true,
+            devel: true,
+            worker: true
+          }]);
+        }
+      };
+      $scope.editor.getSession().on("changeMode", updateJshintOptions);
       $scope.editor.getSession().setMode("ace/mode/javascript");
+      $scope.$watch('calc.doc.libraries', updateJshintOptions, true);
     });
     $q.all([calcPromise, editorPromise]).then(function() {
       $scope.editor.getSession().setValue($scope.calc.doc.script ||
