@@ -181,11 +181,10 @@ jscalcControllers.controller('SourceCtrl', [
   '$q',
   'DEFAULTS',
   'INPUT_TYPES',
-  '$interval',
   '$mdBottomSheet',
   '$document',
   function($scope, $routeParams, $timeout, Source, $mdToast, $location, $q,
-      DEFAULTS, INPUT_TYPES, $interval, $mdBottomSheet, $document) {
+      DEFAULTS, INPUT_TYPES, $mdBottomSheet, $document) {
 
     /**
      * UI and calculator resource.
@@ -294,13 +293,10 @@ jscalcControllers.controller('SourceCtrl', [
       $scope.editor.getSession().setValue($scope.calc.doc.script ||
           DEFAULTS.script);
 
-      var readValue = function() {
-        $scope.calc.doc.script = $scope.editor.getSession().getValue();
-      };
-      $scope.editor.getSession().on('changeCursor', readValue);
-      var stopInterval = $interval(readValue, 1000);
-      $scope.$on('$destroy', function() {
-        $interval.cancel(stopInterval);
+      $scope.editor.getSession().on("change", function(e) {
+        $scope.$apply(function() {
+          $scope.calc.doc.script = $scope.editor.getSession().getValue();
+        });
       });
 
       $scope.$watch('calc.doc.tabSize', function(newValue) {
