@@ -12,9 +12,9 @@
         add-input='addInput($event, metaInputs, nested)', add-output='addOutput($event)', configure-input='configureInput(metaInputs, metaInput)', delete-input='deleteInput(metaInputs, id)', configure-output='configureOutput(metaOutputs, metaOutput)', delete-output='deleteOutput(id)', goto-line='gotoLine(lineNumber)')
       div(ng-show='selectedTabIndex == 1', flex, layout='vertical')
         #script-container(flex, layout='horizontal')
-          #script(flex, flex-sm='60')
+          #script(flex)
             div(ui-ace='{onLoad: onAceLoad}')
-          md-content.md-padding#cheat-sheet(flex)
+          md-content.md-padding#cheat-sheet(flex="33")
             .frame-title Cheatsheet
             .content(ng-if='!(calc.doc.metaInputs.length && calc.doc.metaOutputs.length)')
               p
@@ -54,7 +54,7 @@
                 | .
       div(ng-show='selectedTabIndex == 2', flex, layout='vertical')
         #share-container(flex, layout='horizontal')
-          md-content.md-padding#share(flex flex-sm='75')
+          md-content.md-padding#share(flex)
             p(ng-show='newAndNotSaved') After you save this calculator, it will become available on the web at the following URL:
             p(ng-show='!newAndNotSaved') This calculator is published on the web at the following URL:
             p
