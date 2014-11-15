@@ -69,7 +69,8 @@ app.use(connectAssets({
     path.join(clientDir, 'js'),
     path.join(clientDir, 'css')
   ],
-  helperContext: app.locals
+  helperContext: app.locals,
+  compress: false
 }));
 app.use(logger('dev'));
 app.use('/img', express.static(path.join(clientDir, 'img'),
