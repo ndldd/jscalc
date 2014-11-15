@@ -199,19 +199,19 @@ angular.module('jscalcDirectives', [])
                     $scope.outputs = convertOutputs(e.data.outputs,
                         $scope.doc.metaOutputs);
                     $scope.workerError = null;
-                  } catch(e) {
-                    if (e.name == 'JscalcExpectedObjectError') {
+                  } catch(err) {
+                    if (err.name == 'JscalcExpectedObjectError') {
                       $scope.workerError = {message: 'Outputs and table rows must be objects.'};
-                    } else if (e.name == 'JscalcNameConflictError') {
-                      $scope.workerError = {message: 'Multiple outputs have name "' + e.message + '".'};
-                    } else if (e.name == 'JscalcUnrecognizedOutputError') {
-                      $scope.workerError = {message: 'The outputs object or a table row object has unrecognized key "' + e.message + '".'};
-                    } else if (e.name == 'JscalcExpectedArrayError') {
-                      $scope.workerError = {message: 'Output "' + e.message + '" must be an array, null, or undefined.'};
-                    } else if (e.name == 'JscalcValueTypeError') {
-                      $scope.workerError = {message: 'Invalid value for "' + e.message + '". Values must be numbers, strings, booleans, nulls, or undefined.'};
+                    } else if (err.name == 'JscalcNameConflictError') {
+                      $scope.workerError = {message: 'Multiple outputs have name "' + err.message + '".'};
+                    } else if (err.name == 'JscalcUnrecognizedOutputError') {
+                      $scope.workerError = {message: 'The outputs object or a table row object has unrecognized key "' + err.message + '".'};
+                    } else if (err.name == 'JscalcExpectedArrayError') {
+                      $scope.workerError = {message: 'Output "' + err.message + '" must be an array, null, or undefined.'};
+                    } else if (err.name == 'JscalcValueTypeError') {
+                      $scope.workerError = {message: 'Invalid value for "' + err.message + '". Values must be numbers, strings, booleans, nulls, or undefined.'};
                     } else {
-                      throw e;
+                      throw err;
                     }
                     $scope.outputs = null;
                   }
