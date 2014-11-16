@@ -314,6 +314,9 @@ jscalcControllers.controller('SourceCtrl', [
           if ($scope.editor !== null) {
             $scope.editor.resize(true);
             $scope.editor.focus();
+            $timeout(function() {
+              $scope.editor.resize(true);
+            }, 100)
           }
         });
       }
