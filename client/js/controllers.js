@@ -649,7 +649,12 @@ jscalcControllers.controller('SourceCtrl', [
           if (!looksValidJsName(name)) {
             name = quote(name);
           }
-          var s = prefix + '  ' + name + ':';
+          var s = '';
+          if (metaInput.type == 'list') {
+            s += prefix + '  // Careful: in UI items are numbered starting\n'
+            s += prefix + '  // from 1, but array indexes start from 0.\n'
+          }
+          s += prefix + '  ' + name + ':';
           if (metaInput.type == 'number') {
             s += ' <number or null>';
           } else if (metaInput.type == 'binary') {
