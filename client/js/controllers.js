@@ -305,7 +305,11 @@ jscalcControllers.controller('SourceCtrl', [
 
       $scope.gotoLine = function(lineNumber) {
         $scope.selectedTabIndex = 1;
-        $scope.editor.gotoLine(lineNumber);
+        $timeout(function() {
+          $scope.editor.resize(true);
+          $scope.editor.scrollToLine(lineNumber, true, true, function () {});
+          $scope.editor.gotoLine(lineNumber);
+        });
       };
     });
     $scope.$watch('selectedTabIndex', function(value) {
