@@ -428,6 +428,16 @@ jscalc-date-input {
   & > .item > .content-row {
     margin-left: 20px;
   }
+
+  .item-prototype {
+    background-color: #F4F4F4;
+    padding: 15px 20px;
+    margin: 0 -20px;
+
+    .button-row {
+      margin-bottom: 0;
+    }
+  }
 }
 
 
