@@ -1,6 +1,8 @@
 button.menu-icon(ng-show='!sidenavsLockedOpen', aria-label='Toggle Menu', ng-click='toggleNav()')
   md-icon.black-icon(icon='/img/icons/ic_menu_24px.svg')
-span(flex)#app-title {{title}}
+span(ng-if='!view.showCreateCalcButton', flex)#app-title {{title}}
+md-button(ng-if='view.showCreateCalcButton', ng-click='new()') Create a calculator now!
+span(flex ng-if='view.showCreateCalcButton')
 button.button-action.menu-icon(ng-show='view.isEditMode', aria-label='Configure', ng-click="openSettings('/partials/settings_calc', calc.doc)")
   md-icon.black-icon(icon='/img/icons/ic_settings_24px.svg')
 button.button-action.menu-icon(ng-show='view.isEditMode', aria-label='Save', ng-click='save($event)')

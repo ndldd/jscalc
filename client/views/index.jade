@@ -65,12 +65,16 @@ html(lang='en', ng-app='jscalcApp', ng-controller='JscalcCtrl')
       .warning-colored-icon {
         background-image: url('!{getImage("icons/ic_warning_24px_colored.svg")}')
       }
+      .logo-icon {
+        background-image: url('!{getImage("icons/jscalc_full_bleed_24.svg")}')
+      }
   body(layout='horizontal', md-theme="cyan")
     md-sidenav.md-sidenav-left.md-whiteframe-z3(component-id='left',  is-locked-open="sidenavsLockedOpen", layout='vertical', ng-click="closeNav()")
       md-content#side-nav(flex)
         a#logo(href='/', ng-class="{active: isCurrentLocation('/')}")
-          img.logo-icon(src!=getImage('icons/jscalc_full_bleed_24.svg'))
+          .inline-icon.logo-icon
           | JSCalc
+          span.beta beta
         button(ng-click='new()')
           img.new-calculator-icon.black-icon(src!=getImage('icons/ic_add_24px.svg'))
           div.new-calculator-label New Calculator

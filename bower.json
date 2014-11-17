@@ -1,6 +1,6 @@
 {
   "name": "jscalc",
-  "description": "A web app that lets users create custom online calculators with minimal knowledge of programming",
+  "description": "A web app that lets users create custom online calculators",
   "version": "0.0.0",
   "homepage": "https://github.com/ivan7237d/jscalc",
   "license": "MIT",

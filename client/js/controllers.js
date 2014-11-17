@@ -193,6 +193,7 @@ jscalcControllers.controller('SourceCtrl', [
     $scope.DEFAULTS = DEFAULTS;
     $scope.view.isEditMode = false;
     $scope.view.isCalcMode = false;
+    $scope.view.showCreateCalcButton = false;
     $scope.calcId = $routeParams.calcId;
     $scope.calc = null;
     $scope.inputs = {};
@@ -759,6 +760,7 @@ jscalcControllers.controller('PublishedCtrl', [
     $scope.inputs = {};
     $scope.view.isEditMode = false;
     $scope.view.isCalcMode = false;
+    $scope.view.showCreateCalcButton = false;
     $scope.title = '';
     $scope.view.title = '';
     $scope.view.description = '';
@@ -864,6 +866,7 @@ jscalcControllers.controller('AccountCtrl', [
     $scope.title = 'Account Settings';
     $scope.view.isEditMode = false;
     $scope.view.isCalcMode = false;
+    $scope.view.showCreateCalcButton = false;
     $scope.view.title = 'Account Settings';
     $scope.view.description = '';
 
@@ -920,9 +923,9 @@ jscalcControllers.controller('AccountCtrl', [
 jscalcControllers.controller('WelcomeCtrl', [
   '$scope',
   function($scope) {
-    $scope.title = 'JSCalc';
     $scope.view.isEditMode = false;
     $scope.view.isCalcMode = false;
+    $scope.view.showCreateCalcButton = true;
     $scope.view.title = 'JSCalc: Build a Custom Online Calculator';
     $scope.view.description = 'A web app that lets users create custom online calculators with minimal knowledge of programming';
   }]);

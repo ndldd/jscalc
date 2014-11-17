@@ -1,6 +1,62 @@
 md-toolbar.md-whiteframe-z1
   div.md-toolbar-tools(ng-include="'/partials/toolbar_tools'", ng-controller='ToolbarToolsCtrl')
-md-content.md-padding(flex)
-  | Work in progress. Source code:
-  =  ' '
-  a(href='https://github.com/ivan7237d/jscalc') https://github.com/ivan7237d/jscalc
+md-content.md-padding.welcome(flex)
+  .centered
+    .title
+      .inline-icon.logo-icon
+      .name JSCalc
+      .beta beta
+    .description
+      | JSCalc makes it easy to create a custom online calculator by writing a Javascript function that transforms inputs into outputs.
+    .section(layout='vertical', layout-sm='horizontal', layout-align="space-between")
+      .item(flex)
+        .heading Real-time calculations
+        .content
+          | Outputs are recalculated as soon as the user changes the value of an input. This is done in a parallel Web Worker thread, so the interface does not block even if the calculation takes some time.
+      .item(flex)
+        .heading Variety of input types
+        .content
+          | You can use number inputs, checkboxes, radio buttons, date inputs (they support absolute and relative dates), and a "repeating item" input type that lets the user enter multiple items, each with its own set of inputs.
+    .section(layout='vertical', layout-sm='horizontal', layout-align="space-between")
+      .item(flex)
+        .heading Values or tables as outputs
+        .content
+          | You can display multiple values or tables as outputs, if necessary different ones depending on values of inputs. You can configure number formats in the UI, and so don't have to format outputs yourself in the script.
+      .item(flex)
+        .heading Auto-hiding of unused inputs
+        .content
+          | You can configure an input to be automatically hidden if given the current values of other inputs, it is not accessed by the script, and so does not affect the calculation result (this is implemented using Javascript getters).
+    .section(layout='vertical', layout-sm='horizontal', layout-align="space-between")
+      .item(flex)
+        .heading Powerful code editor
+        .content
+          | JSCalc uses the
+          = ' '
+          a(href='http://ace.c9.io/#nav=about', target='_blank') Ace open-source code editor
+          = ' '
+          | which supports syntax highlighting and JSHint warnings.
+      .item(flex)
+        .heading Drag-and-drop
+        .content
+          | You can reorder items such as inputs by dragging them.
+    .section(layout='vertical', layout-sm='horizontal', layout-align="space-between")
+      .item(flex)
+        .heading Mobile-friendly
+        .content
+          | The calculator that you create will work well not only on desktop, but also on a phone or a tablet.
+      .item(flex)
+        .heading Open-source
+        .content
+          | JSCalc is open-source. You are welcome to file issues in the
+          = ' '
+          a(href='https://github.com/ivan7237d/jscalc', target='_blank') GitHub repository
+          | .
+    .footer
+      p
+        | © 2014
+        = ' '
+        a(href='https://twitter.com/ivan7237d', target='_blank') Ivan Novikov
+      p
+        | Licensed under
+        = ' '
+        a(href='https://github.com/ivan7237d/jscalc/blob/master/LICENSE', target='_blank') MIT License

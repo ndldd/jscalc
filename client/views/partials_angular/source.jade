@@ -53,7 +53,11 @@
                 = ' '
                 | .
               p
-                a(href='https://github.com/ajaxorg/ace/wiki/Default-Keyboard-Shortcuts', target='_blank') Keyboard shortcuts
+                | Script editor keyboard shortcuts are listed
+                = ' '
+                a(href='https://github.com/ajaxorg/ace/wiki/Default-Keyboard-Shortcuts', target='_blank') on this page
+                | , and you can also hit Cmd/Ctrl + S to save all changes in the calculator.
+
       div(ng-show='selectedTabIndex == 2', flex, layout='vertical')
         #share-container(flex, layout='horizontal')
           md-content.md-padding#share(flex)
