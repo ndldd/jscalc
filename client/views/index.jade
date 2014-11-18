@@ -1,10 +1,6 @@
 doctype html
 html(lang='en', ng-app='jscalcApp', ng-controller='JscalcCtrl')
   head
-    <!--[if lte IE 9]>
-    script.
-      alert('Sorry, Internet explorer 9 and earlier is not supported.');
-    <![endif]-->
     meta(charset='utf-8')
     meta(name='viewport', content='initial-scale=1, maximum-scale=1, user-scalable=no')
     meta(name='fragment', content='!')
@@ -28,6 +24,11 @@ html(lang='en', ng-app='jscalcApp', ng-controller='JscalcCtrl')
 
       ga('create', 'UA-56071268-1', 'auto');
       ga('send', 'pageview');
+    script.
+      if (navigator.userAgent.indexOf('MSIE') !== -1 ||
+          navigator.appVersion.indexOf('Trident/') > 0) {
+         alert('Sorry, Internet Explorer is not supported (yet), on Windows please use Chrome or Firefox.');
+      }
     style.
       .input-icon[input-type=binary] {
         background-image: url('!{getImage("icons/ic_check_box_24px.svg")}')
