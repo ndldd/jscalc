@@ -327,6 +327,10 @@ jscalcControllers.controller('SourceCtrl', [
       }
     });
 
+    $scope.ioVisible = function() {
+      return $scope.selectedTabIndex == 0;
+    };
+
     $scope.save = function($event) {
       $scope.saving = true;
       var post = function() {

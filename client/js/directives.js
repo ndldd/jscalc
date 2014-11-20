@@ -25,7 +25,9 @@ angular.module('jscalcDirectives', [])
           deleteInput: '&?',
           configureOutput: '&?',
           deleteOutput: '&?',
-          gotoLine: '&?'
+          gotoLine: '&?',
+          // Suspends refreshing of web worker on script change.
+          isActive: '&?'
         },
         link: function($scope, element, attr) {
           $scope.DEFAULTS = DEFAULTS;
@@ -36,6 +38,9 @@ angular.module('jscalcDirectives', [])
           $scope.debugMode = false;
           var recalculationScheduled = false;
           var calculationTimeoutPromise = null;
+          // Set to true while asleep (isActive retuns false) if script has to
+          // be refreshed on waking.
+          var workerDirty = false;
 
           angular.copy($scope.doc.defaults || {}, $scope.inputs);
 
@@ -155,6 +160,11 @@ angular.module('jscalcDirectives', [])
           };
 
           var refreshWorker = function() {
+            if ('isActive' in attr && !$scope.isActive()) {
+              workerDirty = true;
+              return;
+            }
+            workerDirty = false;
             if (blobUrl) window.URL.revokeObjectURL(blobUrl);
             var hostUrl = $location.protocol() + '://' + $location.host();
             if ($location.port()) hostUrl += ':' + $location.port();
@@ -175,7 +185,19 @@ angular.module('jscalcDirectives', [])
           };
 
           $scope.$watch('doc.script', refreshWorker);
-          $scope.$watch('doc.libraries', refreshWorker, true);
+          $scope.$watch('doc.libraries', function(newValue, oldValue) {
+            // Exclude initialization.
+            if (newValue !== oldValue) {
+              refreshWorker();
+            }
+          }, true);
+          if ('isActive' in attr) {
+            $scope.$watch($scope.isActive, function(newValue) {
+              if (newValue && workerDirty) {
+                refreshWorker();
+              }
+            });
+          }
 
           $scope.$watch('doc.metaOutputs', function() {
             requestRecalculation();
