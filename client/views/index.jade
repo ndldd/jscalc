@@ -69,6 +69,15 @@ html(lang='en', ng-app='jscalcApp', ng-controller='JscalcCtrl')
       .logo-icon {
         background-image: url('!{getImage("icons/jscalc_full_bleed_24.svg")}')
       }
+      .menu-image-icon {
+        background-image: url('!{getImage("icons/ic_menu_24px.svg")}')
+      }
+      .save-icon {
+        background-image: url('!{getImage("icons/ic_save_24px.svg")}')
+      }
+      .more-vert-icon {
+        background-image: url('!{getImage("icons/ic_more_vert_24px.svg")}')
+      }
   body(layout='horizontal', md-theme="cyan")
     md-sidenav.md-sidenav-left.md-whiteframe-z3(component-id='left',  is-locked-open="sidenavsLockedOpen", layout='vertical', ng-click="closeNav()")
       md-content#side-nav(flex)

@@ -155,14 +155,15 @@ md-sidenav {
 }
 
 
-.rotatable {
+.rotatable-container {
+  display: inline-block;
   position: relative;
   width: 24px;
   height: 24px;
 }
 
 
-.rotatable .md-icon {
+.rotatable-container.inline-icon {
   position: absolute;
   top: 12px;
   left: 12px;
@@ -171,7 +172,7 @@ md-sidenav {
 }
 
 
-.rotating .md-icon {
+.rotating.inline-icon {
   -webkit-animation:spin 4s linear infinite;
   -moz-animation:spin 4s linear infinite;
   animation:spin 4s linear infinite;
