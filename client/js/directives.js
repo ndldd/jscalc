@@ -31,7 +31,13 @@ angular.module('jscalcDirectives', [])
         },
         link: function($scope, element, attr) {
           $scope.DEFAULTS = DEFAULTS;
-          var blobUrl;
+          // Either an object {blobUrl: <URL for the blob containing worker
+          // script>}, or if due to browser limitations using blobUrl is
+          // impossible (useEval = true), an object containing the script to be
+          // passed to eval() inside the worker: {script: <...>}.
+          var workerConfig;
+          var useEval = (navigator.userAgent.indexOf('MSIE') !== -1 ||
+              navigator.appVersion.indexOf('Trident/') > 0);
           var worker = null;
           $scope.workerBuzy = false;
           $scope.workerError = null;
@@ -41,6 +47,10 @@ angular.module('jscalcDirectives', [])
           // Set to true while asleep (isActive retuns false) if script has to
           // be refreshed on waking.
           var workerDirty = false;
+          // Whether it's possible to use debugger statement. Chrome or IE11.
+          $scope.debugSupported = (/Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)) ||
+                (navigator.appVersion.indexOf('Trident/') > 0);
+
 
           angular.copy($scope.doc.defaults || {}, $scope.inputs);
 
@@ -165,7 +175,9 @@ angular.module('jscalcDirectives', [])
               return;
             }
             workerDirty = false;
-            if (blobUrl) window.URL.revokeObjectURL(blobUrl);
+            if (workerConfig && workerConfig.blobUrl) {
+              window.URL.revokeObjectURL(workerConfig.blobUrl)
+            };
             var hostUrl = $location.protocol() + '://' + $location.host();
             if ($location.port()) hostUrl += ':' + $location.port();
             var imports = [hostUrl + '/js/worker.js'];
@@ -177,9 +189,12 @@ angular.module('jscalcDirectives', [])
             var importsStr = 'importScripts(' + _.map(imports, function(importStr) {
               return '"' + importStr + '"';
             }).join(', ') + ');\n';
-            blobUrl = window.URL.createObjectURL(new Blob([
-              'var calculate = function(inputs) {' + ($scope.doc.script || DEFAULTS.script) + '};\n\n' + importsStr
-            ]));
+            var script = 'self.calculate = function(inputs) {' + ($scope.doc.script || DEFAULTS.script) + '};\n\n' + importsStr;
+            if (!useEval) {
+              workerConfig = {blobUrl: window.URL.createObjectURL(new Blob([script]))};
+            } else {
+              workerConfig = {script: script};
+            }
             if (worker) destroyWorker();
             requestRecalculation();
           };
@@ -211,7 +226,10 @@ angular.module('jscalcDirectives', [])
           };
 
           var createWorker = function() {
-            worker = new Worker(blobUrl);
+            worker = new Worker(workerConfig.blobUrl || '/js/worker_helper.js');
+            if (!workerConfig.blobUrl) {
+              worker.postMessage(workerConfig.script);
+            }
             worker.onmessage = function(e) {
               $scope.$apply(function() {
                 cancelCalculationTimeout();
@@ -374,6 +392,14 @@ angular.module('jscalcDirectives', [])
           $scope.deleteItem = function(items, index) {
             items.splice(index, 1);
           };
+
+          $scope.getDebuggerText = function() {
+            if (navigator.appVersion.indexOf('Trident/') > 0) {
+              return ', open Developer Tools, and inside Developer Tools make sure to open the Debugger section (Ctrl + 3)';
+            } else {
+              return " and open your browser's developer tools";
+            }
+          }
         }
       };
     }])

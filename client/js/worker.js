@@ -41,7 +41,7 @@ self.onmessage = function(e) {
   prepareInputs(inputs, e.data.inputs, usedInputs);
   var erred = true;
   try {
-    var outputs = calculate(inputs);
+    var outputs = self.calculate(inputs);
     erred = false;
   } finally {
     var message = {usedInputs: usedInputs};

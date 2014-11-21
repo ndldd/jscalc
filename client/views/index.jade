@@ -25,9 +25,8 @@ html(lang='en', ng-app='jscalcApp', ng-controller='JscalcCtrl')
       ga('create', 'UA-56071268-1', 'auto');
       ga('send', 'pageview');
     script.
-      if (navigator.userAgent.indexOf('MSIE') !== -1 ||
-          navigator.appVersion.indexOf('Trident/') > 0) {
-         alert('Sorry, Internet Explorer is not supported (yet), on Windows please use Chrome or Firefox.');
+      if (navigator.userAgent.indexOf('MSIE') !== -1) {
+         alert('Sorry, Internet Explorer 10 and earlier is not supported, please upgrade to 11+, or use Chrome or Firefox.');
       }
     style.
       .input-icon[input-type=binary] {

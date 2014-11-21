@@ -28,14 +28,26 @@
         .inline-icon.forward-icon.text-button-icon
         | Normal mode
       md-button(ng-if="debugMode", ng-click="calculate()") Calculate
-    .debug-comment(ng-if="debugMode")
+    .debug-comment(ng-if="debugMode && debugSupported")
       | You are in debug mode. The script is not run automatically but only when you click CALCULATE button above. To pause execution at some point in your script, insert
       = ' '
       code
         a(href='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/debugger', target='_blank') debugger;
       = ' '
-      | statement at that point and open your browser's developer tools. You can also use
+      | statement at that point in the script{{::getDebuggerText()}}. You can also use
       = ' '
       code
         a(href='https://developer.mozilla.org/en-US/docs/Web/API/Console.log', target='_blank') console.log()
       | .
+    .debug-comment(ng-if="debugMode && !debugSupported")
+      | Sorry, as far as I can tell, as of this writing Firefox and Safari do not support debugging web workers (and the script is executed in a web worker), so please use Chrome or IE11 if you would like to set breakpoints using
+      = ' '
+      code
+        a(href='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/debugger', target='_blank') debugger;
+      = ' '
+      | statement. Firefox does support
+      = ' '
+      code
+        a(href='https://developer.mozilla.org/en-US/docs/Web/API/Console.log', target='_blank') console.log()
+      = ' '
+      | starting from version 29 (April 2014).
