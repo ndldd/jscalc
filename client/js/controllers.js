@@ -930,6 +930,6 @@ jscalcControllers.controller('WelcomeCtrl', [
     $scope.view.isEditMode = false;
     $scope.view.isCalcMode = false;
     $scope.view.showCreateCalcButton = true;
-    $scope.view.title = 'JSCalc: Build a Custom Online Calculator';
-    $scope.view.description = 'A web app that lets users create custom online calculators with minimal knowledge of programming';
+    $scope.view.title = 'Build a Custom Online Calculator';
+    $scope.view.description = 'Create a custom online calculator by writing a Javascript function that transforms inputs into outputs.';
   }]);
