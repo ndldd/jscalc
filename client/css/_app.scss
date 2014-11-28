@@ -301,7 +301,6 @@ md-sidenav {
     color: $header-color;
     font-weight: bold;
     font-size: 13px;
-    white-space: nowrap;
   }
 }
 
@@ -702,27 +701,27 @@ md-progress-circular {
 
 
     .logo-icon {
-      height: 100px;
-      width: 100px;
+      height: 75px;
+      width: 75px;
       vertical-align: top;
-      margin-right: 15px;
-      margin-top: -10px;
-      margin-bottom: -10px;
+      margin-right: 11px;
+      margin-top: -8px;
+      margin-bottom: -8px;
     }
 
 
     .name {
       display: inline-block;
-      font-size: 60px;
-      line-height: 80px;
+      font-size: 45px;
+      line-height: 60px;
     }
 
 
     .beta {
       display: inline-block;
-      font-size: 20px;
+      font-size: 15px;
       color: #46B946;
-      margin-left: 10px;
+      margin-left: 8px;
     }
   }
 
